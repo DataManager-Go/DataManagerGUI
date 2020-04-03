@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"time"
 
@@ -19,8 +20,11 @@ type loginForm struct {
 // HandleLogin handles incoming loginForms from the JS related to user login
 func HandleLogin(m *astilectron.EventMessage) interface{} {
 	// Unmarshal
-	var f = loginForm{}
-	err := m.Unmarshal(&f)
+	var s string
+	err := m.Unmarshal(&s)
+
+	var f loginForm
+	err = json.Unmarshal([]byte(s), &f)
 
 	if err != nil {
 		fmt.Println(err)
@@ -29,6 +33,8 @@ func HandleLogin(m *astilectron.EventMessage) interface{} {
 	// Process message
 	if f.Type == "register" {
 
+		config.Server.URL = f.URL
+
 		//Do request
 		resp, err := server.NewRequest(server.EPRegister, server.CredentialsRequest{
 			Username: f.Name,
@@ -36,11 +42,11 @@ func HandleLogin(m *astilectron.EventMessage) interface{} {
 		}, config).Do(nil)
 
 		if err != nil {
-			fmt.Println("Err", err.Error())
-			return err.Error()
+			return "ServerError"
 		}
 
 		if resp.Status == server.ResponseSuccess {
+			fmt.Println("Response Register Success")
 			login := Login(f)
 			if len(login) > 0 {
 				return login
@@ -62,7 +68,7 @@ func HandleLogin(m *astilectron.EventMessage) interface{} {
 		///       							///
 	} else if f.Type == "login" {
 		login := Login(f)
-		if len(login) > 0 {
+		if login != "success" {
 			return login
 		}
 		var w = window
@@ -93,11 +99,12 @@ func Login(f loginForm) string {
 	}, config).Do(&response)
 
 	if err != nil {
-		return err.Error()
+		return "ServerError"
 	}
 	if resp.Status == server.ResponseError && resp.HTTPCode == 403 {
-		return fmt.Sprint(resp.Status)
+		return "ServerError"
 	} else if resp.Status == server.ResponseSuccess && len(response.Token) > 0 {
+		fmt.Println("Response Login Success")
 		//put username and token in config
 		config.User = struct {
 			Username     string
@@ -118,7 +125,7 @@ func Login(f loginForm) string {
 		}
 
 		// Success
-		return ""
+		return "success"
 	}
-	return ""
+	return fmt.Sprint("", resp.Status)
 }

@@ -54,6 +54,8 @@ func main() {
 	}
 
 	StartLoginWindow(app)
+	//StartMainWindow(app)
+
 	/*
 		if config.IsLoggedIn() {
 			StartMainWindow(app)
@@ -86,6 +88,8 @@ func StartLoginWindow(a *astilectron.Astilectron) {
 
 	// Message handler
 	window.OnMessage(HandleLogin)
+
+	window.OpenDevTools()
 
 	// Server IP
 	if len(config.Server.URL) > 0 {

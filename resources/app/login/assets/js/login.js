@@ -12,32 +12,40 @@ document.addEventListener('astilectron-ready', function() {
 
 
 function login() {
-    var json = "";
 
     url = document.getElementById("serverURL").value;
     name = document.getElementById("username").value;
     password = document.getElementById("password").value;
 
-    json = `{"type":"login","url":"`+url+`", "name":"`+name+`", "password":"`+password+`"}`;
+    var json = {
+        type: "login",
+        url: url,
+        name: name,
+        password: password
+    };
 
-    astilectron.sendMessage(json, function(message) {
+    astilectron.sendMessage(JSON.stringify(json), function(message) {
         if (message === "ServerError") {
             alert("The chosen Server can't be reached. Please check your input.")
-        } else if (message === "LoginError") {
-            alert("Your name and / or password is wrong. Please check your input")
         } else {
-            alert(message);
+            alert("Your name and / or password is wrong. Please check your input")
         }
     });
 
+    return
 }
 
 function register() {
-    var json = "";
-
     url = document.getElementById("serverURL").value;
     name = document.getElementById("username").value;
     password = document.getElementById("password").value;
+
+    var json = {
+        type: "register",
+        url: url,
+        name: name,
+        password: password
+    };
 
     // TODO Password retype
 
@@ -47,7 +55,7 @@ function register() {
     }
     
     if (password.length > 80) {
-        alert("Your Password is too long! A maximum of 30 characters is allowed.");
+        alert("Your Password is too long! A maximum of 80 characters is allowed.");
         return;
     }
 
@@ -56,15 +64,10 @@ function register() {
         return;
     }
 
-
-    json = `{"type":"register","url":"`+url+`","name":"`+name+`","password":"`+password+`"}`;
-    alert(json);
-    astilectron.sendMessage(json, function(message) {
-        if (message.length > 0) {
-            alert(message);
+    astilectron.sendMessage(JSON.stringify(json), function(message) {
+        if (message === "success") {} else {
             alert("The chosen Server sent a bad reply. Please check your input.")
-        } 
-        return "";
+        }
     });
 
 }

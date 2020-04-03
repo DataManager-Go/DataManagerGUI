@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 
 	"github.com/asticode/go-astilectron"
@@ -15,11 +16,18 @@ type message struct {
 // HandleMessages handles incoming messages from the JS
 func HandleMessages(m *astilectron.EventMessage) interface{} {
 	// Unmarshal
-	var s message
-	m.Unmarshal(&s)
+	var s string
+	err := m.Unmarshal(&s)
+
+	var ms message
+	err = m.Unmarshal(&s)
+
+	if err != nil {
+		fmt.Println(err.Error())
+	}
 
 	// Process message
-	if s.Type == "hello" {
+	if ms.Type == "hello" {
 		return "world"
 	}
 	return nil
