@@ -69,15 +69,31 @@ func main() {
 func StartLoginWindow(a *astilectron.Astilectron) {
 	// New window
 	var err error
+
+	var width, height int
+
+	for _, x := range a.Displays() {
+		if !x.IsPrimary() {
+			width = x.Bounds().Width / 3
+			height = int(float64(x.Bounds().Height) / 2.089)
+		}
+	}
+
 	if window, err = a.NewWindow("./resources/app/login/index.html", &astilectron.WindowOptions{
 		Center:    astikit.BoolPtr(true),
-		Height:    astikit.IntPtr(689),
-		Width:     astikit.IntPtr(900),
-		MinHeight: astikit.IntPtr(689),
-		MinWidth:  astikit.IntPtr(900),
-		MaxHeight: astikit.IntPtr(689),
-		MaxWidth:  astikit.IntPtr(900),
-	}); err != nil {
+		Height:    &height,
+		Width:     &width,
+		MinHeight: &height,
+		MinWidth:  &width,
+		MaxHeight: &height,
+		MaxWidth:  &width,
+		/*		Height:    astikit.IntPtr(689),
+				Width:     astikit.IntPtr(900),
+				MinHeight: astikit.IntPtr(689),
+				MinWidth:  astikit.IntPtr(900),
+				MaxHeight: astikit.IntPtr(689),
+				MaxWidth:  astikit.IntPtr(900),
+		*/}); err != nil {
 		fmt.Println(err.Error())
 	}
 
@@ -88,8 +104,6 @@ func StartLoginWindow(a *astilectron.Astilectron) {
 
 	// Message handler
 	window.OnMessage(HandleLogin)
-
-	window.OpenDevTools()
 
 	// Server IP
 	if len(config.Server.URL) > 0 {
