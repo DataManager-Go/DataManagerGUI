@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Filemanager</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/Login-Form-Dark.css">
+    <link rel="stylesheet" href="assets/css/Navigation-Clean.css">
+    <link rel="stylesheet" href="assets/css/Sidebar-Menu-1.css">
+    <link rel="stylesheet" href="assets/css/Sidebar-Menu.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+
+<body style="background-color: rgb(237,238,239);height: 369px;">
+    <div id="wrapper">
+        <div id="sidebar-wrapper" style="background-color: rgb(49,55,58);">
+            <ul id="SideBar" class="sidebar-nav">
+                
+            </ul>
+        </div>
+        <div class="page-content-wrapper">
+            <div class="container-fluid text-left" style="margin-left: 0px;margin-right: 100%;margin-bottom: 20px;width: 100%;"><button class="btn btn-dark text-left" type="button" style="margin-right: 7px;margin-bottom: -47px;">Upload</button><button class="btn btn-dark text-left" type="button" style="margin-right: 7px;margin-bottom: -47px;">Download</button>
+                <div
+                    class="text-right"><input type="search" style="margin-left: 0;margin-top: 0;margin-bottom: 0;" placeholder="Search Files"></div>
+        </div>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>&nbsp;Name</th>
+                        <th>Type</th>
+                        <th>&nbsp;Size</th>
+                        <th>Uploaddate</th>
+                    </tr>
+                </thead>
+                <tbody id="fileTable" onclick="highlight()">
+                    <tr>
+                        <td>1</td>
+                        <td>Datei1</td>
+                        <td>Text</td>
+                        <td>1312 MB</td>
+                        <td>03.04.2020</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Datei2</td>
+                        <td>Mp4</td>
+                        <td>13112 MB</td>
+                        <td>05.04.2020</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <hr>
+        <div class="container text-left" style="margin-left: 0px;"><button class="btn btn-dark btn-sm text-left" type="button" style="margin-right: 7px;">Tag#1</button><button class="btn btn-dark btn-sm text-left" type="button" style="margin-right: 7px;">Tag#2</button><button class="btn btn-dark btn-sm text-left"
+                type="button" style="margin-right: 7px;">Tag#3</button></div>
+        <hr>
+        <div class="container">
+            <div class="text-center"><button class="btn btn-primary border rounded-circle" type="button" style="background-color: rgba(0,0,0,0.2);color: rgb(0,0,0);">1</button><button class="btn btn-primary border rounded-circle" type="button" style="color: rgb(0,0,0);background-color: rgba(0,123,255,0);">2</button>
+                <button
+                    class="btn btn-primary border rounded-circle" type="button" style="background-color: rgba(0,123,255,0);color: rgb(0,0,0);">3</button><button class="btn btn-primary border rounded-circle" type="button" style="color: rgb(0,0,0);background-color: rgba(0,123,255,0);">4</button><button class="btn btn-primary border rounded-circle" type="button" style="color: rgb(0,0,0);background-color: rgba(0,123,255,0);">...</button>
+                    <button
+                        class="btn btn-primary border rounded-circle" type="button" style="color: rgb(0,0,0);background-color: rgba(0,123,255,0);">7</button>
+            </div>
+        </div>
+    </div>
+    </div>
+    <script src="assets/js/jquery.min.js"></script>
+    <script>window.$ = window.jQuery = require('./assets/js/jquery.min.js');</script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/Sidebar-Menu.js"></script>
+    <script src="assets/js/Interactions.js"></script>
+    <script src="assets/js/MessageHandler.js"></script>
+</body>
+
+</html>
