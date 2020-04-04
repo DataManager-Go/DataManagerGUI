@@ -6,74 +6,114 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>Filemanager</title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
     <link rel="stylesheet" href="assets/css/Login-Form-Dark.css">
     <link rel="stylesheet" href="assets/css/Navigation-Clean.css">
     <link rel="stylesheet" href="assets/css/Sidebar-Menu-1.css">
     <link rel="stylesheet" href="assets/css/Sidebar-Menu.css">
+    <link rel="stylesheet" href="assets/css/sidebar.css">
     <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 
-<body style="background-color: rgb(237,238,239);height: 369px;">
-    <div id="wrapper">
-        <div id="sidebar-wrapper" style="background-color: rgb(49,55,58);">
-            <ul id="SideBar" class="sidebar-nav">
-                
-            </ul>
-        </div>
-        <div class="page-content-wrapper">
-            <div class="container-fluid text-left" style="margin-left: 0px;margin-right: 100%;margin-bottom: 20px;width: 100%;"><button class="btn btn-dark text-left" type="button" style="margin-right: 7px;margin-bottom: -47px;">Upload</button><button class="btn btn-dark text-left" type="button" style="margin-right: 7px;margin-bottom: -47px;">Download</button>
-                <div
-                    class="text-right"><input type="search" style="margin-left: 0;margin-top: 0;margin-bottom: 0;" placeholder="Search Files"></div>
-        </div>
-        <div class="table-responsive">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>&nbsp;Name</th>
-                        <th>Type</th>
-                        <th>&nbsp;Size</th>
-                        <th>Uploaddate</th>
-                    </tr>
-                </thead>
-                <tbody id="fileTable" onclick="highlight()">
-                    <tr>
-                        <td>1</td>
-                        <td>Datei1</td>
-                        <td>Text</td>
-                        <td>1312 MB</td>
-                        <td>03.04.2020</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Datei2</td>
-                        <td>Mp4</td>
-                        <td>13112 MB</td>
-                        <td>05.04.2020</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <hr>
-        <div class="container text-left" style="margin-left: 0px;"><button class="btn btn-dark btn-sm text-left" type="button" style="margin-right: 7px;">Tag#1</button><button class="btn btn-dark btn-sm text-left" type="button" style="margin-right: 7px;">Tag#2</button><button class="btn btn-dark btn-sm text-left"
-                type="button" style="margin-right: 7px;">Tag#3</button></div>
-        <hr>
-        <div class="container">
-            <div class="text-center"><button class="btn btn-primary border rounded-circle" type="button" style="background-color: rgba(0,0,0,0.2);color: rgb(0,0,0);">1</button><button class="btn btn-primary border rounded-circle" type="button" style="color: rgb(0,0,0);background-color: rgba(0,123,255,0);">2</button>
+<body style="background-color: rgb(230, 230, 230); height: 369px;">
+
+	<!-- Above file table -->
+    <div class="page-content-wrapper">
+        <div class="container-fluid text-left" style="margin-left: 0px;margin-right: 100%;margin-bottom: 20px;width: 100%;"><button class="btn btn-dark text-left" type="button" style="margin-right: 7px;margin-bottom: -47px;background-color: rgb(18,24,31);">Upload</button><button class="btn btn-dark text-left" type="button" style="margin-right: 7px;margin-bottom: -47px;background-color: rgb(18,24,31);">Download</button>
+            <div
+                class="text-right md-form active-cyan-2 mb-3"><input type="text" class="form-control" placeholder="Search files" aria-label="Search" style="width: 21%;margin-left: 78%;"></div>
+    </div>
+	
+	<!-- File table -->
+	
+    <div class="table-responsive" style="margin-left: 0;">
+        <table class="table" id="tableID">
+            <thead style="background-color: #12181f;">
+                <tr>
+                    <th style="border-bottom: 0px;color: white;">ID</th>
+                    <th style="border-bottom: 0px;color: white;">&nbsp;Name</th>
+                    <th style="border-bottom: 0px;color: white;">PublicName</th>
+                    <th style="border-bottom: 0px;color: white;">&nbsp;Size</th>
+                    <th style="border-bottom: 0px;color: white;">CreationDate</th>
+                    <th style="border-bottom: 0px;color: white;">IsPublic</th>
+                </tr>
+            </thead>
+            <tbody style="background-color: #cdcdcd;">
+                <tr>
+                    <td>1</td>
+                    <td>Datei1</td>
+                    <td>Text</td>
+                    <td>1312 MB</td>
+                    <td>03.04.2020</td>
+                    <td>false</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Datei2</td>
+                    <td>Mp4</td>
+                    <td>13112 MB</td>
+                    <td>05.04.2020</td>
+                    <td>05.04.2020</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <hr>
+	
+	<!-- Tags -->
+    <div class="container text-left" style="margin-left: 0px;"><button class="btn btn-dark btn-sm text-left" type="button" style="margin-right: 7px;background-color: rgb(18,24,31);">Tag#1</button><button class="btn btn-dark btn-sm text-left" type="button" style="margin-right: 7px; background-color: rgb(18,24,31);">Tag#2</button>
+        <button
+            class="btn btn-dark btn-sm text-left" type="button" style="margin-right: 7px; background-color: rgb(18,24,31);">Tag#3</button>
+    </div>
+    <hr>
+	
+	<!-- Page Navigation -->
+    <div class="container">
+        <div class="text-center"><button class="btn btn-primary border rounded-circle" type="button" style="background-color: rgba(0,0,0,0.2);color: rgb(0,0,0);">1</button><button class="btn btn-primary border rounded-circle" type="button" style="color: rgb(0,0,0);background-color: rgba(0,123,255,0);">2</button>
+            <button
+                class="btn btn-primary border rounded-circle" type="button" style="background-color: rgba(0,123,255,0);color: rgb(0,0,0);">3</button><button class="btn btn-primary border rounded-circle" type="button" style="color: rgb(0,0,0);background-color: rgba(0,123,255,0);">4</button><button class="btn btn-primary border rounded-circle" type="button" style="color: rgb(0,0,0);background-color: rgba(0,123,255,0);">...</button>
                 <button
-                    class="btn btn-primary border rounded-circle" type="button" style="background-color: rgba(0,123,255,0);color: rgb(0,0,0);">3</button><button class="btn btn-primary border rounded-circle" type="button" style="color: rgb(0,0,0);background-color: rgba(0,123,255,0);">4</button><button class="btn btn-primary border rounded-circle" type="button" style="color: rgb(0,0,0);background-color: rgba(0,123,255,0);">...</button>
-                    <button
-                        class="btn btn-primary border rounded-circle" type="button" style="color: rgb(0,0,0);background-color: rgba(0,123,255,0);">7</button>
-            </div>
+                    class="btn btn-primary border rounded-circle" type="button" style="color: rgb(0,0,0);background-color: rgba(0,123,255,0);">7</button>
         </div>
     </div>
     </div>
+	
+	<!-- Sidebar -->
+    <ul class="nav flex-column shadow d-flex sidebar mobile-hid" style="background-color: rgb(18,24,31);">
+        <li class="nav-item logo-holder">
+            <div class="text-center text-white logo py-4 mx-4"><a class="text-white text-decoration-none" id="title" href="#"><strong>Namespaces</strong></a></div>
+        </li>
+        <li class="nav-item dropdown"><a class="dropdown-toggle nav-link text-left text-white py-1 px-0 position-relative" data-toggle="dropdown" aria-expanded="false" href="#"><i class="far fa-list-alt mx-3"></i><span class="text-nowrap mx-2">Namespace1</span><i class="fas fa-caret-down float-none float-lg-right fa-sm"></i></a>
+            <div
+                class="dropdown-menu border-0 animated fadeIn" role="menu">
+				<a class="dropdown-item text-white" role="presentation" href="#">
+					<i class="far fa-folder mx-3"></i>
+					<span>Folder 1</span>
+				</a>
+				<a class="dropdown-item text-white" role="presentation" href="#">
+					<i class="far fa-folder mx-3"></i>
+					<span>Folder 2</span>
+				</a>
+        </li>
+		<li class="nav-item dropdown"><a class="dropdown-toggle nav-link text-left text-white py-1 px-0 position-relative" data-toggle="dropdown" aria-expanded="false" href="#"><i class="far fa-list-alt mx-3"></i><span class="text-nowrap mx-2">Namespace2<span><i class="fas fa-caret-down float-none float-lg-right fa-sm"></i></a>
+            <div
+                class="dropdown-menu border-0 animated fadeIn" role="menu">
+				<a class="dropdown-item text-white" role="presentation" href="#">
+					<i class="far fa-folder mx-3"></i>
+					<span>Folder 1</span>
+				</a>
+        </li>
+				
+				
+			</div>
+        </li>
+    </ul>
     <script src="assets/js/jquery.min.js"></script>
     <script>window.$ = window.jQuery = require('./assets/js/jquery.min.js');</script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/Sidebar-Menu.js"></script>
-    <script src="assets/js/Interactions.js"></script>
-    <script src="assets/js/MessageHandler.js"></script>
+    <script src="assets/js/sidebar.js"></script>
+    <script src="assets/js/table.js"></script>
 </body>
 
 </html>

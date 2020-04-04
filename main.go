@@ -108,7 +108,7 @@ func StartLoginWindow(a *astilectron.Astilectron) {
 		SendString("URL%%"+config.Server.URL, HandleResponses)
 	}
 
-	//window.OpenDevTools()
+	// window.OpenDevTools()
 
 	// Blocking pattern
 	a.Wait()
@@ -117,7 +117,6 @@ func StartLoginWindow(a *astilectron.Astilectron) {
 // StartMainWindow starts the main programm (file explorer)
 func StartMainWindow(a *astilectron.Astilectron) {
 
-	println("main window")
 	// New window
 	var err error
 	if window, err = a.NewWindow("./resources/app/main/index.html", &astilectron.WindowOptions{
@@ -139,6 +138,7 @@ func StartMainWindow(a *astilectron.Astilectron) {
 	window.OnMessage(HandleMessages)
 
 	// DEBUG
+
 	// window.OpenDevTools()
 	SendMessage("namespace/groups", `{"content":[["Default", "Group1", "Group2"], ["Namespace2", "Group1"]]}`, HandleResponses)
 	// DEBUG
