@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"strings"
 	"time"
 
 	"github.com/JojiiOfficial/configService"
@@ -30,6 +31,11 @@ func HandleLogin(m *astilectron.EventMessage) interface{} {
 		fmt.Println(err)
 	}
 
+	// Preprocess URL
+	if !strings.HasPrefix(f.URL, "https://") {
+		f.URL = "https://" + f.URL
+	}
+
 	// Process message
 	if f.Type == "register" {
 
@@ -37,8 +43,9 @@ func HandleLogin(m *astilectron.EventMessage) interface{} {
 
 		//Do request
 		resp, err := server.NewRequest(server.EPRegister, server.CredentialsRequest{
-			Username: f.Name,
-			Password: f.Password,
+			MachineID: config.MachineID,
+			Username:  f.Name,
+			Password:  f.Password,
 		}, config).Do(nil)
 
 		if err != nil {
@@ -94,8 +101,9 @@ func Login(f loginForm) string {
 	var response server.LoginResponse
 	//Do request
 	resp, err := server.NewRequest(server.EPLogin, server.CredentialsRequest{
-		Password: f.Password,
-		Username: f.Name,
+		MachineID: config.MachineID,
+		Password:  f.Password,
+		Username:  f.Name,
 	}, config).Do(&response)
 
 	if err != nil {

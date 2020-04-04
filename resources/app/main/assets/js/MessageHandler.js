@@ -52,7 +52,8 @@ function addNamespaceAndGroups(data) {
 
     var ns_a = document.createElement("a");
     ns_a.setAttribute("href", "#");
-    ns_a.setAttribute("style", "color: rgb(255,255,255); background-color: rgb(59,58,119);");
+    ns_a.setAttribute("class", "rounded");
+    ns_a.setAttribute("style", "color: rgb(255,255,255); background-color: rgb(33,74,128);");
     ns_a.innerHTML = groups[0];
     ns.appendChild(ns_a);
 

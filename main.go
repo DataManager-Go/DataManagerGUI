@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/Yukaru-san/DataManager_Client/models"
 	"github.com/asticode/go-astikit"
@@ -48,21 +49,21 @@ func main() {
 		return
 	}
 
+	// No config found: use the newly created one
 	if config == nil {
-		fmt.Println(err.Error())
-		return
+		config, err = models.InitConfig(models.GetDefaultConfigFile(), "")
+		if err != nil {
+			fmt.Println(err.Error())
+			return
+		}
 	}
 
-	StartLoginWindow(app)
-	//StartMainWindow(app)
+	if config.IsLoggedIn() {
+		StartMainWindow(app)
+	} else {
+		StartLoginWindow(app)
+	}
 
-	/*
-		if config.IsLoggedIn() {
-			StartMainWindow(app)
-		} else {
-			StartLoginWindow(app)
-		}
-	*/
 }
 
 // StartLoginWindow opens the login window
@@ -73,11 +74,14 @@ func StartLoginWindow(a *astilectron.Astilectron) {
 	var width, height int
 
 	for _, x := range a.Displays() {
-		if !x.IsPrimary() {
+		if x.IsPrimary() {
 			width = x.Bounds().Width / 3
 			height = int(float64(x.Bounds().Height) / 2.089)
 		}
 	}
+
+	// width = 900 height = 689
+	height = 650
 
 	if window, err = a.NewWindow("./resources/app/login/index.html", &astilectron.WindowOptions{
 		Center:    astikit.BoolPtr(true),
@@ -87,13 +91,7 @@ func StartLoginWindow(a *astilectron.Astilectron) {
 		MinWidth:  &width,
 		MaxHeight: &height,
 		MaxWidth:  &width,
-		/*		Height:    astikit.IntPtr(689),
-				Width:     astikit.IntPtr(900),
-				MinHeight: astikit.IntPtr(689),
-				MinWidth:  astikit.IntPtr(900),
-				MaxHeight: astikit.IntPtr(689),
-				MaxWidth:  astikit.IntPtr(900),
-		*/}); err != nil {
+	}); err != nil {
 		fmt.Println(err.Error())
 	}
 
@@ -106,8 +104,7 @@ func StartLoginWindow(a *astilectron.Astilectron) {
 	window.OnMessage(HandleLogin)
 
 	// Server IP
-	if len(config.Server.URL) > 0 {
-		println(config.Server.URL)
+	if len(config.Server.URL) > 0 && !strings.Contains(config.Server.URL, "localhost") {
 		SendString("URL%%"+config.Server.URL, HandleResponses)
 	}
 
@@ -126,12 +123,12 @@ func StartMainWindow(a *astilectron.Astilectron) {
 		MinHeight: astikit.IntPtr(500),
 		MinWidth:  astikit.IntPtr(500),
 	}); err != nil {
-		//	l.Fatal(fmt.Errorf("main: new window failed: %w", err))
+		fmt.Println(err.Error())
 	}
 
 	// Create windows
 	if err := window.Create(); err != nil {
-		//	l.Fatal(fmt.Errorf("main: creating window failed: %w", err))
+		fmt.Println(err.Error())
 	}
 
 	// Message handler
