@@ -108,6 +108,8 @@ func StartLoginWindow(a *astilectron.Astilectron) {
 		SendString("URL%%"+config.Server.URL, HandleResponses)
 	}
 
+	//window.OpenDevTools()
+
 	// Blocking pattern
 	a.Wait()
 }

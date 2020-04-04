@@ -28,10 +28,10 @@ function login() {
 
     astilectron.sendMessage(JSON.stringify(json), function(message) {
         if (message === "ServerError") {
-            inputError("The server couldn't be reached. Please check your input");
+            alert("The server couldn't be reached. Please check your input");
             return;
         } else {
-            inputError("Your name / password is wrong. Please check your input")
+            alert("Your name / password is wrong. Please check your input")
             document.body.focus();
             return;
         }
@@ -52,19 +52,19 @@ function register() {
     };
 
     if (name.length > 30) {
-        inputError("Your Username is too long! 30 characters maximum allowed.");
+        alert("Your Username is too long! 30 characters maximum allowed.");
         document.body.focus();
         return;
     }
     
     if (password.length > 80) {
-        inputError("Your Password is too long! 80 characters maxiumum allowed");
+        alert("Your Password is too long! 80 characters maxiumum allowed");
         document.body.focus();
         return;
     }
 
     if (password.length < 7) {
-        inputError("Your Password is too short! 7 characters are needed.");
+        alert("Your Password is too short! 7 characters are needed.");
         document.body.focus();
         return;
     }
@@ -115,7 +115,7 @@ document.addEventListener('keydown', function(event) {
 function checkPasswords() {
 
     if (document.getElementById("passwordRepeat").value !== password) {
-        inputError("Your passwords do not match!");
+        alert("Your passwords do not match!");
         document.getElementById("passwordRepeat").value = "";
         return;
     }
@@ -124,13 +124,14 @@ function checkPasswords() {
 
     astilectron.sendMessage(JSON.stringify(json), function(message) {
         if (message === "success") {} else {
-            inputError("The chosen Server sent a bad reply. Please check your input.")
+            alert("The chosen Server sent a bad reply. Please check your input.")
         }
     });
 }
+/*
+function alert(s) {
 
-function inputError(s) {
-
+    
     var div = document.createElement("div");
     div.setAttribute("class", "alert info");
     
@@ -149,5 +150,6 @@ function inputError(s) {
         setTimeout(function(){ div.style.display = "none"; }, 600);
     }
 
-    document.body.appendChild(div);
+    document.body.appendChild(div);  
 }
+*/
