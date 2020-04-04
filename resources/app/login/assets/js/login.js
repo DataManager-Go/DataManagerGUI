@@ -122,34 +122,20 @@ function checkPasswords() {
 
     document.getElementById("passwordRepeat").value = "";
 
+    url = document.getElementById("serverURL").value;
+    name = document.getElementById("username").value;
+    password = document.getElementById("password").value;
+
+    var json = {
+        type: "register",
+        url: url,
+        name: name,
+        password: password
+    };
+
     astilectron.sendMessage(JSON.stringify(json), function(message) {
         if (message === "success") {} else {
-            alert("The chosen Server sent a bad reply. Please check your input.")
+            alert("Either the chosen server ip is wrong or your username is already taken. Try a different one.")
         }
     });
 }
-/*
-function alert(s) {
-
-    
-    var div = document.createElement("div");
-    div.setAttribute("class", "alert info");
-    
-    var span = document.createElement("span");
-    span.setAttribute("class", "closebtn");
-    span.innerHTML = "&times";
-    div.appendChild(span);
-
-    var label = document.createElement("label");
-    label.setAttribute("style", "padding-top: -10px;");
-    label.innerHTML = s;
-    div.appendChild(label);
-
-    div.onclick = function() {
-        div.style.opacity = "0";
-        setTimeout(function(){ div.style.display = "none"; }, 600);
-    }
-
-    document.body.appendChild(div);  
-}
-*/

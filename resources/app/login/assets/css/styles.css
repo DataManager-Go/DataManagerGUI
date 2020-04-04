@@ -87,38 +87,3 @@
   background-color: rgb(33,74,128);
   color: rgb(33,74,128);
 }
-
-/* The Custom alert */
-.alert {
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  padding-top: 100px; /* Location of the box */
-  left: 25%;
-  right: 25%;
-  top: 10%;
-  width: 50%; /* Full width */
-  height: 10%; /* Full height */
-  padding: 0%;
-  background-color: #f44336;
-  color: white;
-  opacity: 1;
-  transition: opacity 0.6s;
-  margin-bottom: 15px;
-}
-
-.alert.info {background-color: #2196F3;}
-
-.closebtn {
-  margin-left: 15px;
-  color: white;
-  font-weight: bold;
-  float: right;
-  font-size: 22px;
-  line-height: 20px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.closebtn:hover {
-  color: black;
-}

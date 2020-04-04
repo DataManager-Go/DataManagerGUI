@@ -116,6 +116,8 @@ func StartLoginWindow(a *astilectron.Astilectron) {
 
 // StartMainWindow starts the main programm (file explorer)
 func StartMainWindow(a *astilectron.Astilectron) {
+
+	println("main window")
 	// New window
 	var err error
 	if window, err = a.NewWindow("./resources/app/main/index.html", &astilectron.WindowOptions{

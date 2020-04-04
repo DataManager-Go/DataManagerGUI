@@ -55,7 +55,7 @@ func HandleLogin(m *astilectron.EventMessage) interface{} {
 		if resp.Status == server.ResponseSuccess {
 			fmt.Println("Response Register Success")
 			login := Login(f)
-			if len(login) > 0 {
+			if login != "success" {
 				return login
 			}
 			var w = window
