@@ -11,6 +11,8 @@ document.addEventListener('astilectron-ready', function() {
 })
 
 
+/* ---- Functions ---- */
+
 function login() {
 
     url = document.getElementById("serverURL").value;
@@ -26,12 +28,14 @@ function login() {
 
     astilectron.sendMessage(JSON.stringify(json), function(message) {
         if (message === "ServerError") {
-            alert("The chosen Server can't be reached. Please check your input.")
+            inputError("The server couldn't be reached. Please check your input");
+            return;
         } else {
-            alert("Your name and / or password is wrong. Please check your input")
+            inputError("Your name / password is wrong. Please check your input")
+            document.body.focus();
+            return;
         }
     });
-
     return
 }
 
@@ -47,56 +51,38 @@ function register() {
         password: password
     };
 
-    // TODO Password retype
-
     if (name.length > 30) {
-        alert("Your Username is too long! A maximum of 30 characters is allowed.");
+        inputError("Your Username is too long! 30 characters maximum allowed.");
+        document.body.focus();
         return;
     }
     
     if (password.length > 80) {
-        alert("Your Password is too long! A maximum of 80 characters is allowed.");
+        inputError("Your Password is too long! 80 characters maxiumum allowed");
+        document.body.focus();
         return;
     }
 
     if (password.length < 7) {
-        alert("Your Password is too short! A minimum of 7 characters is needed.");
+        inputError("Your Password is too short! 7 characters are needed.");
+        document.body.focus();
         return;
     }
 
-    astilectron.sendMessage(JSON.stringify(json), function(message) {
-        if (message === "success") {} else {
-            alert("The chosen Server sent a bad reply. Please check your input.")
-        }
-    });
+    passwordRepeat = ""
+    modal.style.display = "block";
 
 }
-
-function done() { 
-    document.getElementById("popup").style.display = "none";
-    var password = document.getElementById("pass").value;
-    
-    //DO STUFF WITH PASSWORD HERE    
-};
-
-
 
 // ---------- Password Repeat -------------- \\
 
 
 // Get the modal
-var modal = document.getElementById("myModal");
+var modal = document.getElementById("passwordModal");
 
-// Get the button that opens the modal
-var btn = document.getElementById("myBtn");
 
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
-
-// When the user clicks the button, open the modal 
-btn.onclick = function() {
-  modal.style.display = "block";
-}
 
 // When the user clicks on <span> (x), close the modal
 span.onclick = function() {
@@ -108,4 +94,60 @@ window.onclick = function(event) {
   if (event.target == modal) {
     modal.style.display = "none";
   }
+}
+
+// ---------- Enter press -------------- \\
+
+document.addEventListener('keydown', function(event) {
+    if (event.code == 'Enter') {
+        if (modal.style.display == "block") {
+            // password repeat onEnterPress
+            checkPasswords();
+        
+        } else {
+            // global onEnterPress
+            login();
+        }
+    }
+});
+
+
+function checkPasswords() {
+
+    if (document.getElementById("passwordRepeat").value !== password) {
+        inputError("Your passwords do not match!");
+        document.getElementById("passwordRepeat").value = "";
+        return;
+    }
+
+    document.getElementById("passwordRepeat").value = "";
+
+    astilectron.sendMessage(JSON.stringify(json), function(message) {
+        if (message === "success") {} else {
+            inputError("The chosen Server sent a bad reply. Please check your input.")
+        }
+    });
+}
+
+function inputError(s) {
+
+    var div = document.createElement("div");
+    div.setAttribute("class", "alert info");
+    
+    var span = document.createElement("span");
+    span.setAttribute("class", "closebtn");
+    span.innerHTML = "&times";
+    div.appendChild(span);
+
+    var label = document.createElement("label");
+    label.setAttribute("style", "padding-top: -10px;");
+    label.innerHTML = s;
+    div.appendChild(label);
+
+    div.onclick = function() {
+        div.style.opacity = "0";
+        setTimeout(function(){ div.style.display = "none"; }, 600);
+    }
+
+    document.body.appendChild(div);
 }

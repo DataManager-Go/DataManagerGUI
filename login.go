@@ -66,9 +66,9 @@ func HandleLogin(m *astilectron.EventMessage) interface{} {
 			})()
 
 			StartMainWindow(app)
-			return ""
+			return "success"
 		}
-		return resp.Status
+		return "ServerError"
 
 		///       							///
 		/// 			LOGIN 				///

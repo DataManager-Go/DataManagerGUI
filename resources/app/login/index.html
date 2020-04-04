@@ -27,19 +27,19 @@
         </form>
     </div>
 
-    <!-- Trigger/Open The Modal -->
-    <button id="myBtn">Open Modal</button>
-
     <!-- The Modal -->
-    <div id="myModal" class="modal">
+    <div id="passwordModal" class="modal">
         <!-- Modal content -->
         <div class="modal-content">
             <div class="modal-header">
                 <span class="close">&times;</span>
             </div>
             <div class="modal-body">
-                <p>Retype your password:</p>
+                <p style="color:white; padding-top: 1px;">Retype your password:</p>
                 <input type="password" id="passwordRepeat" name="passwordRepeat" class="form-control">
+                <div style="padding-left: 25%; padding-right: 25%; padding-top: 15px;">
+                    <button class="btn btn-primary btn-block" type="button" onclick="checkPasswords()">Submit</button>
+                </div>
             </div>
         </div>
     </div>
