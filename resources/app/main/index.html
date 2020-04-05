@@ -79,41 +79,20 @@
     </div>
 	
 	<!-- Sidebar -->
-    <ul class="nav flex-column shadow d-flex sidebar mobile-hid" style="background-color: rgb(18,24,31);">
+    <ul class="nav flex-column shadow d-flex sidebar mobile-hid" style="background-color: rgb(18,24,31);" id="SideBar">
         <li class="nav-item logo-holder">
-            <div class="text-center text-white logo py-4 mx-4"><a class="text-white text-decoration-none" id="title" href="#"><strong>Namespaces</strong></a></div>
+            <div class="text-center text-white logo py-4 mx-4"><a class="text-white text-decoration-none" id="title" href="#"><strong id="barTitle">Namespaces</strong></a></div>
         </li>
-        <li class="nav-item dropdown"><a class="dropdown-toggle nav-link text-left text-white py-1 px-0 position-relative" data-toggle="dropdown" aria-expanded="false" href="#"><i class="far fa-list-alt mx-3"></i><span class="text-nowrap mx-2">Namespace1</span><i class="fas fa-caret-down float-none float-lg-right fa-sm"></i></a>
-            <div
-                class="dropdown-menu border-0 animated fadeIn" role="menu">
-				<a class="dropdown-item text-white" role="presentation" href="#">
-					<i class="far fa-folder mx-3"></i>
-					<span>Folder 1</span>
-				</a>
-				<a class="dropdown-item text-white" role="presentation" href="#">
-					<i class="far fa-folder mx-3"></i>
-					<span>Folder 2</span>
-				</a>
-        </li>
-		<li class="nav-item dropdown"><a class="dropdown-toggle nav-link text-left text-white py-1 px-0 position-relative" data-toggle="dropdown" aria-expanded="false" href="#"><i class="far fa-list-alt mx-3"></i><span class="text-nowrap mx-2">Namespace2<span><i class="fas fa-caret-down float-none float-lg-right fa-sm"></i></a>
-            <div
-                class="dropdown-menu border-0 animated fadeIn" role="menu">
-				<a class="dropdown-item text-white" role="presentation" href="#">
-					<i class="far fa-folder mx-3"></i>
-					<span>Folder 1</span>
-				</a>
-        </li>
-				
-				
-			</div>
-        </li>
+        <!-- Namspaces / Groups will be imported here -->
     </ul>
+
     <script src="assets/js/jquery.min.js"></script>
     <script>window.$ = window.jQuery = require('./assets/js/jquery.min.js');</script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/Sidebar-Menu.js"></script>
     <script src="assets/js/sidebar.js"></script>
     <script src="assets/js/table.js"></script>
+    <script src="assets/js/messageHandler.js"></script>
 </body>
 
 </html>

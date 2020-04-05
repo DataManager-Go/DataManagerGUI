@@ -76,7 +76,6 @@ func StartLoginWindow(a *astilectron.Astilectron) {
 	for _, x := range a.Displays() {
 		if x.IsPrimary() {
 			width = x.Bounds().Width / 3
-			height = int(float64(x.Bounds().Height) / 2.089)
 		}
 	}
 
@@ -122,7 +121,7 @@ func StartMainWindow(a *astilectron.Astilectron) {
 	if window, err = a.NewWindow("./resources/app/main/index.html", &astilectron.WindowOptions{
 		Center:    astikit.BoolPtr(true),
 		Height:    astikit.IntPtr(700),
-		Width:     astikit.IntPtr(900),
+		Width:     astikit.IntPtr(1100),
 		MinHeight: astikit.IntPtr(500),
 		MinWidth:  astikit.IntPtr(500),
 	}); err != nil {
@@ -138,7 +137,6 @@ func StartMainWindow(a *astilectron.Astilectron) {
 	window.OnMessage(HandleMessages)
 
 	// DEBUG
-
 	// window.OpenDevTools()
 	SendMessage("namespace/groups", `{"content":[["Default", "Group1", "Group2"], ["Namespace2", "Group1"]]}`, HandleResponses)
 	// DEBUG
