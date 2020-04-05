@@ -21,10 +21,11 @@ document.addEventListener('astilectron-ready', function() {
 
 // TODO Work with respone from onClick Events json form : {"group":"name", "namespaceName":"namespace"}
 function addNamespaceAndGroups(data) {
- // Payload content: `{"content":[["Default", "Group1", "Group2"], ["Namespace2", "Group1"]]}`
-    var namespaces = JSON.parse(data.payload).content;
-    alert(namespaces);
-            
+ // Payload content: `{"user":"Username", "content":[["Default", "Group1", "Group2"], ["Namespace2", "Group1"]]}`
+    var parsed = JSON.parse(data.payload);
+    var namespaces = parsed.content;
+    document.getElementById("barTitle").innerHTML = parsed.user;
+
     for (var i = 0; i < namespaces.length; i++) {
     
         var groups = namespaces[i];

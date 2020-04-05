@@ -138,7 +138,7 @@ func StartMainWindow(a *astilectron.Astilectron) {
 
 	// DEBUG
 	// window.OpenDevTools()
-	SendMessage("namespace/groups", `{"content":[["Default", "Group1", "Group2"], ["Namespace2", "Group1"]]}`, HandleResponses)
+	SendMessage("namespace/groups", `{"user":"`+config.User.Username+`","content":[["Default", "Group1", "Group2"], ["Namespace2", "Group1"]]}`, HandleResponses)
 	// DEBUG
 
 	// Blocking pattern
