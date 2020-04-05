@@ -19,7 +19,7 @@ document.addEventListener('astilectron-ready', function() {
     });
 })
 
-// TODO SECOND GROUPS NOT WORKING
+// TODO Work with respone from onClick Events json form : {"group":"name", "namespaceName":"namespace"}
 function addNamespaceAndGroups(data) {
  // Payload content: `{"content":[["Default", "Group1", "Group2"], ["Namespace2", "Group1"]]}`
     var namespaces = JSON.parse(data.payload).content;
@@ -53,7 +53,7 @@ function addNamespaceAndGroups(data) {
         ns_a_i2 = document.createElement("i");
         ns_a_i2.setAttribute("class", "fas fa-caret-down float-none float-lg-right fa-sm");
         ns_a.append(ns_a_i2);
-        
+
         ns.appendChild(ns_a);
 
         var div = document.createElement("div");
@@ -76,11 +76,11 @@ function addNamespaceAndGroups(data) {
             div_a.appendChild(div_a_span);
 
             if (j === 0) {
-                div_a.setAttribute("id", "group_"+groups[0]+"_ShowAllFiles");
+                div_a.setAttribute("id", `{"group":"ShowAllFiles", "namespace":"`+groups[0]+`"}`);
                 div_a_i.setAttribute("class", "fas fa-list mx-3");
                 div_a_span.innerHTML = "All files";
             } else {
-                div_a.setAttribute("id", "group_"+groups[0]+"_"+groups[j]);
+                div_a.setAttribute("id", `{"group":"`+groups[j]+`", "namespace":"`+groups[0]+`"}`);
                 div_a_i.setAttribute("class", "far fa-folder mx-3");
                 div_a_span.innerHTML = groups[j];
             }
