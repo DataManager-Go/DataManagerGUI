@@ -173,7 +173,7 @@ func StartMainWindow(a *astilectron.Astilectron) {
 	*/
 
 	// Receive initial files data
-	filesResp, err := manager.ListFiles("", 0, false, dmlib.FileAttributes{Namespace: "Yukaru_default"}, 0)
+	filesResp, err := manager.ListFiles("", 0, false, dmlib.FileAttributes{Namespace: config.Default.Namespace}, 0)
 
 	if err != nil {
 		fmt.Println(err.Error())
