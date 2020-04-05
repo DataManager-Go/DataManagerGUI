@@ -6,8 +6,8 @@ import (
 	"strings"
 	"time"
 
+	dmlib "github.com/DataManager-Go/libdatamanager"
 	"github.com/JojiiOfficial/configService"
-	"github.com/Yukaru-san/DataManager_Client/server"
 	"github.com/asticode/go-astilectron"
 )
 
@@ -20,6 +20,7 @@ type loginForm struct {
 
 // HandleLogin handles incoming loginForms from the JS related to user login
 func HandleLogin(m *astilectron.EventMessage) interface{} {
+
 	// Unmarshal
 	var s string
 	err := m.Unmarshal(&s)
@@ -42,17 +43,17 @@ func HandleLogin(m *astilectron.EventMessage) interface{} {
 		config.Server.URL = f.URL
 
 		//Do request
-		resp, err := server.NewRequest(server.EPRegister, server.CredentialsRequest{
+		resp, err := dmlib.NewRequest(dmlib.EPRegister, dmlib.CredentialsRequest{
 			MachineID: config.MachineID,
 			Username:  f.Name,
 			Password:  f.Password,
-		}, config).Do(nil)
+		}, requestConfig).Do(nil)
 
 		if err != nil {
 			return "ServerError"
 		}
 
-		if resp.Status == server.ResponseSuccess {
+		if resp.Status == dmlib.ResponseSuccess {
 			fmt.Println("Response Register Success")
 			login := Login(f)
 			if login != "success" {
@@ -98,20 +99,20 @@ func Login(f loginForm) string {
 
 	config.Server.URL = f.URL
 
-	var response server.LoginResponse
+	var response dmlib.LoginResponse
 	//Do request
-	resp, err := server.NewRequest(server.EPLogin, server.CredentialsRequest{
+	resp, err := dmlib.NewRequest(dmlib.EPLogin, dmlib.CredentialsRequest{
 		MachineID: config.MachineID,
 		Password:  f.Password,
 		Username:  f.Name,
-	}, config).Do(&response)
+	}, requestConfig).Do(&response)
 
 	if err != nil {
 		return "ServerError"
 	}
-	if resp.Status == server.ResponseError && resp.HTTPCode == 403 {
+	if resp.Status == dmlib.ResponseError && resp.HTTPCode == 403 {
 		return "ServerError"
-	} else if resp.Status == server.ResponseSuccess && len(response.Token) > 0 {
+	} else if resp.Status == dmlib.ResponseSuccess && len(response.Token) > 0 {
 		fmt.Println("Response Login Success")
 		//put username and token in config
 		config.User = struct {

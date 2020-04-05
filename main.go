@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/Yukaru-san/DataManager_Client/models"
+	dmlib "github.com/DataManager-Go/libdatamanager"
 	"github.com/asticode/go-astikit"
 	"github.com/asticode/go-astilectron"
 )
@@ -14,11 +14,11 @@ var (
 	window          *astilectron.Window
 	elementsPerPage = 30
 	userToken       string
-	config          *models.Config
+	config          *dmlib.Config
+	requestConfig   *dmlib.RequestConfig
 )
 
 func main() {
-
 	// Create astilectron
 	var err error
 	app, err = astilectron.New(nil, astilectron.Options{
@@ -43,7 +43,7 @@ func main() {
 	// ------------- Main Stuff ----------------
 
 	//Init config
-	config, err = models.InitConfig(models.GetDefaultConfigFile(), "")
+	config, err = dmlib.InitConfig(dmlib.GetDefaultConfigFile(), "")
 	if err != nil {
 		fmt.Println(err.Error())
 		return
@@ -51,12 +51,15 @@ func main() {
 
 	// No config found: use the newly created one
 	if config == nil {
-		config, err = models.InitConfig(models.GetDefaultConfigFile(), "")
+		config, err = dmlib.InitConfig(dmlib.GetDefaultConfigFile(), "")
 		if err != nil {
 			fmt.Println(err.Error())
 			return
 		}
 	}
+
+	// Create corresponding request config
+	requestConfig = config.ToRequestConfig()
 
 	if config.IsLoggedIn() {
 		StartMainWindow(app)
