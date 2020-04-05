@@ -41,17 +41,9 @@ func HandleLogin(m *astilectron.EventMessage) interface{} {
 	if f.Type == "register" {
 
 		config.Server.URL = f.URL
+		manager.Config.URL = f.URL
 
-		//Do request
-		resp, err := dmlib.NewRequest(dmlib.EPRegister, dmlib.CredentialsRequest{
-			MachineID: config.MachineID,
-			Username:  f.Name,
-			Password:  f.Password,
-		}, requestConfig).Do(nil)
-
-		if err != nil {
-			return "ServerError"
-		}
+		resp, err := manager.Register(f.Name, f.Password)
 
 		if resp.Status == dmlib.ResponseSuccess {
 			fmt.Println("Response Register Success")
@@ -69,6 +61,7 @@ func HandleLogin(m *astilectron.EventMessage) interface{} {
 			StartMainWindow(app)
 			return "success"
 		}
+		fmt.Println(err.Error())
 		return "ServerError"
 
 		///       							///
@@ -98,21 +91,14 @@ func HandleLogin(m *astilectron.EventMessage) interface{} {
 func Login(f loginForm) string {
 
 	config.Server.URL = f.URL
+	manager.Config.URL = f.URL
 
-	var response dmlib.LoginResponse
-	//Do request
-	resp, err := dmlib.NewRequest(dmlib.EPLogin, dmlib.CredentialsRequest{
-		MachineID: config.MachineID,
-		Password:  f.Password,
-		Username:  f.Name,
-	}, requestConfig).Do(&response)
+	resp, err := manager.Login(f.Name, f.Password)
 
 	if err != nil {
+		fmt.Println(err.Error())
 		return "ServerError"
-	}
-	if resp.Status == dmlib.ResponseError && resp.HTTPCode == 403 {
-		return "ServerError"
-	} else if resp.Status == dmlib.ResponseSuccess && len(response.Token) > 0 {
+	} else if len(resp.Token) > 0 {
 		fmt.Println("Response Login Success")
 		//put username and token in config
 		config.User = struct {
@@ -120,11 +106,11 @@ func Login(f loginForm) string {
 			SessionToken string
 		}{
 			Username:     f.Name,
-			SessionToken: response.Token,
+			SessionToken: resp.Token,
 		}
 
 		//Set default namespace to users
-		config.Default.Namespace = response.Namespace
+		config.Default.Namespace = resp.Namespace
 
 		//Save new config
 		err := configService.Save(config, config.File)
@@ -132,9 +118,10 @@ func Login(f loginForm) string {
 			fmt.Println("Error saving config:", err.Error())
 			return "SaveError"
 		}
+		manager = dmlib.NewLibDM(config.ToRequestConfig())
 
 		// Success
 		return "success"
 	}
-	return fmt.Sprint("", resp.Status)
+	return "ServerError"
 }

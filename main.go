@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strings"
 
+	jsprotocol "github.com/DataManager-Go/DataManagerGUI/jsProtocol"
 	dmlib "github.com/DataManager-Go/libdatamanager"
 	"github.com/asticode/go-astikit"
 	"github.com/asticode/go-astilectron"
@@ -15,7 +16,7 @@ var (
 	elementsPerPage = 30
 	userToken       string
 	config          *dmlib.Config
-	requestConfig   *dmlib.RequestConfig
+	manager         *dmlib.LibDM
 )
 
 func main() {
@@ -58,8 +59,8 @@ func main() {
 		}
 	}
 
-	// Create corresponding request config
-	requestConfig = config.ToRequestConfig()
+	// Create corresponding manager
+	manager = dmlib.NewLibDM(config.ToRequestConfig())
 
 	if config.IsLoggedIn() {
 		StartMainWindow(app)
@@ -139,8 +140,22 @@ func StartMainWindow(a *astilectron.Astilectron) {
 	// Message handler
 	window.OnMessage(HandleMessages)
 
-	// DEBUG
-	// window.OpenDevTools()
+	// Find data from default namespace
+	resp, err := manager.GetNamespaces()
+
+	var content [][]string
+
+	msg := jsprotocol.NamespaceGroupsList{user: config.User.Username, content: content}
+
+	// Error in config / server
+	if err != nil {
+		fmt.Println(err)
+		StartLoginWindow(app)
+		return
+	}
+
+	fmt.Println("Namespaces: ")
+	fmt.Println(manager.GetNamespaces())
 	SendMessage("namespace/groups", `{"user":"`+config.User.Username+`","content":[["Default", "Group1", "Group2"], ["Namespace2", "Group1"]]}`, HandleResponses)
 	// DEBUG
 
