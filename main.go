@@ -171,6 +171,7 @@ func StartMainWindow(a *astilectron.Astilectron) {
 		_ = json
 		_ = err
 	*/
+	SendMessage("namespace/groups", `{"content":[["Default", "Group1", "Group2"], ["Namespace2", "Group1"]]}`, HandleResponses)
 
 	// Receive initial files data
 	filesResp, err := manager.ListFiles("", 0, false, dmlib.FileAttributes{Namespace: config.Default.Namespace}, 0)

@@ -24,6 +24,8 @@ function addTags(data) {
 
 }
 
+var shownFileCap = 40;
+var files = []
 function listFiles(data) {
 
     var parsed = JSON.parse(data.payload);
@@ -73,7 +75,10 @@ function listFiles(data) {
         tr.appendChild(date);
         tr.appendChild(isPublic);
 
-        document.getElementById("tableBody").appendChild(tr);
+        files.push(tr)
+        if (i < shownFileCap) {
+            document.getElementById("tableBody").appendChild(tr);
+        }
         makeTableHighlightable();
     }   
 
