@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 
-<body style="background-color: rgb(230, 230, 230); height: 369px;">
+<body style="background-color: rgb(230, 230, 230); height: 369px; user-select: none;">
 
 	<!-- Above file table -->
     <div class="page-content-wrapper">
@@ -25,11 +25,11 @@
     </div>
 	
 	<!-- File table -->
-	
+    
     <div class="table-responsive" style="margin-left: 0;">
         <table class="table" id="tableID">
             <thead style="background-color: #12181f;">
-                <tr>
+                <tr unselecatble="off" onselectstart="return true;">
                     <th style="border-bottom: 0px;color: white;">ID</th>
                     <th style="border-bottom: 0px;color: white;">&nbsp;Name</th>
                     <th style="border-bottom: 0px;color: white;">PublicName</th>
@@ -38,23 +38,7 @@
                     <th style="border-bottom: 0px;color: white;">IsPublic</th>
                 </tr>
             </thead>
-            <tbody style="background-color: #cdcdcd;">
-                <tr>
-                    <td>1</td>
-                    <td>Datei1</td>
-                    <td>Text</td>
-                    <td>1312 MB</td>
-                    <td>03.04.2020</td>
-                    <td>false</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Datei2</td>
-                    <td>Mp4</td>
-                    <td>13112 MB</td>
-                    <td>05.04.2020</td>
-                    <td>05.04.2020</td>
-                </tr>
+            <tbody style="background-color: #cdcdcd; user-select: text;" id="tableBody">
             </tbody>
         </table>
     </div>

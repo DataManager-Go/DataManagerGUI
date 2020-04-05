@@ -91,8 +91,9 @@ function resizableGrid(table) {
 
 
 // Table highlighting TODO Use it to do stuff (check for hilite - true)
-var table = document.getElementById('tableID');
-for (var i=0;i < table.rows.length;i++){
+function makeTableHighlightable() {
+  var table = document.getElementById('tableID');
+  for (var i=1;i < table.rows.length;i++){
     table.rows[i].onclick= function () {
         if(!this.hilite){
           this.origColor=this.style.backgroundColor;
@@ -104,4 +105,5 @@ for (var i=0;i < table.rows.length;i++){
           this.hilite = false;
         }
     }
+  }
 }

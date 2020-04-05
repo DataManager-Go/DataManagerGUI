@@ -5,19 +5,85 @@ document.addEventListener('astilectron-ready', function() {
 
         var obj = JSON.parse(message);
 
-        alert(obj.payload);
-
         // obj contents: obj.type, obj.payload
         if (obj.type === "namespace/groups") {
            addNamespaceAndGroups(obj);
         }
         else if (obj.type === "files") {
-           // addFiles(obj);
+           listFiles(obj);
         }
 
 		return message;
     });
 })
+
+
+function listFiles(data) {
+
+    var parsed = JSON.parse(data.payload);
+
+    for (var i = 0; i < parsed.length; i++) {
+
+        var tr = document.createElement("tr");
+        
+        var id = document.createElement("td");
+        var name = document.createElement("td");
+        var publicName = document.createElement("td");
+        var size = document.createElement("td");
+        var date = document.createElement("td");
+        var isPublic = document.createElement("td");
+
+        id.innerHTML = parsed[i].id;
+        name.innerHTML = parsed[i].name;
+        publicName.innerHTML = parsed[i].pubname;
+        date.innerHTML = parsed[i].creation.substring(0, 10);
+        isPublic.innerHTML = parsed[i].isPub;
+
+        var byteSize = parsed[i].size;
+
+        if (byteSize == 0) {
+            size.innerHTML = byteSize + " byte"
+        }
+        else if (byteSize <= 1000) {
+            size.innerHTML = byteSize + " bytes"
+        } else if (byteSize <= 1000000) {
+            size.innerHTML = (byteSize/1000).toFixed(2) + " KB"
+        } else if (byteSize <= 1000000000) {
+            size.innerHTML = (byteSize/1000000).toFixed(2) + " MB"
+        } else {
+            size.innerHTML = (byteSize/1000000000).toFixed(2) + " GB"
+        }
+
+        tr.appendChild(id);
+        tr.appendChild(name);
+        tr.appendChild(publicName);
+        tr.appendChild(size);
+        tr.appendChild(date);
+        tr.appendChild(isPublic);
+
+        document.getElementById("tableBody").appendChild(tr);
+        makeTableHighlightable();
+    }   
+
+}
+
+
+
+/*
+{"id":221,"size":21423570,"creation":"2020-04-02T19:41:04.774808+02:00","name":"Geometry_Clash_0.1.zip","isPub":true,"pubname":"0oZIavSOmyzc1iuwNyiDn9JQM","attrib":{"ns":""},"e":""},
+
+<tr>
+    <td>1</td>
+    <td>Datei1</td>
+    <td>Text</td>
+    <td>1312 MB</td>
+    <td>03.04.2020</td>
+    <td>false</td>
+ </tr>
+*/
+
+
+
 
 // TODO Work with respone from onClick Events json form : {"group":"name", "namespaceName":"namespace"}
 function addNamespaceAndGroups(data) {

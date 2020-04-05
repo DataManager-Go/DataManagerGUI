@@ -1,10 +1,11 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"strings"
+	"time"
 
-	jsprotocol "github.com/DataManager-Go/DataManagerGUI/jsProtocol"
 	dmlib "github.com/DataManager-Go/libdatamanager"
 	"github.com/asticode/go-astikit"
 	"github.com/asticode/go-astilectron"
@@ -125,7 +126,7 @@ func StartMainWindow(a *astilectron.Astilectron) {
 	if window, err = a.NewWindow("./resources/app/main/index.html", &astilectron.WindowOptions{
 		Center:    astikit.BoolPtr(true),
 		Height:    astikit.IntPtr(700),
-		Width:     astikit.IntPtr(1100),
+		Width:     astikit.IntPtr(1300),
 		MinHeight: astikit.IntPtr(500),
 		MinWidth:  astikit.IntPtr(500),
 	}); err != nil {
@@ -141,23 +142,56 @@ func StartMainWindow(a *astilectron.Astilectron) {
 	window.OnMessage(HandleMessages)
 
 	// Find data from default namespace
-	resp, err := manager.GetNamespaces()
-
-	var content [][]string
-
-	msg := jsprotocol.NamespaceGroupsList{user: config.User.Username, content: content}
+	nsResp, err := manager.GetNamespaces()
+	_ = nsResp
 
 	// Error in config / server
 	if err != nil {
 		fmt.Println(err)
+		var w = window
+		go (func() {
+			time.Sleep(time.Millisecond * 5)
+			w.Destroy()
+		})()
 		StartLoginWindow(app)
 		return
 	}
 
-	fmt.Println("Namespaces: ")
-	fmt.Println(manager.GetNamespaces())
-	SendMessage("namespace/groups", `{"user":"`+config.User.Username+`","content":[["Default", "Group1", "Group2"], ["Namespace2", "Group1"]]}`, HandleResponses)
-	// DEBUG
+	// Process the Namespaces / Groups information into a json
+	/*
+		var content [][]string
+		for i := 0; i < len(nsResp.Slice); i++ {
+			content[i][0] = nsResp.Slice[i]
+			resp2, err2 := manager.GetGroups(nsResp.Slice[i]) TODO not yet implemented
+
+		}
+		// TODO not yet implemented!
+		msg := jsprotocol.NamespaceGroupsList{User: config.User.Username, Content: content}
+		json, err := json.Marshal(msg)
+		_ = json
+		_ = err
+	*/
+
+	// Receive initial files data
+	filesResp, err := manager.ListFiles("", 0, false, dmlib.FileAttributes{Namespace: "Yukaru_default"}, 0)
+
+	if err != nil {
+		fmt.Println(err.Error())
+	} else {
+		files, err := json.Marshal(filesResp.Files)
+
+		if err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+		// id, size in byte, date, name, public name
+		// [{"id":221,"size":21423570,"creation":"2020-04-02T19:41:04.774808+02:00","name":"Geometry_Clash_0.1.zip","isPub":true,"pubname":"0oZIavSOmyzc1iuwNyiDn9JQM","attrib":{"ns":""},"e":""},{"id":232,"size":3178,"creation":"2020-04-02T23:31:16.17683+02:00","name":"test.zip","isPub":true,"pubname":"xphp5zXfeeag3XrWOEpAzghK9","attrib":{"ns":""},"e":""},{"id":233,"size":3178,"creation":"2020-04-02T23:31:34.268603+02:00","name":"test.zip","isPub":true,"pubname":"RkhTPQtIeHjFP00gfXAMzeCx0","attrib":{"ns":""},"e":""}]
+
+		SendMessage("files", string(files), HandleResponses)
+	}
+
+	// Send the initial data
+	//	SendMessage("namespace/groups", string(json), HandleResponses)
 
 	// Blocking pattern
 	a.Wait()
