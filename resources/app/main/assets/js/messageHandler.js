@@ -53,10 +53,8 @@ function addNamespaceAndGroups(data) {
         ns_a_i2 = document.createElement("i");
         ns_a_i2.setAttribute("class", "fas fa-caret-down float-none float-lg-right fa-sm");
         ns_a.append(ns_a_i2);
-
+        
         ns.appendChild(ns_a);
-
-
 
         var div = document.createElement("div");
         div.setAttribute("class", "dropdown-menu border-0 animated fadeIn");
@@ -76,7 +74,6 @@ function addNamespaceAndGroups(data) {
 
             var div_a_span = document.createElement("span");
             div_a.appendChild(div_a_span);
-
 
             if (j === 0) {
                 div_a.setAttribute("id", "group_"+groups[0]+"_ShowAllFiles");
