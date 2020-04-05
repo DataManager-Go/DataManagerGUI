@@ -93,15 +93,15 @@ function resizableGrid(table) {
 // Table highlighting TODO Use it to do stuff (check for hilite - true)
 var table = document.getElementById('tableID');
 for (var i=0;i < table.rows.length;i++){
-  table.rows[i].onclick= function () {
-  if(!this.hilite){
-    this.origColor=this.style.backgroundColor;
-    this.style.backgroundColor='#BCD4EC';
-    this.hilite = true;
-  }
-  else{
-    this.style.backgroundColor=this.origColor;
-    this.hilite = false;
-  }
- }
+    table.rows[i].onclick= function () {
+        if(!this.hilite){
+          this.origColor=this.style.backgroundColor;
+          this.style.backgroundColor='#BCD4EC';
+          this.hilite = true;
+        }
+        else{
+          this.style.backgroundColor=this.origColor;
+          this.hilite = false;
+        }
+    }
 }
