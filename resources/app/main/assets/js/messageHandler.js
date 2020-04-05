@@ -12,11 +12,17 @@ document.addEventListener('astilectron-ready', function() {
         else if (obj.type === "files") {
            listFiles(obj);
         }
+        else if(obj.type === "tags") {
+            addTags(obj);
+        }
 
 		return message;
     });
 })
 
+function addTags(data) {
+
+}
 
 function listFiles(data) {
 
@@ -34,7 +40,13 @@ function listFiles(data) {
         var isPublic = document.createElement("td");
 
         id.innerHTML = parsed[i].id;
-        name.innerHTML = parsed[i].name;
+
+        if (parsed[i].name.length > 30) {
+            name.innerHTML = parsed[i].name.substring(0,30) + "...";
+        } else {
+            name.innerHTML = parsed[i].name;
+        }
+
         publicName.innerHTML = parsed[i].pubname;
         date.innerHTML = parsed[i].creation.substring(0, 10);
         isPublic.innerHTML = parsed[i].isPub;
@@ -66,24 +78,6 @@ function listFiles(data) {
     }   
 
 }
-
-
-
-/*
-{"id":221,"size":21423570,"creation":"2020-04-02T19:41:04.774808+02:00","name":"Geometry_Clash_0.1.zip","isPub":true,"pubname":"0oZIavSOmyzc1iuwNyiDn9JQM","attrib":{"ns":""},"e":""},
-
-<tr>
-    <td>1</td>
-    <td>Datei1</td>
-    <td>Text</td>
-    <td>1312 MB</td>
-    <td>03.04.2020</td>
-    <td>false</td>
- </tr>
-*/
-
-
-
 
 // TODO Work with respone from onClick Events json form : {"group":"name", "namespaceName":"namespace"}
 function addNamespaceAndGroups(data) {

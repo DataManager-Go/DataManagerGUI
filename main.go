@@ -184,14 +184,11 @@ func StartMainWindow(a *astilectron.Astilectron) {
 			fmt.Println(err.Error())
 			return
 		}
-		// id, size in byte, date, name, public name
-		// [{"id":221,"size":21423570,"creation":"2020-04-02T19:41:04.774808+02:00","name":"Geometry_Clash_0.1.zip","isPub":true,"pubname":"0oZIavSOmyzc1iuwNyiDn9JQM","attrib":{"ns":""},"e":""},{"id":232,"size":3178,"creation":"2020-04-02T23:31:16.17683+02:00","name":"test.zip","isPub":true,"pubname":"xphp5zXfeeag3XrWOEpAzghK9","attrib":{"ns":""},"e":""},{"id":233,"size":3178,"creation":"2020-04-02T23:31:34.268603+02:00","name":"test.zip","isPub":true,"pubname":"RkhTPQtIeHjFP00gfXAMzeCx0","attrib":{"ns":""},"e":""}]
 
 		SendMessage("files", string(files), HandleResponses)
 	}
 
-	// Send the initial data
-	//	SendMessage("namespace/groups", string(json), HandleResponses)
+	// Receive initial tags TODO
 
 	// Blocking pattern
 	a.Wait()
