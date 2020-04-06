@@ -88,7 +88,13 @@ var namespaceCount = 0;
 // TODO Work with respone from onClick Events json form : {"group":"name", "namespaceName":"namespace"}
 function addNamespaceAndGroups(data) {
  // Payload content: `{"user":"Username", "content":[["Default", "Group1", "Group2"], ["Namespace2", "Group1"]]}`
+
+     alert(data);
+
     var parsed = JSON.parse(data.payload);
+
+    alert(parsed);
+
     var namespaces = parsed.content;
     document.getElementById("barTitle").innerHTML = parsed.user;
 

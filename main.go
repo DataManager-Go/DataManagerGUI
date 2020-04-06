@@ -6,6 +6,7 @@ import (
 	"strings"
 	"time"
 
+	jsprotocol "github.com/DataManager-Go/DataManagerGUI/jsProtocol"
 	dmlib "github.com/DataManager-Go/libdatamanager"
 	"github.com/asticode/go-astikit"
 	"github.com/asticode/go-astilectron"
@@ -158,20 +159,31 @@ func StartMainWindow(a *astilectron.Astilectron) {
 	}
 
 	// Process the Namespaces / Groups information into a json
-	/*
-		var content [][]string
-		for i := 0; i < len(nsResp.Slice); i++ {
-			content[i][0] = nsResp.Slice[i]
-			resp2, err2 := manager.GetGroups(nsResp.Slice[i]) TODO not yet implemented
+	var content [][]string
+	for i := 0; i < len(nsResp.Slice); i++ {
 
+		// Request Groups from server
+		var ns []string
+		groupResp, err := manager.GetGroups(nsResp.Slice[i])
+
+		if err != nil {
+			fmt.Println(err.Error())
+			break
 		}
-		// TODO not yet implemented!
-		msg := jsprotocol.NamespaceGroupsList{User: config.User.Username, Content: content}
-		json, err := json.Marshal(msg)
-		_ = json
-		_ = err
-	*/
-	SendMessage("namespace/groups", `{"content":[["Default", "Group1", "Group2"], ["Namespace2", "Group1"], ["Namespace2", "Group1"], ["Namespace2", "Group1"], ["Namespace2", "Group1"], ["Namespace2", "Group1"], ["Namespace2", "Group1"], ["Namespace2", "Group1"], ["Namespace2", "Group1"]]}`, HandleResponses)
+		// Convert Attribute to string one after another
+		for _, att := range groupResp {
+			ns = append(ns, string(att))
+		}
+	}
+
+	msg := jsprotocol.NamespaceGroupsList{User: config.User.Username, Content: content}
+	namespaces, err := json.Marshal(msg)
+
+	if err != nil {
+		SendMessage("namespace/groups", string(namespaces), HandleResponses)
+	}
+
+	//SendMessage("namespace/groups", `{"content":[["Default", "Group1", "Group2"], ["Namespace2", "Group1"]]}`, HandleResponses)
 
 	// Receive initial files data
 	filesResp, err := manager.ListFiles("", 0, false, dmlib.FileAttributes{Namespace: config.Default.Namespace}, 0)
