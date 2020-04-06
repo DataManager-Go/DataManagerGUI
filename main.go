@@ -6,7 +6,6 @@ import (
 	"strings"
 	"time"
 
-	jsprotocol "github.com/DataManager-Go/DataManagerGUI/jsProtocol"
 	dmlib "github.com/DataManager-Go/libdatamanager"
 	"github.com/asticode/go-astikit"
 	"github.com/asticode/go-astilectron"
@@ -142,9 +141,8 @@ func StartMainWindow(a *astilectron.Astilectron) {
 	// Message handler
 	window.OnMessage(HandleMessages)
 
-	// Find data from default namespace
-	nsResp, err := manager.GetNamespaces()
-	_ = nsResp
+	// Receive namespaces and groups
+	err = SendInitialData()
 
 	// Error in config / server
 	if err != nil {
@@ -156,60 +154,6 @@ func StartMainWindow(a *astilectron.Astilectron) {
 		})()
 		StartLoginWindow(app)
 		return
-	}
-
-	// Process the Namespaces / Groups information into a json
-	var content [][]string
-	for i := 0; i < len(nsResp.Slice); i++ {
-		// Request Groups from server
-		var ns []string
-		groupResp, err := manager.GetGroups(nsResp.Slice[i])
-
-		if err != nil {
-			fmt.Println(err.Error())
-			break
-		}
-
-		if nsResp.Slice[i][len(config.User.Username)+1:] == "default" {
-			ns = append(ns, "Default")
-		} else {
-			ns = append(ns, nsResp.Slice[i][len(config.User.Username)+1:])
-		}
-
-		// Convert Attribute to string one after another
-		for _, att := range groupResp {
-			ns = append(ns, string(att))
-		}
-
-		content = append(content, ns)
-	}
-
-	msg := jsprotocol.NamespaceGroupsList{User: config.User.Username, Content: content}
-	namespaces, err := json.Marshal(msg)
-	fmt.Println(string(namespaces))
-
-	if err == nil {
-		SendMessage("namespace/groups", string(namespaces), HandleResponses)
-	}
-	//SendMessage("namespace/groups", `{"content":[["Default", "Group1", "Group2"], ["Namespace2", "Group1"]]}`, HandleResponses)
-
-	// receive initial tags data
-	var tagContent []string
-	tagResp, err := manager.GetTags(nsResp.Slice[0])
-
-	if err == nil {
-		for _, t := range tagResp {
-			tagContent = append(tagContent, string(t))
-		}
-	}
-
-	tagMsg := jsprotocol.TagList{User: config.User.Username, Content: tagContent}
-	tags, err := json.Marshal(tagMsg)
-
-	if err == nil {
-		fmt.Println(string(tags))
-		SendMessage("tags", string(tags), HandleResponses)
-		// SendMessage("tags", `{"user":"Yukaru", "content":["tag#1", "tag#2", "tag#3", "tag#123"]}`, HandleResponses)
 	}
 
 	// Receive initial files data

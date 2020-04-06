@@ -37,14 +37,6 @@ function addTags(data) {
     }
 }
 
-/*
-<div class="container text-left" style="margin-left: 0px;" id="tagList">
-    <button class="btn btn-dark btn-sm text-left" type="button" style="margin-right: 7px;background-color: rgb(18,24,31);">Tag#1</button>
-    <button class="btn btn-dark btn-sm text-left" type="button" style="margin-right: 7px; background-color: rgb(18,24,31);">Tag#2</button>
-    <button class="btn btn-dark btn-sm text-left" type="button" style="margin-right: 7px; background-color: rgb(18,24,31);">Tag#3</button>
-</div>
-*/
-
 var shownFileCap = 30;
 var files = []
 function listFiles(data) {
@@ -165,21 +157,28 @@ function addNamespaceAndGroups(data) {
             div.appendChild(div_a);
 
             var div_a_i = document.createElement("i");
+            div_a_i.addEventListener("click", OnListClick);
             div_a.appendChild(div_a_i);
+            
 
             var div_a_span = document.createElement("span");
+            div_a_span.addEventListener("click", OnListClick);
             div_a.appendChild(div_a_span);
+            
+            if (groups[0] === "Default") {groups[0] = "default";}
 
             if (j === 0) {
-                if (groups[0] == "Default") { div_a.setAttribute("id", `{"group":"ShowAllFiles", "namespace":"default"}`); }
-                else { div_a.setAttribute("id", `{"group":"ShowAllFiles", "namespace":"`+groups[0]+`"}`); }
+                div_a.setAttribute("id", `{"group":"ShowAllFiles", "namespace":"`+groups[0]+`"}`);
                 div_a_i.setAttribute("class", "fas fa-list mx-3");
+                div_a_i.setAttribute("id", `{"group":"ShowAllFiles", "namespace":"`+groups[0]+`"}`);
+                div_a_span.setAttribute("id", `{"group":"ShowAllFiles", "namespace":"`+groups[0]+`"}`);
                 div_a_span.innerHTML = "All files";
             } else {
-                if (groups[0] == "Default") { div_a.setAttribute("id", `{"group":"`+groups[j]+`", "namespace":"default"}`); }
-                else { div_a.setAttribute("id", `{"group":"`+groups[j]+`", "namespace":"`+groups[0]+`"}`); }
+                div_a.setAttribute("id", `{"group":"`+groups[j]+`", "namespace":"`+groups[0]+`"}`);
                 div_a_i.setAttribute("class", "far fa-folder mx-3");
+                div_a_i.setAttribute("id", `{"group":"`+groups[j]+`", "namespace":"`+groups[0]+`"}`);
                 div_a_span.innerHTML = groups[j];
+                div_a_span.setAttribute("id", `{"group":"`+groups[j]+`", "namespace":"`+groups[0]+`"}`);
             }
             div_a.addEventListener("click", OnListClick);
         }   
