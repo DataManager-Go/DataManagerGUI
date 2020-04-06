@@ -64,3 +64,15 @@
 function OnListClick(e) {
     alert(e.target.attributes.id.value);       
 }
+
+// Resize Handler
+function onResize() {
+    console.log($(window).height());
+    if ($(window).height() < 70 * namespaceCount) {    
+        document.getElementById("SideBar").classList.remove("flex-column");
+        document.getElementById("title").setAttribute("style", "padding-left: 1.655rem");
+    } else {
+        document.getElementById("SideBar").classList.add("flex-column");
+        document.getElementById("title").setAttribute("style", "padding-left: 0rem");
+    }
+}

@@ -16,7 +16,7 @@ document.addEventListener('astilectron-ready', function() {
             addTags(obj);
         }
 
-		return message;
+		return "";
     });
 })
 
@@ -24,7 +24,7 @@ function addTags(data) {
 
 }
 
-var shownFileCap = 40;
+var shownFileCap = 30;
 var files = []
 function listFiles(data) {
 
@@ -55,7 +55,7 @@ function listFiles(data) {
 
         var byteSize = parsed[i].size;
 
-        if (byteSize == 0) {
+        if (byteSize == 1) {
             size.innerHTML = byteSize + " byte"
         }
         else if (byteSize <= 1000) {
@@ -84,12 +84,20 @@ function listFiles(data) {
 
 }
 
+var namespaceCount = 0;
 // TODO Work with respone from onClick Events json form : {"group":"name", "namespaceName":"namespace"}
 function addNamespaceAndGroups(data) {
  // Payload content: `{"user":"Username", "content":[["Default", "Group1", "Group2"], ["Namespace2", "Group1"]]}`
     var parsed = JSON.parse(data.payload);
     var namespaces = parsed.content;
     document.getElementById("barTitle").innerHTML = parsed.user;
+
+   // 700 -> 10 elemente = 70 pro element
+
+    if ($(window).height() < 70 * namespaces.length) {
+        document.getElementById("SideBar").classList.remove("flex-column");
+    }
+    namespaceCount = namespaces.length;
 
     for (var i = 0; i < namespaces.length; i++) {
     
@@ -98,10 +106,10 @@ function addNamespaceAndGroups(data) {
         // Add Namespaces
         var ns = document.createElement("LI");
         ns.setAttribute("class", "nav-item dropdown");
+        ns.setAttribute("style", "width: 100%;");
         ns.addEventListener("mousedown", OnListClick);
 
         var ns_a = document.createElement("a");
-        
         ns_a.setAttribute("href", "#");
         ns_a.setAttribute("class", "dropdown-toggle nav-link text-left text-white py-1 px-0 position-relative");
         ns_a.setAttribute("data-toggle", "dropdown");

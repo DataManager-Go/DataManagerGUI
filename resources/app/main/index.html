@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 
-<body style="background-color: rgb(230, 230, 230); height: 369px; user-select: none;">
+<body style="background-color: rgb(230, 230, 230); height: 369px; user-select: none;" onresize="onResize()">
 
 	<!-- Above file table -->
     <div class="page-content-wrapper">
@@ -53,19 +53,25 @@
 	
 	<!-- Page Navigation -->
     <div class="container" style="padding-bottom: 2rem;">
-        <div class="text-center"><button class="btn btn-primary border rounded-circle" type="button" style="background-color: rgba(0,0,0,0.2);color: rgb(0,0,0);">1</button><button class="btn btn-primary border rounded-circle" type="button" style="color: rgb(0,0,0);background-color: rgba(0,123,255,0);">2</button>
-            <button
-                class="btn btn-primary border rounded-circle" type="button" style="background-color: rgba(0,123,255,0);color: rgb(0,0,0);">3</button><button class="btn btn-primary border rounded-circle" type="button" style="color: rgb(0,0,0);background-color: rgba(0,123,255,0);">4</button><button class="btn btn-primary border rounded-circle" type="button" style="color: rgb(0,0,0);background-color: rgba(0,123,255,0);">...</button>
-                <button
-                    class="btn btn-primary border rounded-circle" type="button" style="color: rgb(0,0,0);background-color: rgba(0,123,255,0);">7</button>
+        <div class="text-center">
+            <button class="btn btn-primary border rounded-circle" type="button" style="color: rgb(0,0,0);background-color: rgba(0,0,0,0.2);">1</button>
+            <button class="btn btn-primary border rounded-circle" type="button" style="color: rgb(0,0,0);background-color: rgba(0,123,255,0);">2</button>
+            <button class="btn btn-primary border rounded-circle" type="button" style="color: rgb(0,0,0);background-color: rgba(0,123,255,0);">3</button>
+            <button class="btn btn-primary border rounded-circle" type="button" style="color: rgb(0,0,0);background-color: rgba(0,123,255,0);">4</button>
+            <button class="btn btn-primary border rounded-circle" type="button" style="color: rgb(0,0,0);background-color: rgba(0,123,255,0);">...</button>
+            <button class="btn btn-primary border rounded-circle" type="button" style="color: rgb(0,0,0);background-color: rgba(0,123,255,0);">7</button>
         </div>
     </div>
     </div>
 	
-	<!-- Sidebar -->
-    <ul class="nav flex-column shadow d-flex sidebar mobile-hid" style="background-color: rgb(18,24,31);" id="SideBar">
+    <!-- Sidebar flex-column = problem bei größeren mengen!-->
+    <ul class="nav flex-column shadow d-flex sidebar mobile-hid" style="background-color: rgb(18,24,31); overflow: auto;" id="SideBar">
         <li class="nav-item logo-holder">
-            <div class="text-center text-white logo py-4 mx-4"><a class="text-white text-decoration-none" id="title" href="#"><strong id="barTitle">Namespaces</strong></a></div>
+            <div class="text-center text-white logo py-4 mx-4">
+                <a class="text-white text-decoration-none" id="title" href="#">
+                    <strong id="barTitle">Namespaces</strong>
+                </a>
+            </div>
         </li>
         <!-- Namspaces / Groups will be imported here -->
     </ul>
