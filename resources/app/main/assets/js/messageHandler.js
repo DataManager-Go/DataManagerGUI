@@ -87,13 +87,7 @@ function listFiles(data) {
 var namespaceCount = 0;
 // TODO Work with respone from onClick Events json form : {"group":"name", "namespaceName":"namespace"}
 function addNamespaceAndGroups(data) {
- // Payload content: `{"user":"Username", "content":[["Default", "Group1", "Group2"], ["Namespace2", "Group1"]]}`
-
-     alert(data);
-
     var parsed = JSON.parse(data.payload);
-
-    alert(parsed);
 
     var namespaces = parsed.content;
     document.getElementById("barTitle").innerHTML = parsed.user;
@@ -156,11 +150,13 @@ function addNamespaceAndGroups(data) {
             div_a.appendChild(div_a_span);
 
             if (j === 0) {
-                div_a.setAttribute("id", `{"group":"ShowAllFiles", "namespace":"`+groups[0]+`"}`);
+                if (groups[0] == "Default") { div_a.setAttribute("id", `{"group":"ShowAllFiles", "namespace":"default"}`); }
+                else { div_a.setAttribute("id", `{"group":"ShowAllFiles", "namespace":"`+groups[0]+`"}`); }
                 div_a_i.setAttribute("class", "fas fa-list mx-3");
                 div_a_span.innerHTML = "All files";
             } else {
-                div_a.setAttribute("id", `{"group":"`+groups[j]+`", "namespace":"`+groups[0]+`"}`);
+                if (groups[0] == "Default") { div_a.setAttribute("id", `{"group":"`+groups[j]+`", "namespace":"default"}`); }
+                else { div_a.setAttribute("id", `{"group":"`+groups[j]+`", "namespace":"`+groups[0]+`"}`); }
                 div_a_i.setAttribute("class", "far fa-folder mx-3");
                 div_a_span.innerHTML = groups[j];
             }
