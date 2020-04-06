@@ -20,9 +20,30 @@ document.addEventListener('astilectron-ready', function() {
     });
 })
 
+// TODO Button press event
 function addTags(data) {
+    var parsed = JSON.parse(data.payload).content;
 
+    if (parsed === "undefined") { return; }
+
+    for (var i = 0; i < parsed.length; i++) {
+        var btn = document.createElement("button");
+        btn.setAttribute("class", "btn btn-dark btn-sm text-left");
+        btn.setAttribute("type", "button");
+        btn.setAttribute("style", "margin-right: 7px;background-color: rgb(18,24,31);");
+        btn.innerHTML = parsed[i];
+
+        document.getElementById("tagList").appendChild(btn);
+    }
 }
+
+/*
+<div class="container text-left" style="margin-left: 0px;" id="tagList">
+    <button class="btn btn-dark btn-sm text-left" type="button" style="margin-right: 7px;background-color: rgb(18,24,31);">Tag#1</button>
+    <button class="btn btn-dark btn-sm text-left" type="button" style="margin-right: 7px; background-color: rgb(18,24,31);">Tag#2</button>
+    <button class="btn btn-dark btn-sm text-left" type="button" style="margin-right: 7px; background-color: rgb(18,24,31);">Tag#3</button>
+</div>
+*/
 
 var shownFileCap = 30;
 var files = []

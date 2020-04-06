@@ -191,8 +191,26 @@ func StartMainWindow(a *astilectron.Astilectron) {
 	if err == nil {
 		SendMessage("namespace/groups", string(namespaces), HandleResponses)
 	}
-
 	//SendMessage("namespace/groups", `{"content":[["Default", "Group1", "Group2"], ["Namespace2", "Group1"]]}`, HandleResponses)
+
+	// receive initial tags data
+	var tagContent []string
+	tagResp, err := manager.GetTags(nsResp.Slice[0])
+
+	if err == nil {
+		for _, t := range tagResp {
+			tagContent = append(tagContent, string(t))
+		}
+	}
+
+	tagMsg := jsprotocol.TagList{User: config.User.Username, Content: tagContent}
+	tags, err := json.Marshal(tagMsg)
+
+	if err == nil {
+		fmt.Println(string(tags))
+		SendMessage("tags", string(tags), HandleResponses)
+		// SendMessage("tags", `{"user":"Yukaru", "content":["tag#1", "tag#2", "tag#3", "tag#123"]}`, HandleResponses)
+	}
 
 	// Receive initial files data
 	filesResp, err := manager.ListFiles("", 0, false, dmlib.FileAttributes{Namespace: config.Default.Namespace}, 0)
