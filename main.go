@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"strings"
 	"time"
 
@@ -60,8 +61,16 @@ func main() {
 		}
 	}
 
+	// Try to get config
+	rconf, err := config.ToRequestConfig()
+	if err != nil {
+		// TODO Display error here. Also in login.go:119
+		log.Fatal(err)
+		return
+	}
+
 	// Create corresponding manager
-	manager = dmlib.NewLibDM(config.ToRequestConfig())
+	manager = dmlib.NewLibDM(rconf)
 
 	if config.IsLoggedIn() {
 		StartMainWindow(app)

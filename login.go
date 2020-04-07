@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"strings"
 	"time"
 
@@ -112,7 +113,14 @@ func Login(f loginForm) string {
 			fmt.Println("Error saving config:", err.Error())
 			return "SaveError"
 		}
-		manager = dmlib.NewLibDM(config.ToRequestConfig())
+		// Try to get config
+		rconf, err := config.ToRequestConfig()
+		if err != nil {
+			// TODO Display error here
+			log.Fatal(err)
+			return ""
+		}
+		manager = dmlib.NewLibDM(rconf)
 
 		// Success
 		return "success"
