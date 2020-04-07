@@ -7,6 +7,7 @@ import (
 	"time"
 
 	dmlib "github.com/DataManager-Go/libdatamanager"
+	dmConfig "github.com/DataManager-Go/libdatamanager/config"
 	"github.com/asticode/go-astikit"
 	"github.com/asticode/go-astilectron"
 )
@@ -16,7 +17,7 @@ var (
 	window          *astilectron.Window
 	elementsPerPage = 30
 	userToken       string
-	config          *dmlib.Config
+	config          *dmConfig.Config
 	manager         *dmlib.LibDM
 )
 
@@ -43,17 +44,16 @@ func main() {
 	}
 
 	// ------------- Main Stuff ----------------
-
 	//Init config
-	config, err = dmlib.InitConfig(dmlib.GetDefaultConfigFile(), "")
+	config, err = dmConfig.InitConfig(dmConfig.GetDefaultConfigFile(), "")
 	if err != nil {
 		fmt.Println(err.Error())
 		return
 	}
 
-	// No config found: use the newly created one
+	// No config found: use the newly created one>
 	if config == nil {
-		config, err = dmlib.InitConfig(dmlib.GetDefaultConfigFile(), "")
+		config, err = dmConfig.InitConfig(dmConfig.GetDefaultConfigFile(), "")
 		if err != nil {
 			fmt.Println(err.Error())
 			return

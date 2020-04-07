@@ -101,13 +101,7 @@ func Login(f loginForm) string {
 	} else if len(resp.Token) > 0 {
 		fmt.Println("Response Login Success")
 		//put username and token in config
-		config.User = struct {
-			Username     string
-			SessionToken string
-		}{
-			Username:     f.Name,
-			SessionToken: resp.Token,
-		}
+		config.InsertUser(f.Name, resp.Token)
 
 		//Set default namespace to users
 		config.Default.Namespace = resp.Namespace
