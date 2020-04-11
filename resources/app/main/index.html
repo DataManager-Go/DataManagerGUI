@@ -19,18 +19,20 @@
 
 	<!-- Above file table -->
     <div class="page-content-wrapper">
-        <div class="container-fluid text-left" style="margin-left: 0px;margin-right: 100%;margin-bottom: 20px;width: 100%;"><button class="btn btn-dark text-left" type="button" style="margin-right: 7px;margin-bottom: -57px;background-color: rgb(18,24,31);">Upload</button><button class="btn btn-dark text-left" type="button" style="margin-right: 7px;margin-bottom: -57px;background-color: rgb(18,24,31);">Download</button>
+        <div class="container-fluid text-left" style="margin-left: 0px;margin-right: 100%;margin-bottom: 20px;width: 100%;">
+            <button class="btn btn-dark text-left" type="button" style="margin-right: 7px;margin-bottom: -57px;background-color: rgb(18,24,31);">Upload</button>
+            <button class="btn btn-dark text-left" type="button" style="margin-right: 7px;margin-bottom: -57px;background-color: rgb(18,24,31);" onclick="downloadSelectedFiles()">Download</button>
             <div class="text-right md-form active-cyan-2 mb-3">
                 <input type="text" class="form-control" placeholder="Search files" aria-label="Search" style="width: 21%;margin-left: 78%;">
             </div>
+        </div>
     </div>
-	
+        
 	<!-- File table -->
-    
     <div class="table-responsive" style="margin-left: 0;">
         <table class="table" id="tableID">
             <thead style="background-color: #12181f;">
-                <tr unselecatble="off" onselectstart="return true;">
+                <tr unselectable="off" onselectstart="return true;">
                     <th style="border-bottom: 0px;color: white;">ID</th>
                     <th style="border-bottom: 0px;color: white;">&nbsp;Name</th>
                     <th style="border-bottom: 0px;color: white;">PublicName</th>
@@ -57,7 +59,6 @@
             <!-- Navigation-Buttons will be created here -->
         </div>
     </div>
-    </div>
 	
     <!-- Sidebar -->
     <ul class="nav flex-column shadow d-flex sidebar mobile-hid" style="background-color: rgb(18,24,31); overflow: auto;" id="SideBar">
@@ -80,6 +81,7 @@
     <script src="assets/js/sidebar.js"></script>
     <script src="assets/js/table.js"></script>
     <script src="assets/js/messageHandler.js"></script>
+    <script src="assets/js/fileHandler.js"></script>
 </body>
 
 </html>
