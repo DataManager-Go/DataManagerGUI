@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"strings"
 	"time"
 
@@ -101,13 +102,7 @@ func Login(f loginForm) string {
 	} else if len(resp.Token) > 0 {
 		fmt.Println("Response Login Success")
 		//put username and token in config
-		config.User = struct {
-			Username     string
-			SessionToken string
-		}{
-			Username:     f.Name,
-			SessionToken: resp.Token,
-		}
+		config.InsertUser(f.Name, resp.Token)
 
 		//Set default namespace to users
 		config.Default.Namespace = resp.Namespace
@@ -118,7 +113,14 @@ func Login(f loginForm) string {
 			fmt.Println("Error saving config:", err.Error())
 			return "SaveError"
 		}
-		manager = dmlib.NewLibDM(config.ToRequestConfig())
+		// Try to get config
+		rconf, err := config.ToRequestConfig()
+		if err != nil {
+			// TODO Display error here
+			log.Fatal(err)
+			return ""
+		}
+		manager = dmlib.NewLibDM(rconf)
 
 		// Success
 		return "success"

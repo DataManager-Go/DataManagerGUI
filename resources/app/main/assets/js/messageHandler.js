@@ -10,7 +10,7 @@ document.addEventListener('astilectron-ready', function() {
            addNamespaceAndGroups(obj);
         }
         else if (obj.type === "files") {
-           listFiles(obj);
+            listFiles(obj);
         }
         else if(obj.type === "tags") {
             addTags(obj);
@@ -39,10 +39,12 @@ function addTags(data) {
 
 var shownFileCap = 30;
 var files = []
+// listFiles will add up to 30 files to the body and preserve the rest
 function listFiles(data) {
 
     var parsed = JSON.parse(data.payload);
 
+    // For every element: do cool html stuff
     for (var i = 0; i < parsed.length; i++) {
 
         var tr = document.createElement("tr");
@@ -90,11 +92,13 @@ function listFiles(data) {
 
         files.push(tr)
         if (i < shownFileCap) {
+            // Append files to body
             document.getElementById("tableBody").appendChild(tr);
         }
         makeTableHighlightable();
     }   
-
+    
+    createNavigationButtons(1);
 }
 
 var namespaceCount = 0;
@@ -191,23 +195,3 @@ function addNamespaceAndGroups(data) {
         document.getElementById("SideBar").appendChild(ns);
     }
 }
-
-
-/*
-<li class="nav-item dropdown">
-    <a class="dropdown-toggle nav-link text-left text-white py-1 px-0 position-relative" data-toggle="dropdown" aria-expanded="false" href="#">
-        <i class="far fa-list-alt mx-3"></i>
-        <span class="text-nowrap mx-2">Namespace2</span>
-       <i class="fas fa-caret-down float-none float-lg-right fa-sm"></i>
-    </a>
-
-    <div class="dropdown-menu border-0 animated fadeIn" role="menu">
-		<a class="dropdown-item text-white" role="presentation" href="#">
-			<i class="far fa-folder mx-3"></i>
-			<span>Folder 1</span>
-         </a>
-    </div>
- </li>
-
- https://stackoverflow.com/questions/24665677/call-javascript-function-by-clicking-on-html-list-element/24665785
-*/

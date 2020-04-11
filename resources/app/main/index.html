@@ -19,9 +19,10 @@
 
 	<!-- Above file table -->
     <div class="page-content-wrapper">
-        <div class="container-fluid text-left" style="margin-left: 0px;margin-right: 100%;margin-bottom: 20px;width: 100%;"><button class="btn btn-dark text-left" type="button" style="margin-right: 7px;margin-bottom: -47px;background-color: rgb(18,24,31);">Upload</button><button class="btn btn-dark text-left" type="button" style="margin-right: 7px;margin-bottom: -47px;background-color: rgb(18,24,31);">Download</button>
-            <div
-                class="text-right md-form active-cyan-2 mb-3"><input type="text" class="form-control" placeholder="Search files" aria-label="Search" style="width: 21%;margin-left: 78%;"></div>
+        <div class="container-fluid text-left" style="margin-left: 0px;margin-right: 100%;margin-bottom: 20px;width: 100%;"><button class="btn btn-dark text-left" type="button" style="margin-right: 7px;margin-bottom: -57px;background-color: rgb(18,24,31);">Upload</button><button class="btn btn-dark text-left" type="button" style="margin-right: 7px;margin-bottom: -57px;background-color: rgb(18,24,31);">Download</button>
+            <div class="text-right md-form active-cyan-2 mb-3">
+                <input type="text" class="form-control" placeholder="Search files" aria-label="Search" style="width: 21%;margin-left: 78%;">
+            </div>
     </div>
 	
 	<!-- File table -->
@@ -52,13 +53,8 @@
 	
 	<!-- Page Navigation -->
     <div class="container" style="padding-bottom: 2rem;">
-        <div class="text-center">
-            <button class="btn btn-primary border rounded-circle" type="button" style="color: rgb(0,0,0);background-color: rgba(0,0,0,0.2);">1</button>
-            <button class="btn btn-primary border rounded-circle" type="button" style="color: rgb(0,0,0);background-color: rgba(0,123,255,0);">2</button>
-            <button class="btn btn-primary border rounded-circle" type="button" style="color: rgb(0,0,0);background-color: rgba(0,123,255,0);">3</button>
-            <button class="btn btn-primary border rounded-circle" type="button" style="color: rgb(0,0,0);background-color: rgba(0,123,255,0);">4</button>
-            <button class="btn btn-primary border rounded-circle" type="button" style="color: rgb(0,0,0);background-color: rgba(0,123,255,0);">...</button>
-            <button class="btn btn-primary border rounded-circle" type="button" style="color: rgb(0,0,0);background-color: rgba(0,123,255,0);">7</button>
+        <div class="text-center" id="buttonContainer">
+            <!-- Navigation-Buttons will be created here -->
         </div>
     </div>
     </div>
@@ -75,9 +71,11 @@
         <!-- Namspaces / Groups will be imported here -->
     </ul>
 
+    <!-- Scripts in their load order -->
     <script src="assets/js/jquery.min.js"></script>
     <script>window.$ = window.jQuery = require('./assets/js/jquery.min.js');</script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/pageNavigation.js"></script>
     <script src="assets/js/Sidebar-Menu.js"></script>
     <script src="assets/js/sidebar.js"></script>
     <script src="assets/js/table.js"></script>

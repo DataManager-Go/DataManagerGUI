@@ -1,12 +1,13 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
+	"log"
 	"strings"
 	"time"
 
 	dmlib "github.com/DataManager-Go/libdatamanager"
+	dmConfig "github.com/DataManager-Go/libdatamanager/config"
 	"github.com/asticode/go-astikit"
 	"github.com/asticode/go-astilectron"
 )
@@ -16,7 +17,7 @@ var (
 	window          *astilectron.Window
 	elementsPerPage = 30
 	userToken       string
-	config          *dmlib.Config
+	config          *dmConfig.Config
 	manager         *dmlib.LibDM
 )
 
@@ -43,25 +44,32 @@ func main() {
 	}
 
 	// ------------- Main Stuff ----------------
-
 	//Init config
-	config, err = dmlib.InitConfig(dmlib.GetDefaultConfigFile(), "")
+	config, err = dmConfig.InitConfig(dmConfig.GetDefaultConfigFile(), "")
 	if err != nil {
 		fmt.Println(err.Error())
 		return
 	}
 
-	// No config found: use the newly created one
+	// No config found: use the newly created one>
 	if config == nil {
-		config, err = dmlib.InitConfig(dmlib.GetDefaultConfigFile(), "")
+		config, err = dmConfig.InitConfig(dmConfig.GetDefaultConfigFile(), "")
 		if err != nil {
 			fmt.Println(err.Error())
 			return
 		}
 	}
 
+	// Try to get config
+	rconf, err := config.ToRequestConfig()
+	if err != nil {
+		// TODO Display error here. Also in login.go:119
+		log.Fatal(err)
+		return
+	}
+
 	// Create corresponding manager
-	manager = dmlib.NewLibDM(config.ToRequestConfig())
+	manager = dmlib.NewLibDM(rconf)
 
 	if config.IsLoggedIn() {
 		StartMainWindow(app)
@@ -112,8 +120,6 @@ func StartLoginWindow(a *astilectron.Astilectron) {
 		SendString("URL%%"+config.Server.URL, HandleResponses)
 	}
 
-	// window.OpenDevTools()
-
 	// Blocking pattern
 	a.Wait()
 }
@@ -157,22 +163,15 @@ func StartMainWindow(a *astilectron.Astilectron) {
 	}
 
 	// Receive initial files data
-	filesResp, err := manager.ListFiles("", 0, false, dmlib.FileAttributes{Namespace: config.Default.Namespace}, 0)
+	json, err := GetFiles("", 0, false, config.Default.Namespace, 0)
 
 	if err != nil {
 		fmt.Println(err.Error())
 	} else {
-		files, err := json.Marshal(filesResp.Files)
-
-		if err != nil {
-			fmt.Println(err.Error())
-			return
-		}
-
-		SendMessage("files", string(files), HandleResponses)
+		SendMessage("files", json, HandleResponses)
 	}
 
-	// window.OpenDevTools()
 	// Blocking pattern
+	// window.OpenDevTools()
 	a.Wait()
 }
