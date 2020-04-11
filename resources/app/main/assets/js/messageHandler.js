@@ -134,7 +134,11 @@ function addNamespaceAndGroups(data) {
 
         ns_a_span = document.createElement("span");
         ns_a_span.setAttribute("class", "text-nowrap mx-2");
-        ns_a_span.innerHTML = groups[0];
+
+        var name = groups[0];
+        if (name.length > 16) {name = name.substring(0,16)+"..."}
+
+        ns_a_span.innerHTML = name;
         ns_a.append(ns_a_span);
 
         ns_a_i2 = document.createElement("i");

@@ -172,7 +172,6 @@ func StartMainWindow(a *astilectron.Astilectron) {
 		SendMessage("files", string(files), HandleResponses)
 	}
 
-	// Receive initial tags TODO
 	// window.OpenDevTools()
 	// Blocking pattern
 	a.Wait()
