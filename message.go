@@ -4,8 +4,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"path/filepath"
+	"strings"
 
 	jsprotocol "github.com/DataManager-Go/DataManagerGUI/jsProtocol"
+	"github.com/JojiiOfficial/gaw"
 	"github.com/asticode/go-astilectron"
 )
 
@@ -28,8 +31,13 @@ func HandleMessages(m *astilectron.EventMessage) interface{} {
 	}
 
 	// Process message
-	if ms.Type == "hello" {
-		return "world"
+	if ms.Type == "download" {
+		fileIDs, err := strToUIntslice(strings.Split(ms.Payload, ";"))
+		if err != nil {
+			return ""
+		}
+		downloadFiles(fileIDs, filepath.Join(gaw.GetHome(), "Downloads"))
+		return ""
 	}
 	return nil
 }
