@@ -108,7 +108,6 @@ func SendTags(namespace string) {
 	if err == nil {
 		fmt.Println(string(tags))
 		SendMessage("tags", string(tags), HandleResponses)
-		// SendMessage("tags", `{"user":"Yukaru", "content":["tag#1", "tag#2", "tag#3", "tag#123"]}`, HandleResponses)
 	}
 }
 
