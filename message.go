@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	jsprotocol "github.com/DataManager-Go/DataManagerGUI/jsProtocol"
+	dmlib "github.com/DataManager-Go/libdatamanager"
 	"github.com/JojiiOfficial/gaw"
 	"github.com/asticode/go-astilectron"
 )
@@ -51,7 +52,13 @@ func HandleMessages(m *astilectron.EventMessage) interface{} {
 		err = json.Unmarshal([]byte(ms.Payload), &info)
 
 		// Receive initial files data
-		json, err := GetFiles("", 0, false, info.Namespace, info.Group, 0)
+		var json string
+		var err error
+		if info.Group == "ShowAllFiles" {
+			json, err = GetFiles("", 0, false, dmlib.FileAttributes{Namespace: info.Namespace}, 0)
+		} else {
+			json, err = GetFiles("", 0, false, dmlib.FileAttributes{Namespace: info.Namespace, Groups: []string{info.Group}}, 0)
+		}
 
 		if err != nil {
 			fmt.Println(err.Error())
