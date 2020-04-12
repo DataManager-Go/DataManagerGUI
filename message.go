@@ -19,12 +19,13 @@ type message struct {
 
 // HandleMessages handles incoming messages from the JS
 func HandleMessages(m *astilectron.EventMessage) interface{} {
-	// Unmarshal
+	// Unmarshal into (json-)string
 	var s string
 	err := m.Unmarshal(&s)
 
+	// Unmarshal into struct
 	var ms message
-	err = m.Unmarshal(&s)
+	err = json.Unmarshal([]byte(s), &ms)
 
 	if err != nil {
 		fmt.Println(err.Error())
@@ -36,7 +37,7 @@ func HandleMessages(m *astilectron.EventMessage) interface{} {
 		if err != nil {
 			return ""
 		}
-		downloadFiles(fileIDs, filepath.Join(gaw.GetHome(), "Downloads"))
+		DownloadFiles(fileIDs, filepath.Join(gaw.GetHome(), "Downloads"))
 		return ""
 	}
 	return nil

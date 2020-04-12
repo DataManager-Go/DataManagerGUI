@@ -135,6 +135,7 @@ func StartMainWindow(a *astilectron.Astilectron) {
 		Width:     astikit.IntPtr(1300),
 		MinHeight: astikit.IntPtr(500),
 		MinWidth:  astikit.IntPtr(500),
+		Icon:      astikit.StrPtr("./resources/icon.png"), // Windows only
 	}); err != nil {
 		fmt.Println(err.Error())
 	}

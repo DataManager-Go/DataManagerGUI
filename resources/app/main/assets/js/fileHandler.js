@@ -20,5 +20,6 @@ function downloadSelectedFiles() {
         }
     }
     
-    astilectron.sendMessage(`{"type":"download", "payload":"`+requestedFiles+`"}`, function(message) {});
+    astilectron.sendMessage(`{"type":"download", "payload":"`+requestedFiles+`"}`, function(message) {alert(message)});
+    alert(`{"type":"download", "payload":"`+requestedFiles+`"}`);
 }
