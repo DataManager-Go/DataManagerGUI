@@ -14,18 +14,25 @@ var (
 )
 
 // GetFiles returns a json containing all found files using the args
-func GetFiles(name string, id uint, allNamespaces bool, specificNamespace string, verbose uint8) (string, error) {
-	filesResp, err := manager.ListFiles(name, id, allNamespaces, dmlib.FileAttributes{Namespace: specificNamespace}, verbose)
+func GetFiles(name string, id uint, allNamespaces bool, specificNamespace string, group string, verbose uint8) (string, error) {
+
+	var filesResp *dmlib.FileListResponse
+	var err error
+
+	if group == "" || group == "ShowAllFiles" {
+		filesResp, err = manager.ListFiles(name, id, allNamespaces, dmlib.FileAttributes{Namespace: specificNamespace}, verbose)
+	} else {
+		filesResp, err = manager.ListFiles(name, id, allNamespaces, dmlib.FileAttributes{Namespace: specificNamespace, Groups: []string{group}}, verbose)
+	}
 
 	if err != nil {
 		return "", err
-	} else {
-		files, err := json.Marshal(filesResp.Files)
-
-		if err != nil {
-			return "", err
-		}
-
-		return string(files), nil
 	}
+	files, err := json.Marshal(filesResp.Files)
+
+	if err != nil {
+		return "", err
+	}
+
+	return string(files), nil
 }

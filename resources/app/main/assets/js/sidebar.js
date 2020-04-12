@@ -1,3 +1,8 @@
+$("#menu-toggle").click(function(e) {
+    e.preventDefault();
+    $("#wrapper").toggleClass("toggled");
+});
+
 (function($) {
     
     let win = $(window);
@@ -60,9 +65,14 @@
 
 
 // List-click Handler
-
 function OnListClick(e) {
-    alert(e.target.attributes.id.value);       
+
+    var json = {
+        type: "changeNamespaceOrGroup",
+        payload: e.target.attributes.id.value
+    };
+
+    astilectron.sendMessage(JSON.stringify(json), function(message) {});
 }
 
 // Resize Handler

@@ -31,13 +31,14 @@ function createNavigationButtons(currentPage) {
     var fileAmount = files.length;
     var buttonsNeeded = Math.floor(fileAmount / shownFileCap);
 
-    if (fileAmount / 50 < 1) {return;}
+    // Delete potential former navigation buttons
+    document.getElementById("buttonContainer").innerHTML = "";
+
+    // Return if not even a page was filled
+    if (fileAmount / shownFileCap < 1) {return;}
 
     var i = 1;
     var stop = buttonsNeeded;
-
-    // Delete potential former buttons
-    document.getElementById("buttonContainer").innerHTML = "";
 
     // On higher pages, "..." the beginning
     var usedPreBtns = false;

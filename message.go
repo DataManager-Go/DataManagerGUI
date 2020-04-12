@@ -17,6 +17,11 @@ type message struct {
 	Payload string `json:"payload"`
 }
 
+type namespaceGroupInfo struct {
+	Group     string `json:"group"`
+	Namespace string `json:"namespace"`
+}
+
 // HandleMessages handles incoming messages from the JS
 func HandleMessages(m *astilectron.EventMessage) interface{} {
 	// Unmarshal into (json-)string
@@ -38,6 +43,21 @@ func HandleMessages(m *astilectron.EventMessage) interface{} {
 			return ""
 		}
 		DownloadFiles(fileIDs, filepath.Join(gaw.GetHome(), "Downloads"))
+		//os.Getenv("download") TODO
+		return ""
+	} else if ms.Type == "changeNamespaceOrGroup" {
+		// Parse payload json
+		var info namespaceGroupInfo
+		err = json.Unmarshal([]byte(ms.Payload), &info)
+
+		// Receive initial files data
+		json, err := GetFiles("", 0, false, info.Namespace, info.Group, 0)
+
+		if err != nil {
+			fmt.Println(err.Error())
+		} else {
+			SendMessage("files", json, HandleResponses)
+		}
 		return ""
 	}
 	return nil

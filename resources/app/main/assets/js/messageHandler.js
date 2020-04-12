@@ -10,6 +10,10 @@ document.addEventListener('astilectron-ready', function() {
            addNamespaceAndGroups(obj);
         }
         else if (obj.type === "files") {
+            
+            // Delete potential former navigation buttons
+            document.getElementById("buttonContainer").innerHTML = "";
+
             listFiles(obj);
         }
         else if(obj.type === "tags") {
@@ -53,6 +57,10 @@ var shownFileCap = 30;
 var files = []
 // listFiles will add up to 30 files to the body and preserve the rest
 function listFiles(data) {
+    // Remove potential former entries
+    files = null;
+    files = [];
+    document.getElementById("tableBody").innerHTML = "";
 
     var parsed = JSON.parse(data.payload);
 
@@ -114,7 +122,6 @@ function listFiles(data) {
 }
 
 var namespaceCount = 0;
-// TODO Work with respone from onClick Events json form : {"group":"name", "namespaceName":"namespace"}
 function addNamespaceAndGroups(data) {
     var parsed = JSON.parse(data.payload);
 
@@ -185,7 +192,7 @@ function addNamespaceAndGroups(data) {
             div_a_span.addEventListener("click", OnListClick);
             div_a.appendChild(div_a_span);
             
-            if (groups[0] === "Default") {groups[0] = "default";}
+            if (groups[0] === "Default") {groups[0] = parsed.user+"_default";}
 
             if (j === 0) {
                 div_a.setAttribute("id", `{"group":"ShowAllFiles", "namespace":"`+groups[0]+`"}`);
