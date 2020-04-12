@@ -29,3 +29,14 @@ function UpdateDownloadInformation(informations) {
         document.getElementById("progressBar").style.width = informations[1]+"%";
     }
 }
+
+// Cancels any current download
+function cancelDownload() {
+
+    var json = {
+        type: "cancelDownload",
+        payload: ""
+    };
+
+    astilectron.sendMessage(JSON.stringify(json), function(message) {});
+}
