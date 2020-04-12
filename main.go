@@ -76,7 +76,6 @@ func main() {
 	} else {
 		StartLoginWindow(app)
 	}
-
 }
 
 // StartLoginWindow opens the login window

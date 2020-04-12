@@ -15,6 +15,18 @@ document.addEventListener('astilectron-ready', function() {
         else if(obj.type === "tags") {
             addTags(obj);
         }
+        else if (obj.type ==="downloadProgess") {
+            document.getElementById("progressBar").style.width = message.payload+"%";
+        }
+        else if (obj.type === "closeOverlay") {
+            modal.style.display = "none";
+        } 
+        else if (obj.type === "openDownloadOverlay") {
+            OpenDownloadOverlay(obj.payload);
+        }
+        else if (obj.type === "updateOverlay") {
+            UpdateOverlayInformation(obj.payload.split(";"))
+        }
 
 		return "";
     });

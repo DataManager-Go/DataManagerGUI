@@ -80,7 +80,6 @@ function register() {
 // Get the modal
 var modal = document.getElementById("passwordModal");
 
-
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
 
@@ -97,7 +96,6 @@ window.onclick = function(event) {
 }
 
 // ---------- Enter press -------------- \\
-
 document.addEventListener('keydown', function(event) {
     if (event.code == 'Enter') {
         if (modal.style.display == "block") {
