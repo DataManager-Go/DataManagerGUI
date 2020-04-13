@@ -20,6 +20,7 @@ document.addEventListener('astilectron-ready', function() {
             addTags(obj);
         }
         else if (obj.type ==="downloadProgess") {
+            alert("downloadProgress");
             document.getElementById("progressBar").style.width = message.payload+"%";
         }
         else if (obj.type === "closeOverlay") {
@@ -28,7 +29,7 @@ document.addEventListener('astilectron-ready', function() {
         else if (obj.type === "openDownloadOverlay") {
             OpenDownloadOverlay(obj.payload);
         }
-        else if (obj.type === "updateOverlay") {
+        else if (obj.type === "updateDownloadOverlay") {
             UpdateOverlayInformation(obj.payload.split(";"))
         }
 
