@@ -40,39 +40,49 @@ func HandleMessages(m *astilectron.EventMessage) interface{} {
 		fmt.Println(err.Error())
 	}
 
-	// Process message
-	if ms.Type == "download" {
-		var data downloadStruct
-		err = json.Unmarshal([]byte(ms.Payload)[1:len(ms.Payload)-1], &data)
-		if err != nil {
-			fmt.Println(err)
+	switch ms.Type {
+	case "download":
+		{
+			var data downloadStruct
+			err = json.Unmarshal([]byte(ms.Payload)[1:len(ms.Payload)-1], &data)
+			if err != nil {
+				fmt.Println(err)
+				return ""
+			}
+
+			DownloadFiles(data.Files, filepath.Join(gaw.GetHome(), "Downloads"))
+			//os.Getenv("download") TODO
+			return ""
+		}
+	case "cancelDownload":
+		{
+			cancelDlChan <- true
+		}
+	case "changeNamespaceOrGroup":
+		{
+			// Parse payload json
+			var info namespaceGroupInfo
+			err = json.Unmarshal([]byte(ms.Payload), &info)
+
+			// Receive initial files data
+			var json string
+			var err error
+			if info.Group == "ShowAllFiles" {
+				json, err = GetFiles("", 0, false, dmlib.FileAttributes{Namespace: info.Namespace}, 0)
+			} else {
+				json, err = GetFiles("", 0, false, dmlib.FileAttributes{Namespace: info.Namespace, Groups: []string{info.Group}}, 0)
+			}
+
+			if err != nil {
+				fmt.Println(err.Error())
+			} else {
+				SendMessage("files", json, HandleResponses)
+			}
 			return ""
 		}
 
-		DownloadFiles(data.Files, filepath.Join(gaw.GetHome(), "Downloads"))
-		//os.Getenv("download") TODO
-		return ""
-	} else if ms.Type == "changeNamespaceOrGroup" {
-		// Parse payload json
-		var info namespaceGroupInfo
-		err = json.Unmarshal([]byte(ms.Payload), &info)
-
-		// Receive initial files data
-		var json string
-		var err error
-		if info.Group == "ShowAllFiles" {
-			json, err = GetFiles("", 0, false, dmlib.FileAttributes{Namespace: info.Namespace}, 0)
-		} else {
-			json, err = GetFiles("", 0, false, dmlib.FileAttributes{Namespace: info.Namespace, Groups: []string{info.Group}}, 0)
-		}
-
-		if err != nil {
-			fmt.Println(err.Error())
-		} else {
-			SendMessage("files", json, HandleResponses)
-		}
-		return ""
 	}
+
 	return nil
 }
 

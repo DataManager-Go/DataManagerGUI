@@ -7,6 +7,10 @@ import (
 	"strconv"
 )
 
+var (
+	cancelDlChan = make(chan bool, 1)
+)
+
 type barProxy struct {
 	w           io.Writer
 	total       int64
@@ -59,7 +63,7 @@ func DownloadFiles(fileIDs []uint, path string) {
 		}
 
 		// Write request response to file
-		err = resp.WriteToFile(filepath.Join(path, resp.ServerFileName), 0600, nil)
+		err = resp.WriteToFile(filepath.Join(path, resp.ServerFileName), 0600, cancelDlChan)
 		if err != nil {
 			fmt.Println(err)
 		}
