@@ -2,7 +2,6 @@
 function downloadSelectedFiles() {
 
     var requestedFiles = [];
-    var addedFiles = 0;
     
     var filesJson = {
         files: requestedFiles
@@ -12,27 +11,18 @@ function downloadSelectedFiles() {
     var table = document.getElementById('tableID'); 
     for (var i = 1; i < table.rows.length; i++) {
         if (table.rows[i].style.backgroundColor != "") {
-            if (addedFiles == 0) {
-                requestedFiles.push(table.rows[i].cells[0].innerHTML);
-                addedFiles++;
-            } else {
-                requestedFiles.push(table.rows[i].cells[0].innerHTML);
-            }
+            requestedFiles.push(parseInt(table.rows[i].cells[0].innerHTML,10));
 
             table.rows[i].style.backgroundColor= table.rows[i].origColor;
             table.rows[i].hilite = false;
         }
     }
-
     
     var json = {
-        type: "upload",
+        type: "download",
         payload: "\""+JSON.stringify(filesJson)+"\""
     }
-    
 
-    
-    alert(JSON.stringify(json));
     astilectron.sendMessage(JSON.stringify(json), function(message) {});
 }
 

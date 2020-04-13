@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"path/filepath"
-	"strings"
 
 	jsprotocol "github.com/DataManager-Go/DataManagerGUI/jsProtocol"
 	dmlib "github.com/DataManager-Go/libdatamanager"
@@ -21,6 +20,10 @@ type message struct {
 type namespaceGroupInfo struct {
 	Group     string `json:"group"`
 	Namespace string `json:"namespace"`
+}
+
+type downloadStruct struct {
+	Files []uint `json:"files"`
 }
 
 // HandleMessages handles incoming messages from the JS
@@ -39,11 +42,14 @@ func HandleMessages(m *astilectron.EventMessage) interface{} {
 
 	// Process message
 	if ms.Type == "download" {
-		fileIDs, err := strToUIntslice(strings.Split(ms.Payload, ";"))
+		var data downloadStruct
+		err = json.Unmarshal([]byte(ms.Payload)[1:len(ms.Payload)-1], &data)
 		if err != nil {
+			fmt.Println(err)
 			return ""
 		}
-		DownloadFiles(fileIDs, filepath.Join(gaw.GetHome(), "Downloads"))
+
+		DownloadFiles(data.Files, filepath.Join(gaw.GetHome(), "Downloads"))
 		//os.Getenv("download") TODO
 		return ""
 	} else if ms.Type == "changeNamespaceOrGroup" {

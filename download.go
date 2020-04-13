@@ -26,10 +26,9 @@ func calcPercent(curr, max int64) int64 {
 }
 
 // DownloadFiles will download the files given inside the array
-func DownloadFiles(fileIDs []uint64, path string) {
+func DownloadFiles(fileIDs []uint, path string) {
 	for _, id := range fileIDs {
-		req := manager.NewFileRequestByID(uint(id))
-
+		req := manager.NewFileRequestByID(id)
 		// Do request
 		resp, err := req.Do()
 		if err != nil {
