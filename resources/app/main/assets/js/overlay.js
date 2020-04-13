@@ -21,7 +21,6 @@ function OpenDownloadOverlay(fileName) {
 
 // Updates file name and progress
 function UpdateDownloadInformation(informations) {
-
     if (informations[0] !== "") {
         document.getElementById("progressTitle").innerHTML = "Downloading \""+informations[1]+"\"";
     }
