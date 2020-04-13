@@ -8,16 +8,22 @@ import (
 )
 
 type barProxy struct {
-	w     io.Writer
-	total int64
-	curr  *int64
+	w           io.Writer
+	total       int64
+	curr        *int64
+	lastPercent *uint8
 }
 
 func (proxy barProxy) Write(b []byte) (int, error) {
-	percent := int(calcPercent(*proxy.curr, proxy.total))
-	SendMessage("downloadProgress", strconv.Itoa(percent), HandleResponses)
+	percent := uint8(calcPercent(*proxy.curr, proxy.total))
+
+	if percent-2 > *proxy.lastPercent {
+		fmt.Println(percent)
+		SendMessage("downloadProgress", strconv.FormatUint(uint64(percent), 10), HandleResponses)
+		(*proxy.lastPercent) = percent
+	}
+
 	(*proxy.curr) += int64(len(b))
-	//fmt.Println(strconv.Itoa(percent))
 	return proxy.w.Write(b)
 }
 
@@ -40,12 +46,13 @@ func DownloadFiles(fileIDs []uint, path string) {
 
 		// Set progressbar proxy
 		req.Proxy = func(w io.Writer) io.Writer {
-			curr := int64(0)
+			curr, lastPercent := int64(0), uint8(0)
 
 			barProxy := barProxy{
-				w:     w,
-				total: resp.Size,
-				curr:  &curr,
+				w:           w,
+				total:       resp.Size,
+				curr:        &curr,
+				lastPercent: &lastPercent,
 			}
 
 			return barProxy
