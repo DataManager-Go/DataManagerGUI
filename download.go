@@ -17,7 +17,7 @@ func (proxy barProxy) Write(b []byte) (int, error) {
 	percent := int(calcPercent(*proxy.curr, proxy.total))
 	SendMessage("downloadProgress", strconv.Itoa(percent), HandleResponses)
 	(*proxy.curr) += int64(len(b))
-	fmt.Println(percent)
+	//fmt.Println(strconv.Itoa(percent))
 	return proxy.w.Write(b)
 }
 
