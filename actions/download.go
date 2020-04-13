@@ -1,10 +1,12 @@
-package main
+package actions
 
 import (
 	"fmt"
 	"io"
 	"path/filepath"
 	"strconv"
+
+	"github.com/DataManager-Go/DataManagerGUI/utils"
 )
 
 var (
@@ -38,7 +40,7 @@ func calcPercent(curr, max int64) int64 {
 // DownloadFiles will download the files given inside the array
 func DownloadFiles(fileIDs []uint, path string) {
 	for _, id := range fileIDs {
-		req := manager.NewFileRequestByID(id)
+		req := Manager.NewFileRequestByID(id)
 		// Do request
 		resp, err := req.Do()
 		if err != nil {
@@ -65,7 +67,7 @@ func DownloadFiles(fileIDs []uint, path string) {
 		// Write request response to file
 		err = resp.WriteToFile(filepath.Join(path, resp.ServerFileName), 0600, cancelDlChan)
 		if err != nil {
-			ShredderFile(filepath.Join(path, resp.ServerFileName), -1)
+			utils.ShredderFile(filepath.Join(path, resp.ServerFileName), -1)
 			fmt.Println(err)
 		} else {
 			SendMessage("downloadSuccess", "", HandleResponses)

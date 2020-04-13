@@ -1,4 +1,4 @@
-package main
+package actions
 
 import (
 	"encoding/json"
@@ -99,18 +99,18 @@ func HandleResponses(m *astilectron.EventMessage) {
 // SendMessage sends a message towards the javascript
 func SendMessage(typ, payload string, responeHandler func(m *astilectron.EventMessage)) {
 	b, _ := json.Marshal(&message{Type: typ, Payload: payload})
-	window.SendMessage(string(b), responeHandler)
+	Window.SendMessage(string(b), responeHandler)
 }
 
 // SendString sends a string towards the javascript
 func SendString(s string, responeHandler func(m *astilectron.EventMessage)) {
-	window.SendMessage(s, responeHandler)
+	Window.SendMessage(s, responeHandler)
 }
 
 // SendTags sends the gui all tags within the desired namespace
 func SendTags(namespace string) {
 	var tagContent []string
-	tagResp, err := manager.GetTags(namespace)
+	tagResp, err := Manager.GetTags(namespace)
 
 	if err == nil {
 		for _, t := range tagResp {
@@ -118,7 +118,7 @@ func SendTags(namespace string) {
 		}
 	}
 
-	tagMsg := jsprotocol.TagList{User: config.User.Username, Content: tagContent}
+	tagMsg := jsprotocol.TagList{User: Config.User.Username, Content: tagContent}
 	tags, err := json.Marshal(tagMsg)
 
 	if err == nil {
@@ -130,7 +130,7 @@ func SendTags(namespace string) {
 // SendInitialData sends the all initial data to the gui
 func SendInitialData() error {
 	// Find data from default namespace
-	nsResp, err := manager.GetNamespaces()
+	nsResp, err := Manager.GetNamespaces()
 
 	// Error in config / server
 	if err != nil {
@@ -141,17 +141,17 @@ func SendInitialData() error {
 	for i := 0; i < len(nsResp.Slice); i++ {
 		// Request Groups from server
 		var ns []string
-		groupResp, err := manager.GetGroups(nsResp.Slice[i])
+		groupResp, err := Manager.GetGroups(nsResp.Slice[i])
 
 		if err != nil {
 			fmt.Println(err.Error())
 			break
 		}
 
-		if nsResp.Slice[i][len(config.User.Username)+1:] == "default" {
+		if nsResp.Slice[i][len(Config.User.Username)+1:] == "default" {
 			ns = append(ns, "Default")
 		} else {
-			ns = append(ns, nsResp.Slice[i][len(config.User.Username)+1:])
+			ns = append(ns, nsResp.Slice[i][len(Config.User.Username)+1:])
 		}
 
 		// Convert Attribute to string one after another
@@ -163,7 +163,7 @@ func SendInitialData() error {
 
 	}
 
-	msg := jsprotocol.NamespaceGroupsList{User: config.User.Username, Content: content}
+	msg := jsprotocol.NamespaceGroupsList{User: Config.User.Username, Content: content}
 	namespaces, err := json.Marshal(msg)
 	fmt.Println(string(namespaces))
 

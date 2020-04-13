@@ -6,6 +6,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/DataManager-Go/DataManagerGUI/actions"
+	_ "github.com/DataManager-Go/DataManagerGUI/actions"
 	dmlib "github.com/DataManager-Go/libdatamanager"
 	dmConfig "github.com/DataManager-Go/libdatamanager/config"
 	"github.com/asticode/go-astikit"
@@ -13,13 +15,16 @@ import (
 )
 
 var (
-	app             *astilectron.Astilectron
-	window          *astilectron.Window
-	elementsPerPage = 30
-	userToken       string
-	config          *dmConfig.Config
-	manager         *dmlib.LibDM
+	app       *astilectron.Astilectron
+	userToken string
 )
+
+/*
+window          *astilectron.Window
+elementsPerPage = 30
+config          *dmConfig.Config
+manager         *dmlib.LibDM
+*/
 
 func main() {
 	// Create astilectron
@@ -46,15 +51,15 @@ func main() {
 
 	// ------------- Main Stuff ----------------
 	//Init config
-	config, err = dmConfig.InitConfig(dmConfig.GetDefaultConfigFile(), "")
+	actions.Config, err = dmConfig.InitConfig(dmConfig.GetDefaultConfigFile(), "")
 	if err != nil {
 		fmt.Println(err.Error())
 		return
 	}
 
 	// No config found: use the newly created one>
-	if config == nil {
-		config, err = dmConfig.InitConfig(dmConfig.GetDefaultConfigFile(), "")
+	if actions.Config == nil {
+		actions.Config, err = dmConfig.InitConfig(dmConfig.GetDefaultConfigFile(), "")
 		if err != nil {
 			fmt.Println(err.Error())
 			return
@@ -62,7 +67,7 @@ func main() {
 	}
 
 	// Try to get config
-	rconf, err := config.ToRequestConfig()
+	rconf, err := actions.Config.ToRequestConfig()
 	if err != nil {
 		// TODO Display error here. Also in login.go:119
 		log.Fatal(err)
@@ -70,9 +75,9 @@ func main() {
 	}
 
 	// Create corresponding manager
-	manager = dmlib.NewLibDM(rconf)
+	actions.Manager = dmlib.NewLibDM(rconf)
 
-	if config.IsLoggedIn() {
+	if actions.Config.IsLoggedIn() {
 		StartMainWindow(app)
 	} else {
 		StartLoginWindow(app)
@@ -95,7 +100,7 @@ func StartLoginWindow(a *astilectron.Astilectron) {
 	// width = 900 height = 689
 	height = 650
 
-	if window, err = a.NewWindow("./resources/app/login/index.html", &astilectron.WindowOptions{
+	if actions.Window, err = a.NewWindow("./resources/app/login/index.html", &astilectron.WindowOptions{
 		Center:    astikit.BoolPtr(true),
 		Height:    &height,
 		Width:     &width,
@@ -108,16 +113,16 @@ func StartLoginWindow(a *astilectron.Astilectron) {
 	}
 
 	// Create windows
-	if err := window.Create(); err != nil {
+	if err := actions.Window.Create(); err != nil {
 		fmt.Println(err.Error())
 	}
 
 	// Message handler
-	window.OnMessage(HandleLogin)
+	actions.Window.OnMessage(HandleLogin)
 
 	// Server IP
-	if len(config.Server.URL) > 0 && !strings.Contains(config.Server.URL, "localhost") {
-		SendString("URL%%"+config.Server.URL, HandleResponses)
+	if len(actions.Config.Server.URL) > 0 && !strings.Contains(actions.Config.Server.URL, "localhost") {
+		actions.SendString("URL%%"+actions.Config.Server.URL, actions.HandleResponses)
 	}
 
 	// Blocking pattern
@@ -129,7 +134,7 @@ func StartMainWindow(a *astilectron.Astilectron) {
 
 	// New window
 	var err error
-	if window, err = a.NewWindow("./resources/app/main/index.html", &astilectron.WindowOptions{
+	if actions.Window, err = a.NewWindow("./resources/app/main/index.html", &astilectron.WindowOptions{
 		Center:    astikit.BoolPtr(true),
 		Height:    astikit.IntPtr(700),
 		Width:     astikit.IntPtr(1300),
@@ -141,20 +146,20 @@ func StartMainWindow(a *astilectron.Astilectron) {
 	}
 
 	// Create windows
-	if err := window.Create(); err != nil {
+	if err := actions.Window.Create(); err != nil {
 		fmt.Println(err.Error())
 	}
 
 	// Message handler
-	window.OnMessage(HandleMessages)
+	actions.Window.OnMessage(actions.HandleMessages)
 
 	// Receive namespaces and groups
-	err = SendInitialData()
+	err = actions.SendInitialData()
 
 	// Error in config / server
 	if err != nil {
 		fmt.Println(err)
-		var w = window
+		var w = actions.Window
 		go (func() {
 			time.Sleep(time.Millisecond * 5)
 			w.Destroy()
@@ -164,12 +169,12 @@ func StartMainWindow(a *astilectron.Astilectron) {
 	}
 
 	// Receive initial files data
-	json, err := GetFiles("", 0, false, dmlib.FileAttributes{Namespace: config.Default.Namespace}, 0)
+	json, err := actions.GetFiles("", 0, false, dmlib.FileAttributes{Namespace: actions.Config.Default.Namespace}, 0)
 
 	if err != nil {
 		fmt.Println(err.Error())
 	} else {
-		SendMessage("files", json, HandleResponses)
+		actions.SendMessage("files", json, actions.HandleResponses)
 	}
 
 	// Blocking pattern

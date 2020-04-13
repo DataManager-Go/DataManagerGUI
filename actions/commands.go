@@ -1,4 +1,4 @@
-package main
+package actions
 
 import (
 	"encoding/json"
@@ -16,7 +16,7 @@ var (
 // GetFiles returns a json containing all found files using the args
 func GetFiles(name string, id uint, allNamespaces bool, fileAttributes dmlib.FileAttributes, verbose uint8) (string, error) {
 
-	filesResp, err := manager.ListFiles(name, id, allNamespaces, fileAttributes, verbose)
+	filesResp, err := Manager.ListFiles(name, id, allNamespaces, fileAttributes, verbose)
 
 	if err != nil {
 		return "", err

@@ -7,6 +7,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/DataManager-Go/DataManagerGUI/actions"
 	dmlib "github.com/DataManager-Go/libdatamanager"
 	"github.com/JojiiOfficial/configService"
 	"github.com/asticode/go-astilectron"
@@ -41,10 +42,10 @@ func HandleLogin(m *astilectron.EventMessage) interface{} {
 	// Process message
 	if f.Type == "register" {
 
-		config.Server.URL = f.URL
-		manager.Config.URL = f.URL
+		actions.Config.Server.URL = f.URL
+		actions.Manager.Config.URL = f.URL
 
-		resp, err := manager.Register(f.Name, f.Password)
+		resp, err := actions.Manager.Register(f.Name, f.Password)
 
 		if resp.Status == dmlib.ResponseSuccess {
 			fmt.Println("Response Register Success")
@@ -52,7 +53,7 @@ func HandleLogin(m *astilectron.EventMessage) interface{} {
 			if login != "success" {
 				return login
 			}
-			var w = window
+			var w = actions.Window
 
 			go (func() {
 				time.Sleep(time.Second)
@@ -73,7 +74,7 @@ func HandleLogin(m *astilectron.EventMessage) interface{} {
 		if login != "success" {
 			return login
 		}
-		var w = window
+		var w = actions.Window
 
 		go (func() {
 			time.Sleep(time.Second)
@@ -91,10 +92,10 @@ func HandleLogin(m *astilectron.EventMessage) interface{} {
 // Login tries to log into the server
 func Login(f loginForm) string {
 
-	config.Server.URL = f.URL
-	manager.Config.URL = f.URL
+	actions.Config.Server.URL = f.URL
+	actions.Manager.Config.URL = f.URL
 
-	resp, err := manager.Login(f.Name, f.Password)
+	resp, err := actions.Manager.Login(f.Name, f.Password)
 
 	if err != nil {
 		fmt.Println(err.Error())
@@ -102,25 +103,25 @@ func Login(f loginForm) string {
 	} else if len(resp.Token) > 0 {
 		fmt.Println("Response Login Success")
 		//put username and token in config
-		config.InsertUser(f.Name, resp.Token)
+		actions.Config.InsertUser(f.Name, resp.Token)
 
 		//Set default namespace to users
-		config.Default.Namespace = resp.Namespace
+		actions.Config.Default.Namespace = resp.Namespace
 
 		//Save new config
-		err := configService.Save(config, config.File)
+		err := configService.Save(actions.Config, actions.Config.File)
 		if err != nil {
 			fmt.Println("Error saving config:", err.Error())
 			return "SaveError"
 		}
 		// Try to get config
-		rconf, err := config.ToRequestConfig()
+		rconf, err := actions.Config.ToRequestConfig()
 		if err != nil {
 			// TODO Display error here
 			log.Fatal(err)
 			return ""
 		}
-		manager = dmlib.NewLibDM(rconf)
+		actions.Manager = dmlib.NewLibDM(rconf)
 
 		// Success
 		return "success"
