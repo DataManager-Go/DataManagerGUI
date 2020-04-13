@@ -5,11 +5,10 @@ import "fmt"
 // DownloadFiles will download the files given inside the array
 func DownloadFiles(fileIDs []uint64, path string) {
 	for _, id := range fileIDs {
-		err := manager.DownloadFile("", uint(id), "", path, true)
+		_, err := manager.NewFileRequestByID(uint(id)).DownloadToFile(path, 0600)
 		if err != nil {
 			fmt.Println(err)
-		} else {
-			fmt.Println("Downloaded a file into", path)
+			continue
 		}
 	}
 }
