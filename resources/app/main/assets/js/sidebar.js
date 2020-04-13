@@ -4,7 +4,6 @@ $("#menu-toggle").click(function(e) {
 });
 
 (function($) {
-    
     let win = $(window);
     let w = win.width();
     
@@ -13,7 +12,6 @@ $("#menu-toggle").click(function(e) {
     let sidebar = $('.sidebar');
     
     // Collapse on load
-    
     if (win.width() < 900) {
         sidebar.addClass('collapsed');
     }
@@ -21,9 +19,7 @@ $("#menu-toggle").click(function(e) {
     sidebar.removeClass('mobile-hid');
     
     // Events
-    
     btn.click(toggleSidebar);
-    
     win.resize(function() {
         
         if (w==win.width()) {

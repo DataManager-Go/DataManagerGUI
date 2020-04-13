@@ -7,7 +7,6 @@ import (
 	"time"
 
 	"github.com/DataManager-Go/DataManagerGUI/actions"
-	_ "github.com/DataManager-Go/DataManagerGUI/actions"
 	dmlib "github.com/DataManager-Go/libdatamanager"
 	dmConfig "github.com/DataManager-Go/libdatamanager/config"
 	"github.com/asticode/go-astikit"
@@ -56,7 +55,6 @@ func main() {
 		fmt.Println(err.Error())
 		return
 	}
-
 	// No config found: use the newly created one>
 	if actions.Config == nil {
 		actions.Config, err = dmConfig.InitConfig(dmConfig.GetDefaultConfigFile(), "")
@@ -65,15 +63,14 @@ func main() {
 			return
 		}
 	}
-
 	// Try to get config
 	rconf, err := actions.Config.ToRequestConfig()
 	if err != nil {
+		// TODO ERROR HERE ON LOGIN!!!
 		// TODO Display error here. Also in login.go:119
 		log.Fatal(err)
 		return
 	}
-
 	// Create corresponding manager
 	actions.Manager = dmlib.NewLibDM(rconf)
 

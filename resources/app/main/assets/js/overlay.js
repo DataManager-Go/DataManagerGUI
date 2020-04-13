@@ -3,13 +3,15 @@ var modal = document.getElementById("overlayPrefab");
 
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
-/*
+
+/* Unused for downloads so far -> really bad there
 // When the user clicks on <span> (x), close the modal
 span.onclick = function() {
     modal.style.display = "none";
     cancelDownload();
 }
 */
+
 // Download Overlay
 function OpenDownloadOverlay(fileName) {
 

@@ -119,8 +119,3 @@ function createNavigationButtons(currentPage) {
         document.getElementById("buttonContainer").appendChild(trailBtn);
     }
 }
-
-
-/*
- <button class="btn btn-primary border rounded-circle" type="button" style="color: rgb(0,0,0);background-color: rgba(0,0,0,0.2);">1</button>
-*/
