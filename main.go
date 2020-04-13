@@ -30,6 +30,7 @@ func main() {
 		AppIconDarwinPath:  "./resources/icon.icns",
 		AppIconDefaultPath: "./resources/icon.png",
 	})
+
 	if err != nil {
 		fmt.Println(err.Error())
 	}

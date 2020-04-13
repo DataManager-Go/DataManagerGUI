@@ -32,4 +32,10 @@ function OnListClick(e) {
 }
 
 
+
+FILE PATH CAN BE FOUND USING:
+document.getElementById("myFile").files[0].path
+
+
+
 */

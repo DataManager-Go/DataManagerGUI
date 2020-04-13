@@ -20,5 +20,32 @@ function downloadSelectedFiles() {
         }
     }
     
-    astilectron.sendMessage(`{"type":"download", "payload":"`+requestedFiles+`"}`, function(message) {alert(message)});
+    astilectron.sendMessage(`{"type":"download", "payload":"`+requestedFiles+`"}`, function(message) {});
+}
+
+// Upload
+var uploadBtn = document.getElementById('fileUploadBtn');
+var folderUploadBtn = document.getElementById("folderUploadBtn");
+
+function uploadSelectedFiles(uploadType) {
+
+    var fileList;
+
+    if (uploadType === "btn") {
+        for (var i = 0; i < uploadBtn.files.length; i++) {  
+            fileList.push(uploadBtn.files[i].path);
+        }
+    }
+    else if (uploadType === "folderBtn") { 
+        for (var i = 0; i < folderUploadBtn.files.length; i++) {
+            fileList.push(folderUploadBtn.files[i].path);
+        }
+    }
+
+    var json = {
+        type: "upload",
+        payload: fileList
+    }
+
+    astilectron.sendMessage(JSON.stringify(json), function(message) {});
 }

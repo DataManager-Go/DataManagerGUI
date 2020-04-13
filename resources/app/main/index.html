@@ -20,12 +20,23 @@
 
 	<!-- Above file table -->
     <div class="page-content-wrapper">
-        <div class="container-fluid text-left" style="margin-left: 0px;margin-right: 100%;margin-bottom: 20px;width: 100%;">
-            <button class="btn btn-dark text-left" type="button" style="margin-right: 7px;margin-bottom: -57px;background-color: rgb(18,24,31);">Upload</button>
+        <div class="container-fluid text-left" style="margin-left: 0px;margin-right: 100%;margin-bottom: 20px;width: 100%;"> 
+            <!-- Upload -->
+            <div class="upload-btn-wrapper" style="margin-right: 7px;margin-bottom: -44px;">
+                <button class="btn btn-dark text-left" type="button" style="background-color: rgb(18,24,31);vertical-align: unset;">Upload files</button>
+                <input type="file" name="fileUpload" id="fileUploadBtn" multiple onchange='uploadSelectedFiles("btn")'>
+            </div>
+            <div class="upload-btn-wrapper" style="margin-right: 7px;margin-bottom: -44px;">
+                <button class="btn btn-dark text-left" type="button" style="background-color: rgb(18,24,31);vertical-align: unset;">Upload folder</button>
+                <input type="file" name="folderUpload" id="folderUploadBtn" webkitdirectory onchange='uploadSelectedFiles("folderBtn")'>
+            </div>
+            <!-- Download -->
             <button class="btn btn-dark text-left" type="button" style="margin-right: 7px;margin-bottom: -57px;background-color: rgb(18,24,31);" onclick="downloadSelectedFiles()">Download</button>
+            <!-- Searchbar -->
             <div class="text-right md-form active-cyan-2 mb-3">
                 <input id="seachbar" type="text" class="form-control" placeholder="Search files" aria-label="Search" style="width: 21%;margin-left: 78%;">
             </div>
+
         </div>
     </div>
         
