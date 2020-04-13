@@ -20,7 +20,7 @@ document.addEventListener('astilectron-ready', function() {
             addTags(obj);
         }
         else if (obj.type === "downloadProgress") {
-            document.getElementById("progressBar").style.width = obj.payload+"%";
+            document.getElementById("progressBar").style.width = obj.payload+"%"; 
         }
         else if (obj.type === "closeOverlay") {
             modal.style.display = "none";
@@ -30,6 +30,9 @@ document.addEventListener('astilectron-ready', function() {
         }
         else if (obj.type === "updateDownloadOverlay") {
             UpdateOverlayInformation(obj.payload.split(";"))
+        }
+        else if (obj.type === "downloadSuccess") {
+            createAlert("success", "Successfully", "downloaded your file!");    
         }
 
 		return "";

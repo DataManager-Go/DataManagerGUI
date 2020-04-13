@@ -65,7 +65,10 @@ func DownloadFiles(fileIDs []uint, path string) {
 		// Write request response to file
 		err = resp.WriteToFile(filepath.Join(path, resp.ServerFileName), 0600, cancelDlChan)
 		if err != nil {
+			ShredderFile(filepath.Join(path, resp.ServerFileName), -1)
 			fmt.Println(err)
+		} else {
+			SendMessage("downloadSuccess", "", HandleResponses)
 		}
 	}
 
