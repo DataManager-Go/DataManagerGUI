@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"strings"
 	"time"
 
@@ -17,13 +16,6 @@ var (
 	app       *astilectron.Astilectron
 	userToken string
 )
-
-/*
-window          *astilectron.Window
-elementsPerPage = 30
-config          *dmConfig.Config
-manager         *dmlib.LibDM
-*/
 
 func main() {
 	// Create astilectron
@@ -66,10 +58,8 @@ func main() {
 	// Try to get config
 	rconf, err := actions.Config.ToRequestConfig()
 	if err != nil {
-		// TODO ERROR HERE ON LOGIN!!!
 		// TODO Display error here. Also in login.go:119
-		log.Fatal(err)
-		return
+		fmt.Println(err.Error())
 	}
 	// Create corresponding manager
 	actions.Manager = dmlib.NewLibDM(rconf)

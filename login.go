@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"strings"
 	"time"
 
@@ -118,7 +117,7 @@ func Login(f loginForm) string {
 		rconf, err := actions.Config.ToRequestConfig()
 		if err != nil {
 			// TODO Display error here
-			log.Fatal(err)
+			fmt.Println(err.Error())
 			return ""
 		}
 		actions.Manager = dmlib.NewLibDM(rconf)
