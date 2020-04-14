@@ -33,6 +33,8 @@ document.addEventListener('astilectron-ready', function() {
         }
         else if (obj.type === "downloadSuccess") {
             createAlert("success", "Successfully", "downloaded your file!");    
+        } else if (obj.type === "downloadError") {
+            createAlert("error", "Error", "downloading your file!");    
         }
 
 		return "";
