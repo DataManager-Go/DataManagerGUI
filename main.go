@@ -165,6 +165,6 @@ func StartMainWindow(a *astilectron.Astilectron) {
 	}
 
 	// Blocking pattern
-	//window.OpenDevTools()
+	// actions.Window.OpenDevTools()
 	a.Wait()
 }

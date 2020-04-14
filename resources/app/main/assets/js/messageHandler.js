@@ -148,13 +148,14 @@ function addNamespaceAndGroups(data) {
         var ns = document.createElement("LI");
         ns.setAttribute("class", "nav-item dropdown");
         ns.setAttribute("style", "width: 100%;");
-        ns.addEventListener("mousedown", OnListClick);
+        ns.setAttribute("id","namespaceParent_collapsed");
+        ns.addEventListener("mouseup", AddSubentriesToListLength);
 
         var ns_a = document.createElement("a");
         ns_a.setAttribute("href", "#");
         ns_a.setAttribute("class", "dropdown-toggle nav-link text-left text-white py-1 px-0 position-relative");
         ns_a.setAttribute("data-toggle", "dropdown");
-        ns_a.setAttribute("aria-expanded", "false");
+        ns_a.setAttribute("aria-expanded", "false");     
 
         ns_a_i1 = document.createElement("i");
         ns_a_i1.setAttribute("class", "far fa-list-alt mx-3");
@@ -188,13 +189,11 @@ function addNamespaceAndGroups(data) {
             div_a.setAttribute("href", "#");
             div.appendChild(div_a);
 
-            var div_a_i = document.createElement("i");
-            div_a_i.addEventListener("click", OnListClick);
+            var div_a_i = document.createElement("i");0
             div_a.appendChild(div_a_i);
             
 
             var div_a_span = document.createElement("span");
-            div_a_span.addEventListener("click", OnListClick);
             div_a.appendChild(div_a_span);
             
             if (groups[0] === "Default") {groups[0] = parsed.user+"_default";}

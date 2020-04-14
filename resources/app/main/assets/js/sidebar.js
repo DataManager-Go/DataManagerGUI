@@ -67,7 +67,6 @@ function OnListClick(e) {
         type: "changeNamespaceOrGroup",
         payload: e.target.attributes.id.value
     };
-
     astilectron.sendMessage(JSON.stringify(json), function(message) {});
 }
 
@@ -76,9 +75,26 @@ function onResize() {
     console.log($(window).height());
     if ($(window).height() < 70 * namespaceCount) {    
         document.getElementById("SideBar").classList.remove("flex-column");
-        document.getElementById("title").setAttribute("style", "padding-left: 1.655rem");
+        document.getElementById("title").setAttribute("style", "padding-left: 2.9rem");
+       // document.getElementById("title").setAttribute("style", "padding-left: 1.655rem");
     } else {
         document.getElementById("SideBar").classList.add("flex-column");
         document.getElementById("title").setAttribute("style", "padding-left: 0rem");
     }
+    
+}
+
+// Changes list length on extend / collapse
+function AddSubentriesToListLength() {
+    // length of subentries: this.childNodes[1].childNodes.length
+    if (this.id == "namespaceParent_collapsed") {
+        this.id = "namespaceParent_extended";
+        namespaceCount += this.childNodes[1].childNodes.length;
+    }
+    else {
+        this.id = "namespaceParent_collapsed";
+        namespaceCount -= this.childNodes[1].childNodes.length;
+    }
+
+    onResize();
 }
