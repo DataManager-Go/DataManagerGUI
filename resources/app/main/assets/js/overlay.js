@@ -66,10 +66,9 @@ function createAlert(type, strongText, normalText) {
     setTimeout(function(){
         $("#"+alertNumber).click();
 
-        // TODO position doesnt update yet
         currentAlerts.shift();
         for (var i = 0; i < currentAlerts.length; i++) {
-            currentAlerts[i].style.marginBottom = ""+(1 + i * 5)+"rem";
+            currentAlerts[i].style.marginBottom = (1 + i * 5)+"rem";
         }
 
     }, 5000);
