@@ -21,7 +21,7 @@
             <!-- Upload -->
             <div class="upload-btn-wrapper" style="margin-right: 7px;margin-bottom: -44px;">
                 <button class="btn btn-dark text-left" type="button" style="background-color: rgb(18,24,31);vertical-align: unset;">Upload files</button>
-                <input type="file" name="fileUpload" id="fileUploadBtn" multiple onchange='uploadSelectedFiles("btn"); OpenUploadOverlay()'>
+                <input type="file" name="fileUpload" id="fileUploadBtn" multiple onchange='prepareFileUploadRequest("btn")'>
             </div>
             <div class="upload-btn-wrapper" style="margin-right: 7px;margin-bottom: -44px;">
                 <button class="btn btn-dark text-left" type="button" style="background-color: rgb(18,24,31);vertical-align: unset;">Upload folder</button>
@@ -106,43 +106,64 @@
     </div>
 
     <!-- Upload-settings overlay-->
+    <div id="uploadSettingsOverlay" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p style="color:white; margin-top: 0.25rem; margin-bottom: 0.2rem; font-size: larger;" id="up_set_overlayTitle">Upload settings</p>
+                <span class="close" onclick="CloseUploadSettingsOverlay()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <!-- tags -->
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1" style="width: 4.75rem;">tags</span>
+                    </div>
+                    <input id="up_set_tagInput" type="text" class="form-control" placeholder="Enter tags seperated by comma (tag1,tag2,tag3)">
+                </div>
+                <!-- groups -->
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">groups</span>
+                    </div>
+                    <input id="up_set_groupInput" type="text" class="form-control" placeholder="Enter groups seperated by comma (tag1,tag2,tag3)"/>
+                </div>
+                <!-- encryption -->
+                <div class="form-check-inline" style="padding-left: 1.5rem;">
+                    <label class="form-check-label">
+                    <input id="up_set_encryptBox" type="checkbox" class="form-check-input" value="">Encrypt files
+                    </label>
+                </div>
+                <!-- public -->
+                <div class="form-check-inline" style="padding-left: 3rem;">
+                    <label class="form-check-label">
+                    <input id="up_set_publicBox" type="checkbox" class="form-check-input" style="font-size: 1px;">Make public
+                    </label>
+                </div>
+                <br>
+                <br>
+                <button class="btn btn-dark text-left" type="button" style="background-color: rgb(18,24,31);" onclick="sendFileUploadRequest()">Upload</button>
+                <!-- TODO further settings? Upload bar directly here or another popup? -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Upload overlay-->
     <div id="uploadOverlay" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <p style="color:white; margin-top: 0.25rem; margin-bottom: 0.2rem; font-size: larger;" id="up_overlayTitle">Upload settings</p>
+                <p style="color:white; margin-top: 0.25rem; margin-bottom: 0.2rem; font-size: larger;" id="up_overlayTitle"></p>
                 <span class="close" onclick="cancelUpload()">&times;</span>
             </div>
             <div class="modal-body">
-            <!-- tags -->
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                   <span class="input-group-text" id="basic-addon1" style="width: 4.75rem;">tags</span>
+                <div style="padding-bottom: 0.1rem;">
+                    <p style="color:black;" id="up_progressTitle"></p>
                 </div>
-                <input id="up_tagInput" type="text" class="form-control" placeholder="Enter tags seperated by comma (tag1,tag2,tag3)">
-            </div>
-            <!-- groups -->
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                   <span class="input-group-text" id="basic-addon1">groups</span>
+                <div class="progress" style="padding-bottom: 1rem;">
+                    <div id="up_progressBar" class="progress-bar bg-dark progress-bar-striped progress-bar-animated" style="width:0%; background-color:#12181f; padding-top: 5rem;"></div> 
                 </div>
-                <input id="up_groupInput" type="text" class="form-control" placeholder="Enter groups seperated by comma (tag1,tag2,tag3)"/>
+                <br>
+                <button class="btn btn-dark text-left" type="button" style="background-color: rgb(18,24,31);" onclick="SendUploadRequest()">Cancel download</button>
             </div>
-            <!-- encryption -->
-            <div class="form-check-inline" style="padding-left: 1.5rem;">
-                <label class="form-check-label">
-                  <input type="checkbox" class="form-check-input" value="">Encrypt files
-                </label>
-            </div>
-            <!-- public -->
-            <div class="form-check-inline" style="padding-left: 3rem;">
-                <label class="form-check-label">
-                  <input type="checkbox" class="form-check-input" style="font-size: 1px;">Make public
-                </label>
-             </div>
-             <br>
-             <br>
-            <button class="btn btn-dark text-left" type="button" style="background-color: rgb(18,24,31);">Upload</button>
-            <!-- TODO further settings? Upload bar directly here or another popup? -->
         </div>
     </div>
 

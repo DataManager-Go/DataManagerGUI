@@ -30,16 +30,59 @@ function downloadSelectedFiles() {
 var uploadBtn = document.getElementById('fileUploadBtn');
 var folderUploadBtn = document.getElementById("folderUploadBtn");
 
-// Upload: TODO Select namespace, group, tag
-function uploadSelectedFiles(uploadType) {
+// Upload settings
+var directoryName = "";
+var fileList = [];
+var uploadType = "";
 
-    // Predefinitions
-    var fileList = [];
-    var fileJson = {
-        type: "upload",
-        payload: {
-            files: fileList
+// Elements from the html
+var tagInput = document.getElementById("up_set_tagInput");
+var groupInput = document.getElementById("up_set_groupInput");
+var encryptInput = document.getElementById("up_set_encryptBox");
+var publicInput = document.getElementById("up_set_publicBox");
+
+
+// Prepare upload / start settings input
+function prepareFileUploadRequest(uploadType) {
+    if (uploadType === "btn") {
+        for (var i = 0; i < uploadBtn.files.length; i++) {  
+            fileList.push(uploadBtn.files[i].path);
         }
+    }
+    else if (uploadType === "folderBtn") {
+        var path = folderUploadBtn.files[0].path.split("/"); // linux
+        if (path[1] == undefined)
+            path = folderUploadBtn.files[0].path.split("\\"); // windows 
+    
+        var directoryName = path[path.length-2];
+    }
+
+    OpenUploadSettingsOverlay();
+}
+
+// Send upload request to golang
+function sendFileUploadRequest() {
+    // Dynamic settings
+    var fileTags = [];
+    var fileGroups = [];
+    var shouldEncrypt = false;
+    var shouldPublic = false;
+
+    // Find settings according to user input
+    if (encryptInput.value === "on") shouldEncrypt = true;
+    if (publicInput.value === "on") shouldPublic = true;
+    fileTags = tagInput.value.replace(", ", ",").split(",");
+    if (!fileTags[fileTags.length-1].match(/^[0-9a-zA-Z]+$/)) fileTags.pop();
+    fileGroups = groupInput.value.replace(", ", ",").split(",");
+    if (!fileGroups[fileGroups.length-1].match(/^[0-9a-zA-Z]+$/)) fileGroups.pop();
+    
+
+    // Settings JSON
+    var uploadSettings = {
+        tags: fileTags,
+        groups: fileGroups,
+        encrypt: shouldEncrypt,
+        public: shouldPublic,
     }
 
     // Find files
@@ -55,18 +98,31 @@ function uploadSelectedFiles(uploadType) {
             path = folderUploadBtn.files[0].path.split("\\"); // windows 
 
         var directoryName = path[path.length-2];
-        createAlert("warning", "Debug", directoryName);  
 
-        var folderJson = {
+        // Directory upload - request JSON
+        var dirJSON = {
+            dir: directoryName,
+            settings: JSON.stringify(uploadSettings)
+        }
+        var messageJSON = {
             type: "uploadDirectory",
-            payload: directoryName
-        }   
-
-        createAlert("warning", "Debug", JSON.stringify(folderJson));  
+            payload: JSON.stringify(dirJSON)
+        }
+        astilectron.sendMessage(JSON.stringify(messageJSON), function(message) {});
         return;
     }
 
-    // Send message
-    createAlert("warning", "Debug", JSON.stringify(fileJson));  
-    astilectron.sendMessage(JSON.stringify(fileJson), function(message) {});
+    // File upload - request JSON
+    var fileJSON = {
+        files: fileList,
+        settings: JSON.stringify(uploadSettings)
+    }
+    var messageJSON = {
+        type: "uploadFiles",
+        payload: JSON.stringify(fileJSON)
+    }
+
+    // Close overlay and send message
+    document.getElementById("uploadSettingsOverlay").style.display = "none";
+    astilectron.sendMessage(JSON.stringify(messageJSON), function(message) {});
 }

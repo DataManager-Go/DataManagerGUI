@@ -38,8 +38,11 @@ document.addEventListener('astilectron-ready', function() {
         else if (obj.type === "uploadProgress") {
             document.getElementById("up_progressBar").style.width = obj.payload+"%"; 
         }
-        else if (obj.type === "startUpload") {
-            StartUpload();
+        else if (obj.type === "closeUploadOverlay") {
+            document.getElementById("uploadOverlay").style.display = "none";
+        } 
+        else if (obj.type === "openUploadOverlay") {
+            OpenUploadOverlay(obj.payload);
         }
         else if (obj.type === "uploadSuccess") {
             createAlert("success", "Successfully", "uploaded your file!");    

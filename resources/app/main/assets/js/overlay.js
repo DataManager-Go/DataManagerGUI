@@ -74,15 +74,38 @@ function cancelDownload() {
     createAlert("danger", "", "Download canceled");
 }
 
+// -------------------------------------------------------------------------------
 
-// Upload Overlay
-function OpenUploadOverlay() {
-   document.getElementById("uploadOverlay").style.display = "block";
+// Upload Settings Overlay
+function OpenUploadSettingsOverlay() {
+   document.getElementById("uploadSettingsOverlay").style.display = "block";
 }
 
-// Cancels any current upload
+function CloseUploadSettingsOverlay() {
+    document.getElementById("uploadSettingsOverlay").style.display = "none";
+}
+
+// Upload Overlay
+function OpenUploadOverlay(fileName) {
+
+    document.getElementById("up_overlayTitle").innerHTML = "Upload";
+    document.getElementById("up_progressTitle").innerHTML = "Uploading \""+fileName+"\"";
+    document.getElementById("up_progressBar").style.width = "0%";
+
+    document.getElementById("uploadOverlay").style.display = "block";
+}
+
+// Cancels any current upload TODO
 function cancelUpload() {
+    var json = {
+        type: "cancelUpload",
+        payload: ""
+    };
+
+    astilectron.sendMessage(JSON.stringify(json), function(message) {});
+    createAlert("danger", "", "Upload canceled");
+    
     document.getElementById("uploadOverlay").style.display = "none";
 }
 
-document.getElementById("uploadOverlay").style.display = "block";
+// document.getElementById("uploadSettingsOverlay").style.display = "block";

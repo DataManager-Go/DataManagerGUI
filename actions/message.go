@@ -17,15 +17,6 @@ type message struct {
 	Payload string `json:"payload"`
 }
 
-type namespaceGroupInfo struct {
-	Group     string `json:"group"`
-	Namespace string `json:"namespace"`
-}
-
-type downloadStruct struct {
-	Files []uint `json:"files"`
-}
-
 // HandleMessages handles incoming messages from the JS
 func HandleMessages(m *astilectron.EventMessage) interface{} {
 	// Unmarshal into (json-)string
@@ -43,7 +34,7 @@ func HandleMessages(m *astilectron.EventMessage) interface{} {
 	switch ms.Type {
 	case "download":
 		{
-			var data downloadStruct
+			var data jsprotocol.DownloadStruct
 			err = json.Unmarshal([]byte(ms.Payload)[1:len(ms.Payload)-1], &data)
 			if err != nil {
 				fmt.Println(err)
@@ -61,7 +52,7 @@ func HandleMessages(m *astilectron.EventMessage) interface{} {
 	case "changeNamespaceOrGroup":
 		{
 			// Parse payload json
-			var info namespaceGroupInfo
+			var info jsprotocol.NamespaceGroupInfo
 			err = json.Unmarshal([]byte(ms.Payload), &info)
 
 			// Receive initial files data
@@ -80,7 +71,34 @@ func HandleMessages(m *astilectron.EventMessage) interface{} {
 			}
 			return ""
 		}
+	case "uploadFiles":
+		{
+			// Parse payload json
+			var uploadInfo jsprotocol.UploadFilesStruct
+			err = json.Unmarshal([]byte(ms.Payload), &uploadInfo)
 
+			// Parse uploadInfo.Settings
+			var uploadSettings jsprotocol.UploadInfoSettings
+			err = json.Unmarshal([]byte(uploadInfo.Settings), &uploadSettings)
+
+			fmt.Println(uploadInfo)
+			//UploadFiles(uploadInfo.Files, uploadSettings)
+			return ""
+		}
+	case "uploadDirectory":
+		{
+			// Parse payload json
+			var uploadInfo jsprotocol.UploadDirectoryStruct
+			err = json.Unmarshal([]byte(ms.Payload), &uploadInfo)
+
+			// Parse uploadInfo.Settings
+			var uploadSettings jsprotocol.UploadInfoSettings
+			err = json.Unmarshal([]byte(uploadInfo.Settings), &uploadSettings)
+
+			fmt.Println(uploadInfo)
+			//UploadDirectory(uploadInfo.Path, uploadSettings)
+			return ""
+		}
 	}
 
 	return nil
