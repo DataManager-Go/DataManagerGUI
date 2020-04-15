@@ -140,7 +140,6 @@ function listFiles(data) {
         }
         makeTableHighlightable();
     }   
-    
     createNavigationButtons(1);
 }
 

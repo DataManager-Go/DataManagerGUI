@@ -92,7 +92,6 @@ function resizableGrid(table) {
 
 // Table highlighting TODO Use it to do stuff (check for hilite - true)
 function makeTableHighlightable() {
-  var table = document.getElementById('tableID');
   for (var i=1;i < table.rows.length;i++){
     table.rows[i].onclick= function () {
         if(!this.hilite){
@@ -106,4 +105,38 @@ function makeTableHighlightable() {
         }
     }
   }
+}
+
+/* ------ Table sorting ------ TODO*/ 
+var currentlySorted = "";
+var currentSortDirection ="";
+
+// Sorts the entire current table by the id's
+function sortTableByID() {
+    // Sorting options
+    currentlySorted="id";
+    if (currentSortDirection === "" || currentSortDirection === "inc")
+      currentSortDirection="desc";
+    else   
+      currentSortDirection="inc";  
+
+    // Bubble sort
+    var len = files.length;
+    let swapped;
+    do {
+        swapped = false;
+        for (let i = 0; i < len-1; i++) {
+            if ((currentSortDirection === "dec" && files[i].childNodes[0].innerHTML < files[i + 1].childNodes[0].innerHTML) || (currentSortDirection === "inc" && files[i].childNodes[0].innerHTML > files[i + 1].childNodes[0].innerHTML)) {
+                let tmp = files[i];
+                files[i] = files[i + 1];
+                files[i + 1] = tmp;
+                swapped = true;
+            }
+        }
+    } while (swapped);
+
+    // Load files again
+    loadFilesFromPage(1);
+    createNavigationButtons(1);
+    makeTableHighlightable();
 }

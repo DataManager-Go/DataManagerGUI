@@ -43,10 +43,8 @@ var publicInput = document.getElementById("up_set_publicBox");
 
 
 // Prepare upload / start settings input
-function prepareFileUploadRequest(uploadType) {
-    // Reset input
-    fileUploadBtn.value = null;
-    folderUploadBtn.value = null;
+function prepareFileUploadRequest(fileUploadType) {
+    uploadType = fileUploadType;
 
     // Select file(s)
     if (uploadType === "btn") {
@@ -92,9 +90,6 @@ function sendFileUploadRequest() {
 
     // Find files
     if (uploadType === "btn") {
-        for (var i = 0; i < uploadBtn.files.length; i++) {  
-            fileList.push(uploadBtn.files[i].path);
-        }
     }
     else if (uploadType === "folderBtn") {
 

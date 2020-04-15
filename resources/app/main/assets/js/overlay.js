@@ -83,6 +83,10 @@ function OpenUploadSettingsOverlay() {
 
 function CloseUploadSettingsOverlay() {
     document.getElementById("uploadSettingsOverlay").style.display = "none";
+    
+    // Reset input
+    fileUploadBtn.value = null;
+    folderUploadBtn.value = null;
 }
 
 // Upload Overlay
@@ -106,6 +110,10 @@ function cancelUpload() {
     createAlert("danger", "", "Upload canceled");
     
     document.getElementById("uploadOverlay").style.display = "none";
+
+    // Reset input
+    fileUploadBtn.value = null;
+    folderUploadBtn.value = null;
 }
 
 // document.getElementById("uploadSettingsOverlay").style.display = "block";
