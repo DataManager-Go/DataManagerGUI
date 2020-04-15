@@ -126,7 +126,7 @@ function sortTableByID() {
     do {
         swapped = false;
         for (let i = 0; i < len-1; i++) {
-            if ((currentSortDirection === "dec" && files[i].childNodes[0].innerHTML < files[i + 1].childNodes[0].innerHTML) || (currentSortDirection === "inc" && files[i].childNodes[0].innerHTML > files[i + 1].childNodes[0].innerHTML)) {
+            if ((currentSortDirection === "desc" && files[i].childNodes[0].innerHTML < files[i + 1].childNodes[0].innerHTML) || (currentSortDirection === "inc" && files[i].childNodes[0].innerHTML > files[i + 1].childNodes[0].innerHTML)) {
                 let tmp = files[i];
                 files[i] = files[i + 1];
                 files[i + 1] = tmp;
@@ -139,4 +139,124 @@ function sortTableByID() {
     loadFilesFromPage(1);
     createNavigationButtons(1);
     makeTableHighlightable();
+}
+
+// Sorts the entire current table by the id's
+function sortTableByName() {
+  // Sorting options
+  currentlySorted="id";
+  if (currentSortDirection === "" || currentSortDirection === "inc")
+    currentSortDirection="desc";
+  else   
+    currentSortDirection="inc";  
+
+  // Bubble sort
+  var len = files.length;
+  let swapped;
+  do {
+      swapped = false;
+      for (let i = 0; i < len-1; i++) {
+          if ((currentSortDirection === "desc" && files[i].childNodes[1].innerHTML < files[i + 1].childNodes[1].innerHTML) || (currentSortDirection === "inc" && files[i].childNodes[1].innerHTML > files[i + 1].childNodes[1].innerHTML)) {
+              let tmp = files[i];
+              files[i] = files[i + 1];
+              files[i + 1] = tmp;
+              swapped = true;
+          }
+      }
+  } while (swapped);
+
+  // Load files again
+  loadFilesFromPage(1);
+  createNavigationButtons(1);
+  makeTableHighlightable();
+}
+
+// Sorts the entire current table by the id's
+function sortTableBySize() {
+  // Sorting options
+  currentlySorted="id";
+  if (currentSortDirection === "" || currentSortDirection === "inc")
+    currentSortDirection="desc";
+  else   
+    currentSortDirection="inc";  
+
+  // Bubble sort
+  var len = files.length;
+  let swapped;
+  do {
+      swapped = false;
+      for (let i = 0; i < len-1; i++) {
+          if ((currentSortDirection === "desc" && files[i].childNodes[2].innerHTML < files[i + 1].childNodes[2].innerHTML) || (currentSortDirection === "inc" && files[i].childNodes[3].innerHTML > files[i + 1].childNodes[2].innerHTML)) {
+              let tmp = files[i];
+              files[i] = files[i + 1];
+              files[i + 1] = tmp;
+              swapped = true;
+          }
+      }
+  } while (swapped);
+
+  // Load files again
+  loadFilesFromPage(1);
+  createNavigationButtons(1);
+  makeTableHighlightable();
+}
+
+// Sorts the entire current table by the id's
+function sortTableByCreationDate() {
+  // Sorting options
+  currentlySorted="id";
+  if (currentSortDirection === "" || currentSortDirection === "inc")
+    currentSortDirection="desc";
+  else   
+    currentSortDirection="inc";  
+
+  // Bubble sort
+  var len = files.length;
+  let swapped;
+  do {
+      swapped = false;
+      for (let i = 0; i < len-1; i++) {
+          if ((currentSortDirection === "desc" && files[i].childNodes[3].innerHTML < files[i + 1].childNodes[3].innerHTML) || (currentSortDirection === "inc" && files[i].childNodes[3].innerHTML > files[i + 1].childNodes[3].innerHTML)) {
+              let tmp = files[i];
+              files[i] = files[i + 1];
+              files[i + 1] = tmp;
+              swapped = true;
+          }
+      }
+  } while (swapped);
+
+  // Load files again
+  loadFilesFromPage(1);
+  createNavigationButtons(1);
+  makeTableHighlightable();
+}
+
+// Sorts the entire current table by the id's
+function sortTableByIsPublic() {
+  // Sorting options
+  currentlySorted="id";
+  if (currentSortDirection === "" || currentSortDirection === "inc")
+    currentSortDirection="desc";
+  else   
+    currentSortDirection="inc";  
+
+  // Bubble sort
+  var len = files.length;
+  let swapped;
+  do {
+      swapped = false;
+      for (let i = 0; i < len-1; i++) {
+          if ((currentSortDirection === "desc" && files[i].childNodes[4].innerHTML < files[i + 1].childNodes[4].innerHTML) || (currentSortDirection === "inc" && files[i].childNodes[4].innerHTML > files[i + 1].childNodes[4].innerHTML)) {
+              let tmp = files[i];
+              files[i] = files[i + 1];
+              files[i + 1] = tmp;
+              swapped = true;
+          }
+      }
+  } while (swapped);
+
+  // Load files again
+  loadFilesFromPage(1);
+  createNavigationButtons(1);
+  makeTableHighlightable();
 }

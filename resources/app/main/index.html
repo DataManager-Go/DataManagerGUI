@@ -47,11 +47,11 @@
             <thead style="background-color: #12181f;">
                 <tr unselectable="off" onselectstart="return true;">
                     <th style="border-bottom: 0px;color: white;" onclick="sortTableByID()">ID</th>
-                    <th style="border-bottom: 0px;color: white;">&nbsp;Name</th>
+                    <th style="border-bottom: 0px;color: white;" onclick="sortTableByName()">&nbsp;Name</th>
                     <th style="border-bottom: 0px;color: white;">PublicName</th>
-                    <th style="border-bottom: 0px;color: white;">&nbsp;Size</th>
-                    <th style="border-bottom: 0px;color: white;">CreationDate</th>
-                    <th style="border-bottom: 0px;color: white;">IsPublic</th>
+                    <th style="border-bottom: 0px;color: white;" onclick="sortTableBySize()">&nbsp;Size</th>
+                    <th style="border-bottom: 0px;color: white;" onclick="sortTableByCreationDate()">CreationDate</th>
+                    <th style="border-bottom: 0px;color: white;" onclick="sortTableByIsPublic()">IsPublic</th>
                 </tr>
             </thead>
             <tbody style="background-color: #cdcdcd; user-select: text;" id="tableBody">

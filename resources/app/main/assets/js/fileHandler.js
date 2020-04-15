@@ -92,10 +92,14 @@ function sendFileUploadRequest() {
     if (uploadType === "folderBtn") {
 
         var path = folderUploadBtn.files[0].path.split("/"); // linux
-        if (path[1] == undefined)
+        if (path[1] == undefined) {
             path = folderUploadBtn.files[0].path.split("\\"); // windows 
+        }
 
-        var directoryName = path[path.length-2];
+        var directoryName = "";
+        for (var i = 0; i < path.length-2; i++) {
+            directoryName += path[i] + "/";
+        }
 
         // Directory upload - request JSON
         var dirJSON = {
@@ -106,6 +110,8 @@ function sendFileUploadRequest() {
             type: "uploadDirectory",
             payload: JSON.stringify(dirJSON)
         }
+        
+        CloseUploadSettingsOverlay();
         astilectron.sendMessage(JSON.stringify(messageJSON), function(message) {});
         return;
     }
@@ -121,6 +127,6 @@ function sendFileUploadRequest() {
     }
 
     // Close overlay and send message
-    document.getElementById("uploadSettingsOverlay").style.display = "none";
+    CloseUploadSettingsOverlay();
     astilectron.sendMessage(JSON.stringify(messageJSON), function(message) {});
 }
