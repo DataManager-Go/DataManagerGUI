@@ -186,7 +186,27 @@ function sortTableBySize() {
   do {
       swapped = false;
       for (let i = 0; i < len-1; i++) {
-          if ((currentSortDirection === "desc" && files[i].childNodes[2].innerHTML < files[i + 1].childNodes[2].innerHTML) || (currentSortDirection === "inc" && files[i].childNodes[3].innerHTML > files[i + 1].childNodes[2].innerHTML)) {
+
+          var posI = files[i].childNodes[3].innerHTML.split(" ");
+          var val1 = parseFloat(posI[0]);
+          var posAboveI = files[i + 1].childNodes[3].innerHTML.split(" ");
+          var val2 = parseFloat(posAboveI[0]);
+        
+          if (posI[1] === "KB")
+            val1 *= 1000;
+          else if (posI[1] === "MB")
+            val1 *= 1000000;
+          else if (posI[1] === "GB")
+            val1 *= 1000000000;
+      
+            if (posAboveI[1] === "KB")
+            val2 *= 1000;
+          else if (posAboveI[1] === "MB")
+            val2 *= 1000000;
+          else if (posAboveI[1] === "GB")
+            val2 *= 1000000000;
+
+          if ((currentSortDirection === "desc" &&  val1 < val2) || (currentSortDirection === "inc" && val1 > val2)) {
               let tmp = files[i];
               files[i] = files[i + 1];
               files[i + 1] = tmp;
