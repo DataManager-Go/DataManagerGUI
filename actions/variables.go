@@ -6,6 +6,7 @@ import (
 	"github.com/asticode/go-astilectron"
 )
 
+// ...
 var (
 	Window          *astilectron.Window
 	ElementsPerPage = 30
