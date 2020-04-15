@@ -89,9 +89,7 @@ function sendFileUploadRequest() {
     }
 
     // Find files
-    if (uploadType === "btn") {
-    }
-    else if (uploadType === "folderBtn") {
+    if (uploadType === "folderBtn") {
 
         var path = folderUploadBtn.files[0].path.split("/"); // linux
         if (path[1] == undefined)
