@@ -5,12 +5,11 @@ document.addEventListener('astilectron-ready', function() {
 
         var obj = JSON.parse(message);
 
-        // obj contents: obj.type, obj.payload
+        // UI Elements
         if (obj.type === "namespace/groups") {
            addNamespaceAndGroups(obj);
         }
         else if (obj.type === "files") {
-            
             // Delete potential former navigation buttons
             document.getElementById("buttonContainer").innerHTML = "";
 
@@ -19,30 +18,45 @@ document.addEventListener('astilectron-ready', function() {
         else if(obj.type === "tags") {
             addTags(obj);
         }
+        // Download
         else if (obj.type === "downloadProgress") {
-            document.getElementById("progressBar").style.width = obj.payload+"%"; 
+            document.getElementById("dl_progressBar").style.width = obj.payload+"%"; 
         }
-        else if (obj.type === "closeOverlay") {
-            modal.style.display = "none";
+        else if (obj.type === "closeDownloadOverlay") {
+            document.getElementById("downloadOverlay").style.display = "none";
         } 
         else if (obj.type === "openDownloadOverlay") {
             OpenDownloadOverlay(obj.payload);
         }
-        else if (obj.type === "updateDownloadOverlay") {
-            UpdateOverlayInformation(obj.payload.split(";"))
-        }
         else if (obj.type === "downloadSuccess") {
             createAlert("success", "Successfully", "downloaded your file!");    
-        } else if (obj.type === "downloadError") {
-            createAlert("error", "Error", "downloading your file!");    
+        } 
+        else if (obj.type === "downloadError") {
+            createAlert("danger", "Error", "downloading your file!");    
+        }
+        // Upload
+        else if (obj.type === "uploadProgress") {
+            document.getElementById("up_progressBar").style.width = obj.payload+"%"; 
+        }
+        else if (obj.type === "startUpload") {
+            StartUpload();
+        }
+        else if (obj.type === "uploadSuccess") {
+            createAlert("success", "Successfully", "uploaded your file!");    
+        } 
+        else if (obj.type === "uploadError") {
+            createAlert("danger", "Error", "uploading your file!");    
         }
 
 		return "";
     });
 })
 
+var tagList = [];
 // TODO Button press event
 function addTags(data) {
+    tagList = [];
+
     var parsed = JSON.parse(data.payload).content;
 
     if (parsed === "undefined") { return; }
@@ -54,6 +68,7 @@ function addTags(data) {
         btn.setAttribute("style", "margin-right: 7px;background-color: rgb(18,24,31);");
         btn.innerHTML = parsed[i];
 
+        tagList.push(parsed[i]);
         document.getElementById("tagList").appendChild(btn);
     }
 }
@@ -127,6 +142,7 @@ function listFiles(data) {
 }
 
 var namespaceCount = 0;
+var groupList = [];
 function addNamespaceAndGroups(data) {
     var parsed = JSON.parse(data.payload);
 
@@ -165,7 +181,7 @@ function addNamespaceAndGroups(data) {
         ns_a_span.setAttribute("class", "text-nowrap mx-2");
 
         var name = groups[0];
-        if (name.length > 16) {name = name.substring(0,16)+"..."}
+        if (name.length > 14) {name = name.substring(0,14)+"..."}
 
         ns_a_span.innerHTML = name;
         ns_a.append(ns_a_span);
@@ -189,7 +205,7 @@ function addNamespaceAndGroups(data) {
             div_a.setAttribute("href", "#");
             div.appendChild(div_a);
 
-            var div_a_i = document.createElement("i");0
+            var div_a_i = document.createElement("i");
             div_a.appendChild(div_a_i);
             
             var div_a_span = document.createElement("span");
@@ -209,6 +225,9 @@ function addNamespaceAndGroups(data) {
                 div_a_i.setAttribute("id", `{"group":"`+groups[j]+`", "namespace":"`+groups[0]+`"}`);
                 div_a_span.innerHTML = groups[j];
                 div_a_span.setAttribute("id", `{"group":"`+groups[j]+`", "namespace":"`+groups[0]+`"}`);
+    
+                if (groups[0] === parsed.user+"_default")
+                    groupList.push(groups[j]);
             }
             div_a.addEventListener("click", OnListClick);
         }   

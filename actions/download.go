@@ -75,5 +75,5 @@ func DownloadFiles(fileIDs []uint, path string) {
 		}
 	}
 
-	SendMessage("closeOverlay", "", HandleResponses)
+	SendMessage("closeDownloadOverlay", "", HandleResponses)
 }

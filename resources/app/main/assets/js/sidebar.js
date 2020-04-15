@@ -1,8 +1,3 @@
-$('body').on('hide.bs.dropdown', function (e) {
-    if (e.clickEvent) {
-      e.preventDefault();
-    }
-})
 // List-click Handler
 function OnListClick(e) {
 
@@ -10,6 +5,15 @@ function OnListClick(e) {
         type: "changeNamespaceOrGroup",
         payload: e.target.attributes.id.value
     };
+
+//    groupList.push(groups[j]);
+
+    groupList = [];
+    for (var i = 1; i < e.target.parentElement.childNodes.length; i++) {
+        groupList.push(e.target.parentElement.childNodes[i].childNodes[1].innerHTML);
+        console.log(e.target.parentElement.childNodes[i].childNodes[1].innerHTML);
+    }
+
     astilectron.sendMessage(JSON.stringify(json), function(message) {});
 }
 
@@ -48,7 +52,6 @@ function AdjustSubentriesInListLength() {
         this.id = "namespaceParent_collapsed";
         namespaceCount -= this.parentElement.childNodes[1].childNodes.length;
     }
-    alert(namespaceCount);
-
+    
     onResize();
 }

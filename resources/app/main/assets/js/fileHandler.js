@@ -55,18 +55,18 @@ function uploadSelectedFiles(uploadType) {
             path = folderUploadBtn.files[0].path.split("\\"); // windows 
 
         var directoryName = path[path.length-2];
-        alert(directoryName);
+        createAlert("warning", "Debug", directoryName);  
 
         var folderJson = {
             type: "uploadDirectory",
             payload: directoryName
         }   
 
-        alert(JSON.stringify(folderJson));
+        createAlert("warning", "Debug", JSON.stringify(folderJson));  
         return;
     }
 
     // Send message
-    alert(JSON.stringify(fileJson));
+    createAlert("warning", "Debug", JSON.stringify(fileJson));  
     astilectron.sendMessage(JSON.stringify(fileJson), function(message) {});
 }

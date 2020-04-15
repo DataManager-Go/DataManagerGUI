@@ -10,7 +10,6 @@ document.addEventListener('astilectron-ready', function() {
     });
 })
 
-
 /* ---- Functions ---- */
 
 function login() {
@@ -28,10 +27,10 @@ function login() {
 
     astilectron.sendMessage(JSON.stringify(json), function(message) {
         if (message === "ServerError") {
-            alert("The server couldn't be reached. Please check your input");
+            createAlert("danger", "", "The server couldn't be reached. Please check your input");
             return;
         } else {
-            alert("Your name / password is wrong. Please check your input")
+            createAlert("danger", "", "Your name / password is wrong. Please check your input")
             document.body.focus();
             return;
         }
@@ -52,19 +51,19 @@ function register() {
     };
 
     if (name.length > 30) {
-        alert("Your Username is too long! 30 characters maximum allowed.");
+        createAlert("danger", "", "Your Username is too long! 30 characters maximum allowed.");
         document.body.focus();
         return;
     }
     
     if (password.length > 80) {
-        alert("Your Password is too long! 80 characters maxiumum allowed");
+        createAlert("danger", "", "Your Password is too long! 80 characters maxiumum allowed");
         document.body.focus();
         return;
     }
 
     if (password.length < 7) {
-        alert("Your Password is too short! 7 characters are needed.");
+        createAlert("danger", "", "Your Password is too short! 7 characters are needed.");
         document.body.focus();
         return;
     }
@@ -113,7 +112,7 @@ document.addEventListener('keydown', function(event) {
 function checkPasswords() {
 
     if (document.getElementById("passwordRepeat").value !== password) {
-        alert("Your passwords do not match!");
+        createAlert("danger", "", "Your passwords do not match!");
         document.getElementById("passwordRepeat").value = "";
         return;
     }
@@ -133,7 +132,7 @@ function checkPasswords() {
 
     astilectron.sendMessage(JSON.stringify(json), function(message) {
         if (message === "success") {} else {
-            alert("Either the chosen server ip is wrong or your username is already taken. Try a different one.")
+            createAlert("danger", "", "Either the chosen server ip is wrong or your username is already taken. Try a different one.")
         }
     });
 }

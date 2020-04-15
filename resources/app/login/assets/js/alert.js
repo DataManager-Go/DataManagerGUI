@@ -1,6 +1,3 @@
-// Get the <span> element that closes the modal
-//var span = document.getElementsByClassName("close")[0];
-
 // List of currently active alerts
 var currentAlerts = [];
 
@@ -41,48 +38,3 @@ function createAlert(type, strongText, normalText) {
 
     }, 5000);
 }
-
-/* Unused for downloads so far -> really bad there
-// When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-    modal.style.display = "none";
-    cancelDownload();
-}
-*/
-
-// *********** Overlays *********** //
-
-// Download Overlay
-function OpenDownloadOverlay(fileName) {
-
-    document.getElementById("dl_overlayTitle").innerHTML = "Download";
-    document.getElementById("dl_progressTitle").innerHTML = "Downloading \""+fileName+"\"";
-    document.getElementById("dl_progressBar").style.width = "0%";
-
-    document.getElementById("dl_downloadOverlay").style.display = "block";
-}
-
-// Cancels any current download
-function cancelDownload() {
-
-    var json = {
-        type: "cancelDownload",
-        payload: ""
-    };
-
-    astilectron.sendMessage(JSON.stringify(json), function(message) {});
-    createAlert("danger", "", "Download canceled");
-}
-
-
-// Upload Overlay
-function OpenUploadOverlay() {
-   document.getElementById("uploadOverlay").style.display = "block";
-}
-
-// Cancels any current upload
-function cancelUpload() {
-    document.getElementById("uploadOverlay").style.display = "none";
-}
-
-document.getElementById("uploadOverlay").style.display = "block";

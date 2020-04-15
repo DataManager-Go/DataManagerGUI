@@ -113,6 +113,7 @@ func StartLoginWindow(a *astilectron.Astilectron) {
 	}
 
 	// Blocking pattern
+	// actions.Window.OpenDevTools()
 	a.Wait()
 }
 

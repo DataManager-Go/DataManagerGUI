@@ -8,11 +8,12 @@
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/fonts/ionicons.min.css">
     <link rel="stylesheet" href="assets/css/Login-Form-Dark.css">
-    <link rel="stylesheet" href="assets/css/alert.css">
     <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 
 <body>
+
+    <!-- Main body -->
     <div class="login-dark" style="height: 650px;">
         <form>
             <h2 class="sr-only">Login Form</h2>
@@ -37,13 +38,18 @@
             <div class="modal-body">
                 <p style="color:white; padding-top: 1px;">Retype your password:</p>
                 <form>
-                <input type="password" id="passwordRepeat" name="passwordRepeat" class="form-control" placeholder="Repeat password">
-                <div style="padding-left: 25%; padding-right: 25%; padding-top: 15px;">
-                    <button class="btn btn-primary btn-block" type="button" onclick="checkPasswords()">Submit</button>
-                </div>
+                    <input type="password" id="passwordRepeat" name="passwordRepeat" class="form-control" placeholder="Repeat password">
+                    <div style="padding-left: 25%; padding-right: 25%; padding-top: 15px;">
+                        <button class="btn btn-primary btn-block" type="button" onclick="checkPasswords()">Submit</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
+
+    
+    <!-- Alert Messages -->
+    <div id="alertBox"></div>
 
     <script src="assets/js/jquery.min.js"></script>
     <script>window.$ = window.jQuery = require('./assets/js/jquery.min.js');</script>
