@@ -58,4 +58,15 @@ function AdjustSubentriesInListLength() {
         this.id = "namespaceParent_collapsed";
         namespaceCount -= this.parentElement.childNodes[1].childNodes.length;
     }
+
+    // Make table sort icons invisible
+    sortIdIcon.style.visibility = "hidden";
+    sortNameIcon.style.visibility = "hidden";
+    sortSizeIcon.style.visibility = "hidden";
+    sortDateIcon.style.visibility = "hidden";
+    sortPublicIcon.style.visibility = "hidden";
+
+    // Remove filters
+    displayFilters = [];
+    searchbar.value = "";
 }

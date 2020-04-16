@@ -117,7 +117,7 @@ function makeTableHighlightable() {
   }
 }
 
-/* ------ Table sorting ------ TODO*/ 
+/* ------ Table sorting ------ */ 
 var currentlySorted = "";
 var currentSortDirection ="";
 

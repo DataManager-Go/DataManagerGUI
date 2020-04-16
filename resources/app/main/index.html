@@ -31,7 +31,7 @@
             <button class="btn btn-dark text-left" type="button" style="margin-right: 7px;margin-bottom: -57px;background-color: rgb(18,24,31);" onclick="downloadSelectedFiles()">Download</button>
             <!-- Searchbar -->
             <div class="text-right md-form active-cyan-2 mb-3">
-                <input id="seachbar" type="text" class="form-control" placeholder="Search files" aria-label="Search" style="width: 21%;margin-left: 78%;">
+                <input id="seachbar" type="text" class="form-control" placeholder="Search files" aria-label="Search" style="width: 21%; margin-left: 78%;" onkeyup="onSearchbarChange()">
             </div>
 
         </div>
@@ -196,6 +196,7 @@
     <script src="assets/js/messageHandler.js"></script>
     <script src="assets/js/fileHandler.js"></script>
     <script src="assets/js/overlay.js"></script>
+    <script src="assets/js/search.js"></script>
 </body>
 
 </html>
