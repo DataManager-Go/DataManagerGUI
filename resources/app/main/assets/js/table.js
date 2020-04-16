@@ -85,15 +85,24 @@ function resizableGrid(table) {
     }
    
     function getStyleVal(elm,css){
-     return (window.getComputedStyle(elm, null).getPropertyValue(css))
+      return (window.getComputedStyle(elm, null).getPropertyValue(css))
     }
 };
 
 
-// Table highlighting TODO Use it to do stuff (check for hilite - true)
+// Table highlighting
 function makeTableHighlightable() {
-  for (var i=1;i < table.rows.length;i++){
-    table.rows[i].onclick= function () {
+  for (var i=1;i < table.rows.length;i++) {
+
+    // On mouse down - get time
+    table.rows[i].onmousedown= function () {
+          this.clickTime = new Date().getTime();
+    }
+    // On mouse up - check if mouse was clicked or hold
+    table.rows[i].onmouseup = function() {
+      releaseTime = new Date().getTime();
+
+      if (releaseTime - this.clickTime < 250) {
         if(!this.hilite){
           this.origColor=this.style.backgroundColor;
           this.style.backgroundColor='#BCD4EC';
@@ -103,6 +112,7 @@ function makeTableHighlightable() {
           this.style.backgroundColor=this.origColor;
           this.hilite = false;
         }
+      }
     }
   }
 }
