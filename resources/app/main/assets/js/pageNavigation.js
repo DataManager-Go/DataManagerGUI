@@ -16,7 +16,9 @@ function loadFilesFromPage(page) {
     if (displayFilters.length !== 0) {
         for (var i = 0; i < files.length; i++) {
             for (var j = 0; j < displayFilters.length; j++) {
-                if (files[i].childNodes[1].innerHTML.indexOf(displayFilters[j]) !== -1) {
+
+                var name = files[i].childNodes[1].innerHTML;
+                if (name.toLowerCase().indexOf(displayFilters[j]) !== -1) {
                     wantedFiles.push(files[i]);
                     break;
                 }
