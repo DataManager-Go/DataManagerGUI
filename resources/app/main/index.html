@@ -21,11 +21,11 @@
             <!-- Upload -->
             <div class="upload-btn-wrapper" style="margin-right: 7px;margin-bottom: -44px;">
                 <button class="btn btn-dark text-left" type="button" style="background-color: rgb(18,24,31);vertical-align: unset;">Upload files</button>
-                <input type="file" name="fileUpload" id="fileUploadBtn" multiple onchange='prepareFileUploadRequest("btn")'>
+                <input type="file" name="fileUpload" id="fileUploadBtn" title=" " multiple onchange='prepareFileUploadRequest("btn")'>
             </div>
             <div class="upload-btn-wrapper" style="margin-right: 7px;margin-bottom: -44px;">
                 <button class="btn btn-dark text-left" type="button" style="background-color: rgb(18,24,31);vertical-align: unset;">Upload folder</button>
-                <input type="file" name="folderUpload" id="folderUploadBtn" webkitdirectory onchange='prepareFileUploadRequest("folderBtn")'>
+                <input type="file" name="folderUpload" id="folderUploadBtn" title=" " webkitdirectory onchange='prepareFileUploadRequest("folderBtn")'>
             </div>
             <!-- Download -->
             <button class="btn btn-dark text-left" type="button" style="margin-right: 7px;margin-bottom: -57px;background-color: rgb(18,24,31);" onclick="downloadSelectedFiles()">Download</button>
