@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="assets/css/overlay.css">
 </head>
 
-<body style="background-color: rgb(230, 230, 230); height: 369px; user-select: none;" onresize="onResize()">
+<body style="background-color: rgb(230, 230, 230); height: 369px; user-select: none;">
 
 	<!-- Above file table -->
     <div class="page-content-wrapper">
@@ -41,17 +41,34 @@
     <!-- Alert Messages -->
     <div id="alertBox"></div>
         
-	<!-- File table -->
+	<!-- File table  -->
     <div class="table-responsive" style="margin-left: 0;">
         <table class="table" id="tableID">
             <thead style="background-color: #12181f;">
                 <tr unselectable="off" onselectstart="return true;">
-                    <th style="border-bottom: 0px;color: white;" onclick="sortTableByID()">ID</th>
-                    <th style="border-bottom: 0px;color: white;" onclick="sortTableByName()">&nbsp;Name</th>
-                    <th style="border-bottom: 0px;color: white;">PublicName</th>
-                    <th style="border-bottom: 0px;color: white;" onclick="sortTableBySize()">&nbsp;Size</th>
-                    <th style="border-bottom: 0px;color: white;" onclick="sortTableByCreationDate()">CreationDate</th>
-                    <th style="border-bottom: 0px;color: white;" onclick="sortTableByIsPublic()">IsPublic</th>
+                    <th style="border-bottom: 0px;color: white;" onclick="sortTableByID()">
+                        ID&nbsp;&nbsp;&nbsp;
+                        <i id="sortIdIcon" class="fas fa-angle-up" style="text-align: right; visibility: hidden;"></i>
+                    </th>
+                    <th style="border-bottom: 0px;color: white;" onclick="sortTableByName()">
+                        Name&nbsp;&nbsp;&nbsp;
+                        <i id="sortNameIcon" class="fas fa-angle-up" style="text-align: right; visibility: hidden;"></i>
+                    </th>
+                    <th style="border-bottom: 0px;color: white;">
+                        PublicName
+                    </th>
+                    <th style="border-bottom: 0px;color: white;" onclick="sortTableBySize()">
+                        Size&nbsp;&nbsp;&nbsp;
+                        <i id="sortSizeIcon" class="fas fa-angle-up" style="text-align: right; visibility: hidden;"></i>
+                    </th>
+                    <th style="border-bottom: 0px;color: white;" onclick="sortTableByCreationDate()">
+                        CreationDate&nbsp;&nbsp;&nbsp;
+                        <i id="sortDateIcon" class="fas fa-angle-up" style="text-align: right; visibility: hidden;"></i>
+                    </th>
+                    <th style="border-bottom: 0px;color: white;" onclick="sortTableByIsPublic()">
+                        IsPublic&nbsp;&nbsp;&nbsp;
+                        <i id="sortPublicIcon" class="fas fa-angle-up" style="text-align: right; visibility: hidden;"></i>
+                    </th>
                 </tr>
             </thead>
             <tbody style="background-color: #cdcdcd; user-select: text;" id="tableBody">

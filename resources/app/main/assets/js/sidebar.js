@@ -28,20 +28,14 @@ function OnListClick(e) {
     astilectron.sendMessage(JSON.stringify(json), function(message) {});
 }
 
+/*
 // Resize Handler
 function onResize() {
     console.log($(window).height());
     if ($(window).height() < 70 * namespaceCount) {    
-       // document.getElementById("SideBar").classList.remove("flex-column");
-        // document.getElementById("title").setAttribute("style", "padding-left: 2.9rem");
-        
-       // document.getElementById("title").setAttribute("style", "padding-left: 3.975rem");
-    } else {
-      //  document.getElementById("SideBar").classList.add("flex-column");
-      //  document.getElementById("title").setAttribute("style", "padding-left: 0rem");
     }
-    
 }
+*/
 
 // Changes list length on extend / collapse
 function AdjustSubentriesInListLength() {
@@ -64,6 +58,4 @@ function AdjustSubentriesInListLength() {
         this.id = "namespaceParent_collapsed";
         namespaceCount -= this.parentElement.childNodes[1].childNodes.length;
     }
-    
-    onResize();
 }

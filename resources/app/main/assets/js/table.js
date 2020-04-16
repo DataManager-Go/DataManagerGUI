@@ -111,14 +111,30 @@ function makeTableHighlightable() {
 var currentlySorted = "";
 var currentSortDirection ="";
 
+var sortIdIcon = document.getElementById("sortIdIcon");
+var sortNameIcon = document.getElementById("sortNameIcon");
+var sortSizeIcon = document.getElementById("sortSizeIcon");
+var sortDateIcon = document.getElementById("sortDateIcon");
+var sortPublicIcon = document.getElementById("sortPublicIcon");
+
 // Sorts the entire current table by the id's
 function sortTableByID() {
     // Sorting options
     currentlySorted="id";
-    if (currentSortDirection === "" || currentSortDirection === "inc")
+    if (currentSortDirection === "" || currentSortDirection === "inc") {
       currentSortDirection="desc";
-    else   
+      sortIdIcon.classList.add("fa-rotate-180");
+    }
+    else {   
       currentSortDirection="inc";  
+      sortIdIcon.classList.remove("fa-rotate-180");
+    }
+
+    sortIdIcon.style.visibility = "visible";
+    sortNameIcon.style.visibility = "hidden";
+    sortSizeIcon.style.visibility = "hidden";
+    sortDateIcon.style.visibility = "hidden";
+    sortPublicIcon.style.visibility = "hidden";
 
     // Bubble sort
     var len = files.length;
@@ -145,10 +161,20 @@ function sortTableByID() {
 function sortTableByName() {
   // Sorting options
   currentlySorted="id";
-  if (currentSortDirection === "" || currentSortDirection === "inc")
+  if (currentSortDirection === "" || currentSortDirection === "inc") {
     currentSortDirection="desc";
-  else   
+    sortNameIcon.classList.add("fa-rotate-180");
+  }
+  else {   
     currentSortDirection="inc";  
+    sortNameIcon.classList.remove("fa-rotate-180");
+  }
+
+  sortIdIcon.style.visibility = "hidden";
+  sortNameIcon.style.visibility = "visible";
+  sortSizeIcon.style.visibility = "hidden";
+  sortDateIcon.style.visibility = "hidden";
+  sortPublicIcon.style.visibility = "hidden";
 
   // Bubble sort
   var len = files.length;
@@ -175,10 +201,19 @@ function sortTableByName() {
 function sortTableBySize() {
   // Sorting options
   currentlySorted="id";
-  if (currentSortDirection === "" || currentSortDirection === "inc")
+  if (currentSortDirection === "" || currentSortDirection === "inc") {
     currentSortDirection="desc";
-  else   
+    sortSizeIcon.classList.add("fa-rotate-180");
+  }
+  else {   
     currentSortDirection="inc";  
+    sortSizeIcon.classList.remove("fa-rotate-180");
+  }
+  sortIdIcon.style.visibility = "hidden";
+  sortNameIcon.style.visibility = "hidden";
+  sortSizeIcon.style.visibility = "visible";
+  sortDateIcon.style.visibility = "hidden";
+  sortPublicIcon.style.visibility = "hidden";
 
   // Bubble sort
   var len = files.length;
@@ -221,15 +256,24 @@ function sortTableBySize() {
   makeTableHighlightable();
 }
 
+
 // Sorts the entire current table by the id's
 function sortTableByCreationDate() {
   // Sorting options
   currentlySorted="id";
-  if (currentSortDirection === "" || currentSortDirection === "inc")
+  if (currentSortDirection === "" || currentSortDirection === "inc") {
     currentSortDirection="desc";
-  else   
+    sortDateIcon.classList.add("fa-rotate-180");
+  }
+  else {   
     currentSortDirection="inc";  
-
+    sortDateIcon.classList.remove("fa-rotate-180");
+  }
+  sortIdIcon.style.visibility = "hidden";
+  sortNameIcon.style.visibility = "hidden";
+  sortSizeIcon.style.visibility = "hidden";
+  sortDateIcon.style.visibility = "visible";
+  sortPublicIcon.style.visibility = "hidden";
   // Bubble sort
   var len = files.length;
   let swapped;
@@ -255,11 +299,19 @@ function sortTableByCreationDate() {
 function sortTableByIsPublic() {
   // Sorting options
   currentlySorted="id";
-  if (currentSortDirection === "" || currentSortDirection === "inc")
+  if (currentSortDirection === "" || currentSortDirection === "inc") {
     currentSortDirection="desc";
-  else   
+    sortPublicIcon.classList.add("fa-rotate-180");
+  }
+  else {   
     currentSortDirection="inc";  
-
+    sortPublicIcon.classList.remove("fa-rotate-180");
+  }
+  sortIdIcon.style.visibility = "hidden";
+  sortNameIcon.style.visibility = "hidden";
+  sortSizeIcon.style.visibility = "hidden";
+  sortDateIcon.style.visibility = "hidden";
+  sortPublicIcon.style.visibility = "visible";
   // Bubble sort
   var len = files.length;
   let swapped;
