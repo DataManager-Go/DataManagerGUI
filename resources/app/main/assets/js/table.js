@@ -126,7 +126,7 @@ function sortTableByID() {
     do {
         swapped = false;
         for (let i = 0; i < len-1; i++) {
-            if ((currentSortDirection === "desc" && files[i].childNodes[0].innerHTML < files[i + 1].childNodes[0].innerHTML) || (currentSortDirection === "inc" && files[i].childNodes[0].innerHTML > files[i + 1].childNodes[0].innerHTML)) {
+            if ((currentSortDirection === "desc" && parseInt(files[i].childNodes[0].innerHTML) < parseInt(files[i + 1].childNodes[0].innerHTML)) || (currentSortDirection === "inc" && parseInt(files[i].childNodes[0].innerHTML) > parseInt(files[i + 1].childNodes[0].innerHTML))) {
                 let tmp = files[i];
                 files[i] = files[i + 1];
                 files[i + 1] = tmp;

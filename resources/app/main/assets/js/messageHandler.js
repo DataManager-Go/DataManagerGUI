@@ -151,8 +151,6 @@ function addNamespaceAndGroups(data) {
     var namespaces = parsed.content;
     document.getElementById("barTitle").innerHTML = parsed.user;
 
-   // 700 -> 10 elemente = 70 pro element
-
     if ($(window).height() < 70 * namespaces.length) {
         document.getElementById("SideBar").classList.remove("flex-column");
     }
