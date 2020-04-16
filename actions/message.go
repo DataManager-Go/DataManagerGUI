@@ -105,6 +105,10 @@ func HandleMessages(m *astilectron.EventMessage) interface{} {
 			//UploadDirectory(uploadInfo.Path, uploadSettings)
 			return ""
 		}
+	case "cancelUpload":
+		{
+			// cancelUpChan <- true
+		}
 	}
 
 	return nil

@@ -22,7 +22,7 @@ function OnListClick(e) {
             val = e.target.parentElement.parentElement.childNodes[i].childNodes[1].innerHTML;
             end = e.target.parentElement.parentElement.childNodes.length;
         }
-        
+
         groupList.push(val);
     }
     astilectron.sendMessage(JSON.stringify(json), function(message) {});
@@ -32,12 +32,13 @@ function OnListClick(e) {
 function onResize() {
     console.log($(window).height());
     if ($(window).height() < 70 * namespaceCount) {    
-        document.getElementById("SideBar").classList.remove("flex-column");
-        document.getElementById("title").setAttribute("style", "padding-left: 2.9rem");
-        //document.getElementById("title").setAttribute("style", "padding-left: 1.655rem");
+       // document.getElementById("SideBar").classList.remove("flex-column");
+        // document.getElementById("title").setAttribute("style", "padding-left: 2.9rem");
+        
+       // document.getElementById("title").setAttribute("style", "padding-left: 3.975rem");
     } else {
-        document.getElementById("SideBar").classList.add("flex-column");
-        document.getElementById("title").setAttribute("style", "padding-left: 0rem");
+      //  document.getElementById("SideBar").classList.add("flex-column");
+      //  document.getElementById("title").setAttribute("style", "padding-left: 0rem");
     }
     
 }

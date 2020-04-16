@@ -59,7 +59,7 @@ function OpenDownloadOverlay(fileName) {
     document.getElementById("dl_progressTitle").innerHTML = "Downloading \""+fileName+"\"";
     document.getElementById("dl_progressBar").style.width = "0%";
 
-    document.getElementById("dl_downloadOverlay").style.display = "block";
+    document.getElementById("downloadOverlay").style.display = "block";
 }
 
 // Cancels any current download
