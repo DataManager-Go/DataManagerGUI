@@ -1,3 +1,5 @@
+// TODO Autocomplete in search bar
+
 // Upload tags autocomplete
 $( function() {
     function split( val ) {

@@ -11,7 +11,7 @@ document.addEventListener('astilectron-ready', function() {
 })
 
 /* ---- Functions ---- */
-
+var lastLoginPress = "";
 function login() {
 
     url = document.getElementById("serverURL").value;
@@ -25,16 +25,19 @@ function login() {
         password: password
     };
 
-    astilectron.sendMessage(JSON.stringify(json), function(message) {
-        if (message === "ServerError") {
-            createAlert("danger", "", "The server couldn't be reached. Please check your input");
-            return;
-        } else {
-            createAlert("danger", "", "Your name / password is wrong. Please check your input")
-            document.body.focus();
-            return;
-        }
-    });
+    if (lastLoginPress.length > 0 || new Date().getTime() - lastLoginPress > 250) {
+        astilectron.sendMessage(JSON.stringify(json), function(message) {
+            if (message === "ServerError") {
+                createAlert("danger", "", "The server couldn't be reached. Please check your input");
+                return;
+            } else {
+                createAlert("danger", "", "Your name / password is wrong. Please check your input")
+                document.body.focus();
+                return;
+            }
+        });
+    }
+    lastLoginPress = new Date().getTime();
     return
 }
 
