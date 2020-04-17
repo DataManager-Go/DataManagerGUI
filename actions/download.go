@@ -2,9 +2,7 @@ package actions
 
 import (
 	"fmt"
-	"io"
 	"path/filepath"
-	"strconv"
 
 	"github.com/DataManager-Go/DataManagerGUI/utils"
 )
@@ -12,30 +10,6 @@ import (
 var (
 	cancelDlChan = make(chan bool, 1)
 )
-
-type barProxy struct {
-	w           io.Writer
-	total       int64
-	curr        *int64
-	lastPercent *uint8
-}
-
-func (proxy barProxy) Write(b []byte) (int, error) {
-	percent := uint8(calcPercent(*proxy.curr, proxy.total))
-
-	if percent-2 > *proxy.lastPercent {
-		fmt.Println(percent)
-		SendMessage("downloadProgress", strconv.FormatUint(uint64(percent), 10), HandleResponses)
-		(*proxy.lastPercent) = percent
-	}
-
-	(*proxy.curr) += int64(len(b))
-	return proxy.w.Write(b)
-}
-
-func calcPercent(curr, max int64) int64 {
-	return curr * 100 / max
-}
 
 // DownloadFiles will download the files given inside the array
 func DownloadFiles(fileIDs []uint, path string) {
@@ -49,32 +23,22 @@ func DownloadFiles(fileIDs []uint, path string) {
 			continue
 		}
 
-		SendMessage("openDownloadOverlay", resp.ServerFileName, HandleResponses)
+		OpenDownloadMoal(resp.ServerFileName)
 
-		// Set progressbar proxy
-		req.Proxy = func(w io.Writer) io.Writer {
-			curr, lastPercent := int64(0), uint8(0)
-
-			barProxy := barProxy{
-				w:           w,
-				total:       resp.Size,
-				curr:        &curr,
-				lastPercent: &lastPercent,
-			}
-
-			return barProxy
-		}
+		req.Proxy = proxyForRequest(resp.Size)
 
 		// Write request response to file
 		err = resp.WriteToFile(filepath.Join(path, fmt.Sprint(strconv.FormatUint(uint64(resp.FileID), 10), "_", resp.ServerFileName)), 0600, cancelDlChan)
 		if err != nil {
-			utils.ShredderFile(filepath.Join(path, resp.ServerFileName), -1)
-			SendMessage("downloadError", "", HandleResponses)
 			fmt.Println(err)
+			FileTransferError(err.Error())
+
+			// Delete file local
+			utils.ShredderFile(filepath.Join(path, resp.ServerFileName), -1)
 		} else {
-			SendMessage("downloadSuccess", "", HandleResponses)
+			FileTransferSuccess()
 		}
 	}
 
-	SendMessage("closeDownloadOverlay", "", HandleResponses)
+	CloseDownloadModal()
 }
