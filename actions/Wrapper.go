@@ -2,6 +2,7 @@ package actions
 
 import (
 	"fmt"
+	"strconv"
 
 	dmlib "github.com/DataManager-Go/libdatamanager"
 )
@@ -14,31 +15,58 @@ import (
 const (
 	openDownloadModal  = "openDownloadOverlay"
 	closeDownloadModal = "closeDownloadOverlay"
-	transferError      = "downloadError"
-	transferSuccess    = "downloadSuccess"
+	downloadError      = "downloadError"
+	downloadSuccess    = "downloadSuccess"
+	downloadProgress   = "downloadProgress"
 	refreshType        = "refresh"
+
+	openUploadModal  = "openUploadOverlay"
+	closeUploadModal = "closeUploadOverlay"
+	uploadProgress   = "uploadProgress"
+	uploadSuccess    = "uploadSuccess"
+	uploadError      = "uploadError"
 )
 
-// OpenFileTransferMoal opens the download modal
-func OpenFileTransferMoal(fileName string) {
+// OpenDownloadMoal opens the download modal
+func OpenDownloadMoal(fileName string) {
 	SendMessage(openDownloadModal, fileName, HandleResponses)
 }
 
-// CloseTransferModal close the dl modal
-func CloseTransferModal() {
+// CloseDownloadModal close the dl modal
+func CloseDownloadModal() {
 	SendMessage(closeDownloadModal, "", HandleResponses)
 }
 
-// FileTransferError display error for occured while a
-// file transfer
-func FileTransferError(text string) {
-	// TODO view reason for error
-	SendMessage(transferError, "", HandleResponses)
+// OpenUploadMoal opens the download modal
+func OpenUploadMoal(fileName string) {
+	SendMessage(openUploadModal, fileName, HandleResponses)
 }
 
-// FileTransferSuccess file transfered successfull
-func FileTransferSuccess() {
-	SendMessage(transferSuccess, "", HandleResponses)
+// CloseUploadModal close the dl modal
+func CloseUploadModal() {
+	SendMessage(closeUploadModal, "", HandleResponses)
+}
+
+// UploadProgress send upload progress
+func UploadProgress(percent uint8) {
+	SendMessage(uploadProgress, strconv.FormatUint(uint64(percent), 10), HandleResponses)
+}
+
+// DownloadProgress send upload progress
+func DownloadProgress(percent uint8) {
+	SendMessage(downloadProgress, strconv.FormatUint(uint64(percent), 10), HandleResponses)
+}
+
+// DownloadError display error for occured while a
+// file transfer
+func DownloadError(text string) {
+	// TODO view reason for error
+	SendMessage(downloadError, "", HandleResponses)
+}
+
+// DownloadSuccess file transfered successfull
+func DownloadSuccess() {
+	SendMessage(downloadSuccess, "", HandleResponses)
 }
 
 // RefreshList refreshs filelist

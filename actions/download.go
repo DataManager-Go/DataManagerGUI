@@ -5,6 +5,7 @@ import (
 	"path/filepath"
 
 	"github.com/DataManager-Go/DataManagerGUI/utils"
+	"github.com/DataManager-Go/libdatamanager"
 )
 
 var (
@@ -19,13 +20,16 @@ func DownloadFiles(fileIDs []uint, path string) {
 		resp, err := req.Do()
 		if err != nil {
 			fmt.Println(err)
-			FileTransferError(err.Error())
+			DownloadError(err.Error())
 			continue
 		}
 
-		OpenFileTransferMoal(resp.ServerFileName)
-
-		req.Proxy = proxyForRequest(resp.Size)
+		OpenDownloadMoal(resp.ServerFileName)
+		proxy := newProxy(resp.Size)
+		proxy.callback = func(percent uint8) {
+			DownloadProgress(percent)
+		}
+		req.Proxy = proxy.proxyFunc()
 
 		// Write request response to file
 		localFilename := fmt.Sprintf("%d_%s", resp.FileID, resp.ServerFileName)
@@ -34,14 +38,17 @@ func DownloadFiles(fileIDs []uint, path string) {
 		err = resp.WriteToFile(filepath.Clean(path), 0600, cancelDlChan)
 		if err != nil {
 			fmt.Println(err)
-			FileTransferError(err.Error())
-
 			// Delete file local
 			utils.ShredderFile(filepath.Join(path, resp.ServerFileName), -1)
+
+			// Don't show errors if cancelled
+			if err != libdatamanager.ErrCancelled {
+				DownloadError(err.Error())
+			}
 		} else {
-			FileTransferSuccess()
+			DownloadSuccess()
 		}
 	}
 
-	CloseTransferModal()
+	CloseDownloadModal()
 }

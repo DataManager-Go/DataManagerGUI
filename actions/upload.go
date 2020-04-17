@@ -1,7 +1,6 @@
 package actions
 
 import (
-	"fmt"
 	"os"
 	"path/filepath"
 
@@ -20,12 +19,12 @@ func UploadFiles(files []string, info jsprotocol.UploadInfoSettings) {
 	// Update fileslist
 	LoadFiles(libdm.FileAttributes{Namespace: info.GetUserNamespace(Manager)})
 
-	CloseTransferModal()
+	CloseDownloadModal()
 }
 
 func uploadFile(file string, info jsprotocol.UploadInfoSettings, replaceID uint) error {
 	_, filename := filepath.Split(file)
-	OpenFileTransferMoal(filename)
+	OpenDownloadMoal(filename)
 
 	// Open file
 	f, err := os.Open(file)
@@ -37,10 +36,14 @@ func uploadFile(file string, info jsprotocol.UploadInfoSettings, replaceID uint)
 	attributes.Namespace = info.GetUserNamespace(Manager)
 
 	uploadRequest := Manager.NewUploadRequest(filename, attributes)
-	fmt.Println(uploadRequest.Attribute.Namespace)
 
+	proxy := newProxy(0)
+	proxy.callback = func(percent uint8) {
+		UploadProgress(percent)
+	}
 	uploadRequest.SetFileSizeCallback(func(s int64) {
-		uploadRequest.ProxyWriter = proxyForRequest(s)
+		proxy.total = s
+		uploadRequest.ProxyWriter = proxy.proxyFunc()
 	})
 
 	if replaceID > 0 {
