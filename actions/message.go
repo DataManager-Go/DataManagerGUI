@@ -58,11 +58,13 @@ func HandleMessages(m *astilectron.EventMessage) interface{} {
 			// Receive initial files data
 			var json string
 			var err error
-			if info.Group == "ShowAllFiles" {
-				json, err = GetFiles("", 0, false, dmlib.FileAttributes{Namespace: info.Namespace}, 0)
-			} else {
-				json, err = GetFiles("", 0, false, dmlib.FileAttributes{Namespace: info.Namespace, Groups: []string{info.Group}}, 0)
+			attributes := dmlib.FileAttributes{Namespace: info.Namespace}
+
+			if info.Group != "ShowAllFiles" {
+				attributes.Groups = []string{info.Group}
 			}
+
+			json, err = GetFiles("", 0, false, attributes, 0)
 
 			if err != nil {
 				fmt.Println(err.Error())

@@ -23,7 +23,7 @@ func DownloadFiles(fileIDs []uint, path string) {
 			continue
 		}
 
-		OpenDownloadMoal(resp.ServerFileName)
+		OpenFileTransferMoal(resp.ServerFileName)
 
 		req.Proxy = proxyForRequest(resp.Size)
 
@@ -43,5 +43,5 @@ func DownloadFiles(fileIDs []uint, path string) {
 		}
 	}
 
-	CloseDownloadModal()
+	CloseTransferModal()
 }
