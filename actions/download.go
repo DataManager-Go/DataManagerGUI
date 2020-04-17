@@ -3,7 +3,6 @@ package actions
 import (
 	"fmt"
 	"path/filepath"
-	"strconv"
 
 	"github.com/DataManager-Go/DataManagerGUI/utils"
 )
@@ -24,12 +23,15 @@ func DownloadFiles(fileIDs []uint, path string) {
 			continue
 		}
 
-		OpenDownloadMoal(resp.ServerFileName)
+		OpenFileTransferMoal(resp.ServerFileName)
 
 		req.Proxy = proxyForRequest(resp.Size)
 
 		// Write request response to file
-		err = resp.WriteToFile(filepath.Join(path, fmt.Sprint(strconv.FormatUint(uint64(resp.FileID), 10), "_", resp.ServerFileName)), 0600, cancelDlChan)
+		localFilename := fmt.Sprintf("%d_%s", resp.FileID, resp.ServerFileName)
+		path := filepath.Join(path, localFilename)
+
+		err = resp.WriteToFile(filepath.Clean(path), 0600, cancelDlChan)
 		if err != nil {
 			fmt.Println(err)
 			FileTransferError(err.Error())
@@ -41,5 +43,5 @@ func DownloadFiles(fileIDs []uint, path string) {
 		}
 	}
 
-	CloseDownloadModal()
+	CloseTransferModal()
 }
