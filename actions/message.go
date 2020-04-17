@@ -109,7 +109,7 @@ func HandleMessages(m *astilectron.EventMessage) interface{} {
 		}
 	case "cancelUpload":
 		{
-			// cancelUpChan <- true
+			uploadCancelChan <- true
 		}
 	}
 

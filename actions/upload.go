@@ -1,6 +1,7 @@
 package actions
 
 import (
+	"fmt"
 	"os"
 	"path/filepath"
 
@@ -12,19 +13,22 @@ var uploadCancelChan = make(chan bool, 1)
 
 // UploadFiles uploads file
 func UploadFiles(files []string, info jsprotocol.UploadInfoSettings) {
+	defer CloseUploadModal()
+
 	for i := range files {
-		uploadFile(files[i], info, 0)
+		if err := uploadFile(files[i], info, 0); err != nil {
+			UploadError(err.Error())
+			return
+		}
 	}
 
 	// Update fileslist
 	LoadFiles(libdm.FileAttributes{Namespace: info.GetUserNamespace(Manager)})
-
-	CloseDownloadModal()
 }
 
 func uploadFile(file string, info jsprotocol.UploadInfoSettings, replaceID uint) error {
 	_, filename := filepath.Split(file)
-	OpenDownloadMoal(filename)
+	OpenUploadMoal(filename)
 
 	// Open file
 	f, err := os.Open(file)
@@ -34,6 +38,7 @@ func uploadFile(file string, info jsprotocol.UploadInfoSettings, replaceID uint)
 
 	attributes := info.GetAttributes()
 	attributes.Namespace = info.GetUserNamespace(Manager)
+	fmt.Println(attributes.Namespace)
 
 	uploadRequest := Manager.NewUploadRequest(filename, attributes)
 

@@ -57,6 +57,13 @@ func DownloadProgress(percent uint8) {
 	SendMessage(downloadProgress, strconv.FormatUint(uint64(percent), 10), HandleResponses)
 }
 
+// UploadError display error for occured while a
+// file transfer
+func UploadError(text string) {
+	// TODO view reason for error
+	SendMessage(uploadError, "", HandleResponses)
+}
+
 // DownloadError display error for occured while a
 // file transfer
 func DownloadError(text string) {
