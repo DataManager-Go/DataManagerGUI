@@ -62,8 +62,8 @@ function sendFileUploadRequest() {
     var shouldPublic = false;
 
     // Find settings according to user input
-    if (encryptInput.value === "on") shouldEncrypt = true;
-    if (publicInput.value === "on") shouldPublic = true;
+    if (encryptInput.checked) shouldEncrypt = true;
+    if (publicInput.checked)  shouldPublic = true;
     fileTags = tagInput.value.replace(", ", ",").split(",");
     if (!fileTags[fileTags.length-1].match(/^[0-9a-zA-Z]+$/)) fileTags.pop();
     fileGroups = groupInput.value.replace(", ", ",").split(",");
