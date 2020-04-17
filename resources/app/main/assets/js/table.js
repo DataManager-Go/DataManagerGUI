@@ -1,4 +1,3 @@
-var table = document.getElementById('tableID');
 resizableGrid(table);
 
 function resizableGrid(table) {
@@ -118,14 +117,6 @@ function makeTableHighlightable() {
 }
 
 /* ------ Table sorting ------ */ 
-var currentlySorted = "";
-var currentSortDirection ="";
-
-var sortIdIcon = document.getElementById("sortIdIcon");
-var sortNameIcon = document.getElementById("sortNameIcon");
-var sortSizeIcon = document.getElementById("sortSizeIcon");
-var sortDateIcon = document.getElementById("sortDateIcon");
-var sortPublicIcon = document.getElementById("sortPublicIcon");
 
 // Sorts the entire current table by the id's
 function sortTableByID() {

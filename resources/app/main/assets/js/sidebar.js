@@ -4,8 +4,6 @@ $('body').on('hide.bs.dropdown', function (e) {
     }
 })
 
-var currentNamespace = "Default";
-
 // List-click Handler
 function OnListClick(e) {
 
