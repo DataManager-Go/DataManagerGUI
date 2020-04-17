@@ -6,6 +6,8 @@ github.com/DataManager-Go/libdatamanager v1.1.15 h1:6ftBaMXLWD1hlxjylidh578W4afV
 github.com/DataManager-Go/libdatamanager v1.1.15/go.mod h1:s2ywdIZpWEfgxJ7iMtCOdLCNaHVnO8dr7e9cE2NzgL4=
 github.com/DataManager-Go/libdatamanager v1.1.18 h1:GZsgMas8Tx4q9buU/z0b5VDMIV0tOVKGDo1cbkS7msM=
 github.com/DataManager-Go/libdatamanager v1.1.18/go.mod h1:s2ywdIZpWEfgxJ7iMtCOdLCNaHVnO8dr7e9cE2NzgL4=
+github.com/DataManager-Go/libdatamanager v1.1.19 h1:sfXJpyPxBYJEbbFTiNB3s+iSkw0vhbOBxBDa6xield0=
+github.com/DataManager-Go/libdatamanager v1.1.19/go.mod h1:s2ywdIZpWEfgxJ7iMtCOdLCNaHVnO8dr7e9cE2NzgL4=
 github.com/DataManager-Go/libdatamanager/config v0.0.0-20200413125811-cf32dc70af40 h1:prAklwiqvcLkXnjm9Zl7H3IUW3nnB6U0ebrNuMacjZ4=
 github.com/DataManager-Go/libdatamanager/config v0.0.0-20200413125811-cf32dc70af40/go.mod h1:RfoOPe8dQgubuBUmtqEYu1Ny0fT+htZH/ArrEl0dcHQ=
 github.com/DataManager-Go/libdatamanager/config v0.0.0-20200417171442-1abceeddf757 h1:A/jEWPB+XTd1Wjv+AMaxQd/NYsg+84zdsQ1f8UudE3M=
@@ -75,6 +77,7 @@ golang.org/x/net v0.0.0-20190404232315-eb5bcb51f2a3/go.mod h1:t9HGtf8HONx5eT2rtn
 golang.org/x/sys v0.0.0-20190215142949-d0b11bdaac8a/go.mod h1:STP8DvDyc/dI5b8T5hshtkjS+E42TnysNCUPdjciGhY=
 golang.org/x/sys v0.0.0-20190222072716-a9d3bda3a223/go.mod h1:STP8DvDyc/dI5b8T5hshtkjS+E42TnysNCUPdjciGhY=
 golang.org/x/sys v0.0.0-20190412213103-97732733099d/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
+golang.org/x/sys v0.0.0-20191026070338-33540a1f6037 h1:YyJpGZS1sBuBCzLAR1VEpK193GlqGZbnPFnPV/5Rsb4=
 golang.org/x/sys v0.0.0-20191026070338-33540a1f6037/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
 golang.org/x/sys v0.0.0-20200406155108-e3b113bbe6a4 h1:c1Sgqkh8v6ZxafNGG64r8C8UisIW2TKMJN8P86tKjr0=
 golang.org/x/sys v0.0.0-20200406155108-e3b113bbe6a4/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=

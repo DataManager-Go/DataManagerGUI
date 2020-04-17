@@ -34,6 +34,7 @@ function downloadSelectedFiles() {
 // Prepare upload / start settings input
 function prepareFileUploadRequest(fileUploadType) {
     uploadType = fileUploadType;
+    fileList = [];
 
     // Select file(s)
     if (uploadType === "btn") {

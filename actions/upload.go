@@ -1,7 +1,6 @@
 package actions
 
 import (
-	"fmt"
 	"os"
 	"path/filepath"
 
@@ -17,7 +16,9 @@ func UploadFiles(files []string, info jsprotocol.UploadInfoSettings) {
 
 	for i := range files {
 		if err := uploadFile(files[i], info, 0); err != nil {
-			UploadError(err.Error())
+			if err != libdm.ErrCancelled {
+				UploadError(err.Error())
+			}
 			return
 		}
 	}
@@ -37,9 +38,6 @@ func uploadFile(file string, info jsprotocol.UploadInfoSettings, replaceID uint)
 	}
 
 	attributes := info.GetAttributes()
-	attributes.Namespace = info.GetUserNamespace(Manager)
-	fmt.Println(attributes.Namespace)
-
 	uploadRequest := Manager.NewUploadRequest(filename, attributes)
 
 	proxy := newProxy(0)
