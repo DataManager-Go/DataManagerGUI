@@ -34,3 +34,33 @@
   -webkit-transform: scale(1.4);
   font-size: small;
 }
+
+
+/* Right Click Popup */
+.context-menu {
+  display: none;
+  position: absolute;
+  z-index: 10;
+  padding: 12px 0;
+  width: 240px;
+  background-color: rgb(18,24,31); 
+  border: solid 1px rgb(31, 41, 53);
+  box-shadow: 1px 1px 2px rgb(37, 49, 63);
+}
+
+.context-menu * {
+  display: block;
+  margin-bottom: 2px;
+  color: white;
+  -webkit-user-drag: none;
+}
+
+.context-menu :focus{
+  background-color: rgb(33,74,128);
+  color: white;
+}
+
+.context-menu :hover{
+  background-color: rgb(25, 58, 102);
+  color: white;
+}

@@ -94,22 +94,25 @@ function makeTableHighlightable() {
   for (var i=1;i < table.rows.length;i++) {
 
     // On mouse down - get time
-    table.rows[i].onmousedown= function () {
+    table.rows[i].onmousedown= function (e) {
+      if (e.button == 0)
           this.clickTime = new Date().getTime();
     }
     // On mouse up - check if mouse was clicked or hold
-    table.rows[i].onmouseup = function() {
-      releaseTime = new Date().getTime();
+    table.rows[i].onmouseup = function(e) {
+      if (e.button == 0) {
+        releaseTime = new Date().getTime();
 
-      if (releaseTime - this.clickTime < 250) {
-        if(!this.hilite){
-          this.origColor=this.style.backgroundColor;
-          this.style.backgroundColor='#BCD4EC';
-          this.hilite = true;
-        }
-        else{
-          this.style.backgroundColor=this.origColor;
-          this.hilite = false;
+        if (releaseTime - this.clickTime < 250) {
+          if(!this.hilite){
+            this.origColor=this.style.backgroundColor;
+            this.style.backgroundColor='#BCD4EC';
+            this.hilite = true;
+          }
+          else{
+            this.style.backgroundColor=this.origColor;
+            this.hilite = false;
+          }
         }
       }
     }

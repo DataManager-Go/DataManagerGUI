@@ -89,6 +89,7 @@ function listFiles(data) {
 
         // Generate
         var tr = document.createElement("tr");
+        tr.setAttribute("class", "table_entry"); // used for right click events
         
         var id = document.createElement("td");
         var name = document.createElement("td");

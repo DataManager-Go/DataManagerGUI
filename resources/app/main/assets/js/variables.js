@@ -29,6 +29,7 @@ var tagList = [];
 var files = [];
 var groupList = [];
 var displayFilters = []; // e.g. search input
+var rmbOverlayIsOpened = false;
 
 // List of currently active alerts
 var currentAlerts = [];

@@ -42,7 +42,7 @@
     <div id="alertBox"></div>
         
 	<!-- File table  -->
-    <div class="table-responsive" style="margin-left: 0;">
+    <div class="table-responsive" style="margin-left: 0;" id="tableDiv">
         <table class="table" id="tableID">
             <thead style="background-color: #12181f;">
                 <tr unselectable="off" onselectstart="return true;">
@@ -102,7 +102,7 @@
         <!-- Namspaces / Groups will be imported here -->
     </ul>
 
-    <!-- Download overlay-->
+    <!-- Download overlay -->
     <div id="downloadOverlay" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -122,7 +122,7 @@
         </div>
     </div>
 
-    <!-- Upload-settings overlay-->
+    <!-- Upload-settings overlay -->
     <div id="uploadSettingsOverlay" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -164,7 +164,7 @@
         </div>
     </div>
 
-    <!-- Upload overlay-->
+    <!-- Upload overlay -->
     <div id="uploadOverlay" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -184,6 +184,18 @@
         </div>
     </div>
 
+    <!-- Right Click Popup -->
+    <div class="dropdown-menu dropdown-menu-sm context-menu" id="context-menu">
+        <a class="dropdown-item" href="#">Preview</a>
+        <a class="dropdown-item" href="#">Edit file</a>
+        <a class="dropdown-item" href="#">Edit properties</a>
+        <a class="dropdown-item" href="#">Publish</a>
+        <a class="dropdown-item" href="#">Copy preview URL</a>
+        <a class="dropdown-item" href="#">Download</a>
+        <a class="dropdown-item" href="#">Replace</a>
+        <a class="dropdown-item" href="#">Delete</a>
+    </div>
+
     <!-- Scripts in their load order -->
     <script src="assets/js/jQuery/jquery.min.js"></script>
     <script>window.$ = window.jQuery = require('./assets/js/jQuery/jquery.min.js');</script>
@@ -198,6 +210,7 @@
     <script src="assets/js/fileHandler.js"></script>
     <script src="assets/js/overlay.js"></script>
     <script src="assets/js/search.js"></script>
+    <script src="assets/js/table_rightClick.js"></script>
 </body>
 
 </html>
