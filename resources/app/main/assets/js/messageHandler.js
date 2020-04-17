@@ -55,7 +55,6 @@ document.addEventListener('astilectron-ready', function() {
     });
 })
 
-var tagList = [];
 // TODO Button press event
 function addTags(data) {
     tagList = [];
@@ -76,9 +75,6 @@ function addTags(data) {
     }
 }
 
-var shownFileCap = 30;
-var files = []
-var displayFilters = []; // e.g. search input
 // listFiles will add up to 30 files to the body and preserve the rest
 function listFiles(data) {
     // Remove potential former entries
@@ -145,8 +141,6 @@ function listFiles(data) {
     createNavigationButtons(1);
 }
 
-var namespaceCount = 0;
-var groupList = [];
 function addNamespaceAndGroups(data) {
     var parsed = JSON.parse(data.payload);
 

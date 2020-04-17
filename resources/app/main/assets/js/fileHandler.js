@@ -31,22 +31,6 @@ function downloadSelectedFiles() {
     astilectron.sendMessage(JSON.stringify(json), function(message) {});
 }
 
-// Upload
-var uploadBtn = document.getElementById('fileUploadBtn');
-var folderUploadBtn = document.getElementById("folderUploadBtn");
-
-// Upload settings
-var directoryName = "";
-var fileList = [];
-var uploadType = "";
-
-// Elements from the html
-var tagInput = document.getElementById("up_set_tagInput");
-var groupInput = document.getElementById("up_set_groupInput");
-var encryptInput = document.getElementById("up_set_encryptBox");
-var publicInput = document.getElementById("up_set_publicBox");
-
-
 // Prepare upload / start settings input
 function prepareFileUploadRequest(fileUploadType) {
     uploadType = fileUploadType;

@@ -1,10 +1,3 @@
-// Get the <span> element that closes the modal
-//var span = document.getElementsByClassName("close")[0];
-
-// List of currently active alerts
-var currentAlerts = [];
-
-
 // Creates an alert with the given informations (types: error/warning/success/...)
 function createAlert(type, strongText, normalText) {
     var alertNumber = "alertNumber_"+currentAlerts.length;
@@ -41,14 +34,6 @@ function createAlert(type, strongText, normalText) {
 
     }, 5000);
 }
-
-/* Unused for downloads so far -> really bad there
-// When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-    modal.style.display = "none";
-    cancelDownload();
-}
-*/
 
 // *********** Overlays *********** //
 
