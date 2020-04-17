@@ -61,6 +61,7 @@ func DownloadProgress(percent uint8) {
 // file transfer
 func UploadError(text string) {
 	// TODO view reason for error
+	fmt.Println(text)
 	SendMessage(uploadError, "", HandleResponses)
 }
 

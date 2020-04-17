@@ -1,6 +1,7 @@
 package actions
 
 import (
+	"fmt"
 	"os"
 	"path/filepath"
 
@@ -13,6 +14,7 @@ var uploadCancelChan = make(chan bool, 1)
 // UploadFiles uploads file
 func UploadFiles(files []string, info jsprotocol.UploadInfoSettings) {
 	defer CloseUploadModal()
+	fmt.Println(info)
 
 	for i := range files {
 		if err := uploadFile(files[i], info, 0); err != nil {
@@ -38,7 +40,6 @@ func uploadFile(file string, info jsprotocol.UploadInfoSettings, replaceID uint)
 	}
 
 	attributes := info.GetAttributes()
-	attributes.Namespace = info.GetUserNamespace(Manager)
 	uploadRequest := Manager.NewUploadRequest(filename, attributes)
 
 	proxy := newProxy(0)
@@ -66,6 +67,11 @@ func uploadFile(file string, info jsprotocol.UploadInfoSettings, replaceID uint)
 
 	// return error on error
 	if resp.Checksum != localChecksum {
+		if localChecksum == "cancelled" && resp != nil && resp.FileID != 0 {
+			Manager.DeleteFile("", resp.FileID, false, attributes)
+			return libdm.ErrCancelled
+		}
+
 		return libdm.ErrChecksumNotMatch
 	}
 
