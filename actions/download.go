@@ -3,6 +3,7 @@ package actions
 import (
 	"fmt"
 	"path/filepath"
+	"strconv"
 
 	"github.com/DataManager-Go/DataManagerGUI/utils"
 )
@@ -19,7 +20,7 @@ func DownloadFiles(fileIDs []uint, path string) {
 		resp, err := req.Do()
 		if err != nil {
 			fmt.Println(err)
-			SendMessage("downloadError", "", HandleResponses)
+			FileTransferError(err.Error())
 			continue
 		}
 
