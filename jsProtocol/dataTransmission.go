@@ -37,9 +37,9 @@ type UploadDirectoryStruct struct {
 
 // UploadInfoSettings contains the settings of an upload request
 type UploadInfoSettings struct {
+	Namespace  string   `json:"namespace"`
 	Tags       []string `json:"tags"`
 	Groups     []string `json:"groups"`
-	Namespace  string   `json:"ns"`
 	Encrypt    bool     `json:"encrypt"`
 	MakePublic bool     `json:"public"`
 }

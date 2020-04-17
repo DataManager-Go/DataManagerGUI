@@ -3,14 +3,23 @@ $('body').on('hide.bs.dropdown', function (e) {
       e.preventDefault();
     }
 })
+
+var currentNamespace = "Default";
+
 // List-click Handler
 function OnListClick(e) {
 
+    // Get current namespace
+    var j = JSON.parse(e.target.id);
+    currentNamespace = j;
+
+    // Create json
     var json = {
         type: "changeNamespaceOrGroup",
         payload: e.target.attributes.id.value
     };
 
+    // Fill group list (used for auto completion)
     groupList = [];
     var end = e.target.parentElement.childNodes.length;
     for (var i = 1; i < end; i++) {
@@ -25,17 +34,9 @@ function OnListClick(e) {
 
         groupList.push(val);
     }
+    
     astilectron.sendMessage(JSON.stringify(json), function(message) {});
 }
-
-/*
-// Resize Handler
-function onResize() {
-    console.log($(window).height());
-    if ($(window).height() < 70 * namespaceCount) {    
-    }
-}
-*/
 
 // Changes list length on extend / collapse
 function AdjustSubentriesInListLength() {
