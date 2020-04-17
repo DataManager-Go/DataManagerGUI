@@ -8,13 +8,18 @@ function downloadSelectedFiles() {
     }
 
     // Find marked rows and add them to the download list
-    var table = document.getElementById('tableID'); 
-    for (var i = 1; i < table.rows.length; i++) {
-        if (table.rows[i].style.backgroundColor != "") {
-            requestedFiles.push(parseInt(table.rows[i].cells[0].innerHTML,10));
+    
+    
+    
+   // alert(files[0].childNodes[0].innerHTML+" - "+files[0].hilite);
 
-            table.rows[i].style.backgroundColor= table.rows[i].origColor;
-            table.rows[i].hilite = false;
+    for (var i = 0; i < files.length; i++) {
+        if (files[i].style.backgroundColor != "") {
+            requestedFiles.push(parseInt(files[i].childNodes[0].innerHTML,10));
+            alert("adding "+files[i].childNodes[0].innerHTML);
+
+            files[i].style.backgroundColor= files[i].origColor;
+            files[i].hilite = false;
         }
     }
     

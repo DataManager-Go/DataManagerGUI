@@ -3,6 +3,7 @@ package actions
 import (
 	"fmt"
 	"path/filepath"
+	"strconv"
 
 	"github.com/DataManager-Go/DataManagerGUI/utils"
 )
@@ -19,6 +20,7 @@ func DownloadFiles(fileIDs []uint, path string) {
 		resp, err := req.Do()
 		if err != nil {
 			fmt.Println(err)
+			FileTransferError(err.Error())
 			continue
 		}
 
@@ -27,7 +29,7 @@ func DownloadFiles(fileIDs []uint, path string) {
 		req.Proxy = proxyForRequest(resp.Size)
 
 		// Write request response to file
-		err = resp.WriteToFile(filepath.Join(path, resp.ServerFileName), 0600, cancelDlChan)
+		err = resp.WriteToFile(filepath.Join(path, fmt.Sprint(strconv.FormatUint(uint64(resp.FileID), 10), "_", resp.ServerFileName)), 0600, cancelDlChan)
 		if err != nil {
 			fmt.Println(err)
 			FileTransferError(err.Error())
