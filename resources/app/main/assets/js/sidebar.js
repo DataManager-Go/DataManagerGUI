@@ -9,7 +9,7 @@ function OnListClick(e) {
 
     // Get current namespace
     var j = JSON.parse(e.target.id);
-    currentNamespace = j;
+    currentNamespace = j.namespace;
 
     // Create json
     var json = {
