@@ -208,6 +208,7 @@ function addNamespaceAndGroups(data) {
             div_a.appendChild(div_a_span);
             
             if (groups[0] === "Default") {groups[0] = parsed.user+"_default";}
+            else if (j === 0) {groups[0] = parsed.user+"_"+groups[0];}
 
             if (j === 0) {
                 div_a.setAttribute("id", `{"group":"ShowAllFiles", "namespace":"`+groups[0]+`"}`);

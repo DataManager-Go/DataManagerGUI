@@ -26,7 +26,7 @@ func UploadFiles(files []string, info jsprotocol.UploadInfoSettings) {
 	}
 
 	// Update fileslist
-	LoadFiles(libdm.FileAttributes{Namespace: info.GetUserNamespace(Manager)})
+	LoadFiles(libdm.FileAttributes{Namespace: info.Namespace})
 }
 
 func uploadFile(file string, info jsprotocol.UploadInfoSettings, replaceID uint) error {
