@@ -81,6 +81,8 @@ func HandleMessages(m *astilectron.EventMessage) interface{} {
 				return err
 			}
 
+			fmt.Println(uploadInfo.Settings)
+
 			// Parse uploadInfo.Settings
 			var uploadSettings jsprotocol.UploadInfoSettings
 			err = json.Unmarshal([]byte(uploadInfo.Settings), &uploadSettings)
