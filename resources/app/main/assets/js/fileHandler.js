@@ -92,6 +92,7 @@ function sendFileUploadRequest() {
         groups: fileGroups,
         encrypt: shouldEncrypt,
         public: shouldPublic,
+        ns: "// TODO",
     }
 
     // Find files
