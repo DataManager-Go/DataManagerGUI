@@ -5,20 +5,59 @@ function onPageBtnClick(page) {
 }
 
 // Loads the files that should appear in a specific page's range
+var filteredFilesSize = 0;
 function loadFilesFromPage(page) {
     
     // Delete former entries
     document.getElementById("tableBody").innerHTML = "";
 
-    // Find break point
-    var stop = page * shownFileCap;
-    if (files.length < stop)  {
-        stop = files.length;
+    // Filter unwanted files
+    var wantedFiles = [];
+    if (displayFilters.length !== 0) {
+        for (var i = 0; i < files.length; i++) {
+            for (var j = 0; j < displayFilters.length; j++) {
+
+                var name = files[i].childNodes[1].innerHTML;
+                if (name.toLowerCase().indexOf(displayFilters[j].toLowerCase()) !== -1) {
+                    wantedFiles.push(files[i]);
+                    break;
+                }
+                else if (files[i].childNodes[0].innerHTML === displayFilters[j]) {
+                    wantedFiles.push(files[i]);
+                    break;
+                }
+            }
+        }
     }
 
-    // Append new elements
-    for (var i = (page-1) * shownFileCap; i < stop; i++) {
-        document.getElementById("tableBody").appendChild(files[i]);
+    // Update filteredFileSize
+    filteredFilesSize = wantedFiles.length;
+
+    // --- Didnt use filters ---- ///
+    if (displayFilters.length === 0) {
+        var stop = page * shownFileCap;
+        if (files.length < stop)  {
+            stop = files.length;
+        }
+
+        // Append new elements
+        for (var i = (page-1) * shownFileCap; i < stop; i++) {
+         document.getElementById("tableBody").appendChild(files[i]);
+        }
+    }
+
+    // ---- Used filters ---- ///
+    else {
+        // Find break point
+        var stop = page * shownFileCap;
+        if (wantedFiles.length < stop) {
+            stop = wantedFiles.length;
+        }
+
+        // Append new elements
+        for (var i = (page-1) * shownFileCap; i < stop; i++) {
+            document.getElementById("tableBody").appendChild(wantedFiles[i]);
+        }
     }
 
     makeTableHighlightable();
@@ -29,7 +68,10 @@ function createNavigationButtons(currentPage) {
 
     // Prestuff
     var fileAmount = files.length;
-    var buttonsNeeded = Math.floor(fileAmount / shownFileCap);
+    if (filteredFilesSize !== 0) {
+        fileAmount = filteredFilesSize;
+    }
+    buttonsNeeded = Math.floor(fileAmount / shownFileCap);
 
     // Delete potential former navigation buttons
     document.getElementById("buttonContainer").innerHTML = "";

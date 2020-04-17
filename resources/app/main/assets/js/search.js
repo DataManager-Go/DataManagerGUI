@@ -1,41 +1,11 @@
-/* TODO
+var searchbar = document.getElementById("seachbar");
 
-// Get the input field
-var input = document.getElementById("seachbar");
-
-// React on enter press
-input.addEventListener("keyup", function(event) {
-  if (event.keyCode === 13) {
-    // Cancel the default action, if needed
-    event.preventDefault(); 
-
-    // Search files
-    var json = {
-        type: "changeNamespaceOrGroup",
-        payload: {
-            namespace: currentNamespace,
-            group: currentGroup,
-            tag: currentTag,
-            name: input.value
-        }
-    };
-
-  }
-}); 
-
-// List-click Handler
-function OnListClick(e) {
-
+// Do stuff whenever something was entered in the search bar
+function onSearchbarChange() {    
+  displayFilters = searchbar.value.replace(",", "").split(" ");
   
-
-    astilectron.sendMessage(JSON.stringify(json), function(message) {});
+  // Load files again
+  loadFilesFromPage(1);
+  createNavigationButtons(1);
+  makeTableHighlightable();
 }
-
-
-
-FILE PATH CAN BE FOUND USING:
-document.getElementById("myFile").files[0].path
-
-
-
-*/

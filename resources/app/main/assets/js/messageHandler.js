@@ -78,6 +78,7 @@ function addTags(data) {
 
 var shownFileCap = 30;
 var files = []
+var displayFilters = []; // e.g. search input
 // listFiles will add up to 30 files to the body and preserve the rest
 function listFiles(data) {
     // Remove potential former entries
@@ -90,6 +91,7 @@ function listFiles(data) {
     // For every element: do cool html stuff
     for (var i = 0; i < parsed.length; i++) {
 
+        // Generate
         var tr = document.createElement("tr");
         
         var id = document.createElement("td");
