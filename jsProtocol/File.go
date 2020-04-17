@@ -8,7 +8,7 @@ import (
 )
 
 // GetAttributes returns fileattributes from UploadSettingsinfo
-func (uis *UploadInfoSettings) GetAttributes() dmlib.FileAttributes {
+func (uis UploadInfoSettings) GetAttributes() dmlib.FileAttributes {
 	return dmlib.FileAttributes{
 		Groups:    uis.Groups,
 		Tags:      uis.Tags,
@@ -17,6 +17,6 @@ func (uis *UploadInfoSettings) GetAttributes() dmlib.FileAttributes {
 }
 
 // GetUserNamespace returns formattet namespace for user
-func (uis *UploadInfoSettings) GetUserNamespace(libdm *dmlib.LibDM) string {
+func (uis UploadInfoSettings) GetUserNamespace(libdm *dmlib.LibDM) string {
 	return fmt.Sprintf("%s_%s", libdm.Config.Username, strings.ToLower(uis.Namespace))
 }

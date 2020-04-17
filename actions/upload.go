@@ -38,6 +38,7 @@ func uploadFile(file string, info jsprotocol.UploadInfoSettings, replaceID uint)
 	}
 
 	attributes := info.GetAttributes()
+	attributes.Namespace = info.GetUserNamespace(Manager)
 	uploadRequest := Manager.NewUploadRequest(filename, attributes)
 
 	proxy := newProxy(0)
