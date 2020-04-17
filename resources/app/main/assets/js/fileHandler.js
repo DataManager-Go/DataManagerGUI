@@ -87,6 +87,7 @@ function sendFileUploadRequest() {
 
     // Settings JSON
     var uploadSettings = {
+        namespace: currentNamespace,
         tags: fileTags,
         groups: fileGroups,
         encrypt: shouldEncrypt,
