@@ -27,9 +27,7 @@ function createAlert(type, strongText, normalText) {
 
     // Automatically remove alert after 5 seconds
     setTimeout(function(e){
-        alert("#"+alertNumber+" clicking...")
         $("#"+alertNumber).click();
-        alert("ok");
 
         currentAlerts.shift();
         for (var i = 0; i < currentAlerts.length; i++) {
