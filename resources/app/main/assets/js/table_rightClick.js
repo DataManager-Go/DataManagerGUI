@@ -37,7 +37,7 @@ $("#context-menu a").on("click", function(e) {
 });
 
 // Close when pressing anywhere except the overlay
-$("body").on("click", function() {
+$("body").on("click", function(e) {
     clickedInsideOverlay = clickInsideElement(e, "context-menu");
     if (rmbOverlayIsOpened && !clickedInsideOverlay)
         closeRmbOverlay();

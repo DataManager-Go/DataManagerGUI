@@ -176,6 +176,7 @@ func SendInitialData() error {
 		groupResp, err := Manager.GetGroups(nsResp.Slice[i])
 
 		if err != nil {
+			fmt.Println("Error receiving groups for", nsResp.Slice[i])
 			fmt.Println(err.Error())
 			break
 		}
