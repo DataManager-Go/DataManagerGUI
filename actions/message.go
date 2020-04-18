@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"path/filepath"
+	"sort"
 
 	jsprotocol "github.com/DataManager-Go/DataManagerGUI/jsProtocol"
 	dmlib "github.com/DataManager-Go/libdatamanager"
@@ -161,40 +162,41 @@ func SendTags(namespace string) {
 
 // SendInitialData sends the all initial data to the gui
 func SendInitialData() error {
-	// Find data from default namespace
-	nsResp, err := Manager.GetNamespaces()
+	nsResp, err := Manager.GetUserAttributeData()
 
-	// Error in config / server
 	if err != nil {
 		return err
 	}
 
+	// Sort by namespace name alphabetically
+	sort.Sort(dmlib.SortByName(nsResp.Namespace))
+
+	// A Slice of silces containing the namespace, followed by its groups
 	var content [][]string
-	for i := 0; i < len(nsResp.Slice); i++ {
-		// Request Groups from server
-		var ns []string
-		groupResp, err := Manager.GetGroups(nsResp.Slice[i])
+	defaultIndex := 0
 
-		if err != nil {
-			fmt.Println("Error receiving groups for", nsResp.Slice[i])
-			fmt.Println(err.Error())
-			break
-		}
+	for i, nsData := range nsResp.Namespace {
+		ns := make([]string, len(nsData.Groups)+1)
 
-		if nsResp.Slice[i][len(Config.User.Username)+1:] == "default" {
-			ns = append(ns, "Default")
+		// Ad namespace as first slice entry
+		if nsData.Name[len(Config.User.Username)+1:] == "default" {
+			defaultIndex = i
+			ns[0] = "Default"
+			defer SendTags(nsData.Name)
 		} else {
-			ns = append(ns, nsResp.Slice[i][len(Config.User.Username)+1:])
+			ns[0] = nsData.Name[len(Config.User.Username)+1:]
 		}
 
-		// Convert Attribute to string one after another
-		for _, att := range groupResp {
-			ns = append(ns, string(att))
+		// Add groups
+		for i := range nsData.Groups {
+			ns[i+1] = nsData.Groups[i]
 		}
 
 		content = append(content, ns)
-
 	}
+
+	// Put default as first namespace
+	content[defaultIndex], content[0] = content[0], content[defaultIndex]
 
 	msg := jsprotocol.NamespaceGroupsList{User: Config.User.Username, Content: content}
 	namespaces, err := json.Marshal(msg)
@@ -203,7 +205,6 @@ func SendInitialData() error {
 	if err == nil {
 		SendMessage("namespace/groups", string(namespaces), HandleResponses)
 	}
-	//SendMessage("namespace/groups", `{"content":[["Default", "Group1", "Group2"], ["Namespace2", "Group1"]]}`, HandleResponses)
-	SendTags(nsResp.Slice[0])
+
 	return nil
 }
