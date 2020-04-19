@@ -59,6 +59,9 @@ document.addEventListener('astilectron-ready', function() {
 function addTags(data) {
     tagList = [];
 
+    // Remove potential former contents
+    document.getElementById("tagList").innerHTML = "";
+
     var parsed = JSON.parse(data.payload).content;
 
     if (parsed === "undefined") { return; }
@@ -164,7 +167,7 @@ function addNamespaceAndGroups(data) {
 
         var ns_a = document.createElement("a");
         ns_a.setAttribute("href", "#");
-        ns_a.setAttribute("class", "dropdown-toggle nav-link text-left text-white py-1 px-0 position-relative");
+        ns_a.setAttribute("class", "dropdown-toggle nav-link text-left text-white py-1 px-0 position-relative namespace");
         ns_a.setAttribute("data-toggle", "dropdown");
         ns_a.setAttribute("aria-expanded", "false"); 
         ns_a.setAttribute("id","namespaceParent_collapsed");
@@ -197,7 +200,10 @@ function addNamespaceAndGroups(data) {
         // Add Groups to Namespaces
         for (var j = 0; j < groups.length; j++) {
             var div_a = document.createElement("a");
-            div_a.setAttribute("class", "dropdown-item text-white");
+            if (j === 0)
+                div_a.setAttribute("class", "dropdown-item text-white allFiles");
+            else
+                div_a.setAttribute("class", "dropdown-item text-white group");
             div_a.setAttribute("role", "presentation");
             div_a.setAttribute("href", "#");
             div.appendChild(div_a);
