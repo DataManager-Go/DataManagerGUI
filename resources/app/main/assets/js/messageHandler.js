@@ -55,7 +55,7 @@ document.addEventListener('astilectron-ready', function() {
     });
 })
 
-// TODO Button press event
+// add tags lists all received tags at the bottom of the document
 function addTags(data) {
     tagList = [];
 
