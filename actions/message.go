@@ -70,6 +70,7 @@ func HandleMessages(m *astilectron.EventMessage) interface{} {
 			if err != nil {
 				fmt.Println(err.Error())
 			} else {
+				SendTags(info.Namespace)
 				SendMessage("files", json, HandleResponses)
 			}
 			return ""
