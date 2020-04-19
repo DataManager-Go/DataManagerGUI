@@ -73,6 +73,10 @@ function addTags(data) {
         btn.setAttribute("style", "margin-right: 7px;background-color: rgb(18,24,31);");
         btn.innerHTML = parsed[i];
 
+        btn.addEventListener("click", function() {
+            setTagFilter(this.innerHTML);
+        });
+
         tagList.push(parsed[i]);
         document.getElementById("tagList").appendChild(btn);
     }

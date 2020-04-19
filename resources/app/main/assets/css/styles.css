@@ -1,3 +1,10 @@
+/* Global */
+
+a {
+  -webkit-user-drag: none;
+}
+
+
 /* Scrollbar */
  
 ::-webkit-scrollbar {
