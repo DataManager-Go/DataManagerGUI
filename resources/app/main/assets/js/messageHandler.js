@@ -68,13 +68,14 @@ function addTags(data) {
 
     for (var i = 0; i < parsed.length; i++) {
         var btn = document.createElement("button");
-        btn.setAttribute("class", "btn btn-dark btn-sm text-left");
+        btn.setAttribute("class", "btn btn-dark btn-sm text-left tagBtn");
         btn.setAttribute("type", "button");
         btn.setAttribute("style", "margin-right: 7px;background-color: rgb(18,24,31);");
         btn.innerHTML = parsed[i];
+        btn.origColor = btn.style.backgroundColor;
 
         btn.addEventListener("click", function() {
-            setTagFilter(this.innerHTML);
+            setTagFilter(this);
         });
 
         tagList.push(parsed[i]);

@@ -14,19 +14,23 @@ function onSearchbarChange() {
 }
 
 // Filter elements on filter press
-function setTagFilter(tag) {
-  var isActive = false;
-  for (var i = 0; i < tagFilters.length; i++) {
-    if (tagFilters[i] === tag) {
-      isActive = true;
-      tagFilters.splice(i, 1);
-      break;
+function setTagFilter(btn) {
+
+  if (btn.style.backgroundColor === btn.origColor) {
+    btn.style.backgroundColor = "rgb(23,64,118)";
+    tagFilters.push(btn.innerHTML);
+  }
+  else {
+    btn.style.backgroundColor = btn.origColor;
+    for (var i = 0; i < tagFilters.length; i++) {
+      if (tagFilters[i] === btn.innerHTML) {
+        tagFilters.splice(i, 1);
+        break;
+      }
     }
   }
 
-  if (!isActive) {
-    tagFilters.push(tag);
-  }
+
 
    // Load files again
    loadFilesFromPage(1);

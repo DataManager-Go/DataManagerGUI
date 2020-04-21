@@ -4,6 +4,11 @@ a {
   -webkit-user-drag: none;
 }
 
+.tagBtn:focus {
+   outline: none !important;
+   box-shadow: none !important;
+}
+
 
 /* Scrollbar */
  

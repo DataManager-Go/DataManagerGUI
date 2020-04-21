@@ -23,34 +23,32 @@ function loadFilesFromPage(page) {
 
                 var name = files[i].childNodes[1].innerHTML;
                 if (name.toLowerCase().indexOf(searchFilters[j].toLowerCase()) !== -1) {
-                    wantedFiles.push(files[i]);
+                //    wantedFiles.push(files[i]);
                     fileAdded = true;
                     break;
                 }
                 else if (files[i].childNodes[0].innerHTML === searchFilters[j]) {
-                    wantedFiles.push(files[i]);
+                //    wantedFiles.push(files[i]);
                     fileAdded = true;
                     break;
                 }
             }
-            // Search for tags TODO -> Make search AND combined
-            if (!fileAdded) {
+              
+            // Add search if there are no tags
+            if (tagFilters.length === 0 && fileAdded)
+                wantedFiles.push(files[i]);
 
+            // Add search if tags + search bar entries fit
+            else { 
                 for (var t = 0; t < tagFilters.length; t++) {
                     if (files[i].tags !== undefined) {
                         for (var f = 0; f < files[i].tags.length; f++) {
-                            if (files[i].tags[f] === tagFilters[t]) {
+                            if ((files[i].tags[f] === tagFilters[t]) && (searchFilters.length > 0 && fileAdded || searchFilters.length === 0)) {
                                 wantedFiles.push(files[i]);
-                                fileAdded = true;
                                 break;
-                            } else {
-                                console.log(files[i].tags[f]);
                             }
                         }
                     }
-                    // Exit the outer loop aswell
-                    if (fileAdded)
-                        break;
                 }
             }
         }
