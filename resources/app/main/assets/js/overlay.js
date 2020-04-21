@@ -26,13 +26,16 @@ function createAlert(type, strongText, normalText) {
     currentAlerts.push(div);
 
     // Automatically remove alert after 5 seconds
-    setTimeout(function(e){
-        $("#"+alertNumber).click();
-
+    $("#"+alertNumber).on("click", function() {
         currentAlerts.shift();
+        console.log(currentAlerts.length);
         for (var i = 0; i < currentAlerts.length; i++) {
             currentAlerts[i].style.marginBottom = (1 + i * 5)+"rem";
         }
+    });
+
+    setTimeout(function(e){
+        $("#"+alertNumber).click();
 
     }, 5000);
 }
