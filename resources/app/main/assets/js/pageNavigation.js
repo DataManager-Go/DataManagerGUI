@@ -13,16 +13,30 @@ function loadFilesFromPage(page) {
 
     // Filter unwanted files
     var wantedFiles = [];
-    if (displayFilters.length !== 0) {
+    if (searchFilters.length !== 0 || tagFilters.length !== 0) {
         for (var i = 0; i < files.length; i++) {
-            for (var j = 0; j < displayFilters.length; j++) {
+            // Search Filters // Search Filters TODO Tags should be an AND search + should actually search for tags
+            for (var j = 0; j < searchFilters.length; j++) {
 
                 var name = files[i].childNodes[1].innerHTML;
-                if (name.toLowerCase().indexOf(displayFilters[j].toLowerCase()) !== -1) {
+                if (name.toLowerCase().indexOf(searchFilters[j].toLowerCase()) !== -1) {
                     wantedFiles.push(files[i]);
                     break;
                 }
-                else if (files[i].childNodes[0].innerHTML === displayFilters[j]) {
+                else if (files[i].childNodes[0].innerHTML === searchFilters[j]) {
+                    wantedFiles.push(files[i]);
+                    break;
+                }
+            }
+            // Tag Filters TODO Rework!
+            for (var j = 0; j < tagFilters.length; j++) {
+
+                var name = files[i].childNodes[1].innerHTML;
+                if (name.toLowerCase().indexOf(tagFilters[j].toLowerCase()) !== -1) {
+                    wantedFiles.push(files[i]);
+                    break;
+                }
+                else if (files[i].childNodes[0].innerHTML === tagFilters[j]) {
                     wantedFiles.push(files[i]);
                     break;
                 }
@@ -34,7 +48,7 @@ function loadFilesFromPage(page) {
     filteredFilesSize = wantedFiles.length;
 
     // --- Didnt use filters ---- ///
-    if (displayFilters.length === 0) {
+    if (searchFilters.length === 0 && tagFilters.length === 0) {
         var stop = page * shownFileCap;
         if (files.length < stop)  {
             stop = files.length;

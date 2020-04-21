@@ -90,6 +90,7 @@ function listFiles(data) {
     document.getElementById("tableBody").innerHTML = "";
 
     var parsed = JSON.parse(data.payload);
+    console.log(parsed);
 
     // For every element: do cool html stuff
     for (var i = 0; i < parsed.length; i++) {

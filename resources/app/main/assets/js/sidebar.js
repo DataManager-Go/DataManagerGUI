@@ -66,6 +66,7 @@ function AdjustSubentriesInListLength() {
     sortPublicIcon.style.visibility = "hidden";
 
     // Remove filters
-    displayFilters = [];
+    searchFilters = [];
+    tagFilters = [];
     searchbar.value = "";
 }

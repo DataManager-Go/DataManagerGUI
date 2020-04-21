@@ -28,7 +28,8 @@ var currentNamespace = "Default";
 var tagList = [];
 var files = [];
 var groupList = [];
-var displayFilters = []; // e.g. search input
+var searchFilters = []; // e.g. search input
+var tagFilters = [];
 var rmbOverlayIsOpened = false;
 
 // List of currently active alerts

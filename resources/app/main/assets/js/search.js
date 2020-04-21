@@ -1,6 +1,6 @@
 // Filter elements on serachbar change
 function onSearchbarChange() {    
-  displayFilters = searchbar.value.replace(",", "").split(" ");
+  searchFilters = searchbar.value.replace(",", "").split(" ");
   
   // Load files again
   loadFilesFromPage(1);
@@ -11,16 +11,18 @@ function onSearchbarChange() {
 // Filter elements on filter press
 function setTagFilter(tag) {
   var isActive = false;
-  for (var i = 0; i < displayFilters.length; i++) {
-    if (displayFilters[i] === tag) {
+  for (var i = 0; i < tagFilters.length; i++) {
+    if (tagFilters[i] === tag) {
+      alert("removing");
       isActive = true;
-      displayFilters.splice(i, 1);
+      tagFilters.splice(i, 1);
       break;
     }
   }
 
   if (!isActive) {
-    displayFilters.push(tag);
+    tagFilters.push(tag);
+    alert("adding");
   }
 
    // Load files again
