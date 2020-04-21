@@ -10,5 +10,6 @@ require (
 	github.com/JojiiOfficial/shred v1.2.1
 	github.com/asticode/go-astikit v0.5.0
 	github.com/asticode/go-astilectron v0.13.1
+	github.com/atotto/clipboard v0.1.2
 	github.com/davecgh/go-spew v1.1.1 // indirect
 )

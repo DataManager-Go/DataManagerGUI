@@ -11,6 +11,7 @@ import (
 	dmlib "github.com/DataManager-Go/libdatamanager"
 	"github.com/JojiiOfficial/gaw"
 	"github.com/asticode/go-astilectron"
+	"github.com/atotto/clipboard"
 )
 
 type message struct {
@@ -114,6 +115,17 @@ func HandleMessages(m *astilectron.EventMessage) interface{} {
 	case "cancelUpload":
 		{
 			uploadCancelChan <- true
+		}
+	// -- Over button presses -- \\
+	case "copyPreviewURL":
+		{
+			err = clipboard.WriteAll(ms.Payload)
+			if err == nil {
+				return true
+			}
+			fmt.Println("Error on URL Copy", err.Error())
+			return false
+
 		}
 	}
 

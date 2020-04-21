@@ -23,12 +23,10 @@ function loadFilesFromPage(page) {
 
                 var name = files[i].childNodes[1].innerHTML;
                 if (name.toLowerCase().indexOf(searchFilters[j].toLowerCase()) !== -1) {
-                //    wantedFiles.push(files[i]);
                     fileAdded = true;
                     break;
                 }
                 else if (files[i].childNodes[0].innerHTML === searchFilters[j]) {
-                //    wantedFiles.push(files[i]);
                     fileAdded = true;
                     break;
                 }

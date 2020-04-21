@@ -4,7 +4,7 @@ $('body').on('contextmenu', function(e) {
     sidebarItem = clickInsideElement(e, "sidebar");
     namespaceItem = clickInsideElement(e, "namespace");
     groupItem = clickInsideElement(e, "group");
-    tableItem = clickInsideElement( e, "table_entry");
+    tableItem = clickInsideElement(e, "table_entry");
   
     if (sidebarItem || namespaceItem || groupItem || tableItem) {
         // Prevent default
@@ -43,8 +43,9 @@ $('body').on('contextmenu', function(e) {
                 left: left
             }).addClass("show");
 
+        lastRmbElement = e.srcElement || e.target;
+
     } else {
-        console.log(e.target.classList);
         // Something pressed that we didn't want: dont open
         clickedItem = null;
         closeRmbOverlay();
@@ -52,25 +53,17 @@ $('body').on('contextmenu', function(e) {
     
     return false; //blocks default Webbrowser right click menu
   
-}).on("click", function() {
-    closeRmbOverlay();
-});
-
-  
-// Clicked on element within overlay
-$("#context-menu a").on("click", function(e) {
-    alert(e.target.innerHTML);
-    closeRmbOverlay();
-});
-
-// Close when pressing anywhere except the overlay
-$("body").on("click", function(e) {
-    clickedInsideSidebarOverlay = clickInsideElement(e, "context-menu-sidebar");
-    clickedInsideNamespaceOverlay = clickInsideElement(e, "context-menu-namespace");
-    clickedInsideTableOverlay = clickInsideElement(e, "context-menu-table");
-    clickedInsideGroupOverlay = clickInsideElement(e, "context-menu-group");
-    if (rmbOverlayIsOpened && !clickedInsideNamespaceOverlay && !clickedInsideTableOverlay && !clickedInsideGroupOverlay && !clickedInsideSidebarOverlay)
+}).on("click", function(e) {
+    // Close when pressing anywhere on the body except the elements
+    clickedInsideSidebarOverlay = clickInsideElementID(e, "context-menu-sidebar");
+    clickedInsideNamespaceOverlay = clickInsideElementID(e, "context-menu-namespace");
+    clickedInsideTableOverlay = clickInsideElementID(e, "context-menu-table");
+    clickedInsideGroupOverlay = clickInsideElementID(e, "context-menu-group");
+    if (rmbOverlayIsOpened && !clickedInsideNamespaceOverlay && !clickedInsideTableOverlay && !clickedInsideGroupOverlay && !clickedInsideSidebarOverlay) {
         closeRmbOverlay();
+        if (clickInsideElement(e, "rmbItem"))
+            rmbMenuClick(e.target.id);
+    }
 });
 
 // Closes the overlay
@@ -83,19 +76,50 @@ function closeRmbOverlay() {
     $("#context-menu-group").removeClass("show").hide();
 }
 
-// Checks if a given element contains the given class
+// Checks if a given element contains the given id
+function clickInsideElementID(e, idName) {
+    var el = e.srcElement || e.target;
+
+    if (el.id === idName)
+        return true;
+    else 
+        return false;
+}
+
+// Checks if a given element contains the given class 
 function clickInsideElement(e, className) {
     var el = e.srcElement || e.target;
     
-    if ( el.classList.contains(className) ) {
+    if (el.classList.contains(className)) {
         return el;
     } else {
-        while ( el = el.parentNode ) {
-            if ( el.classList && el.classList.contains(className) ) {
+        while (el = el.parentNode) {
+            if (el.classList && el.classList.contains(className)) {
             return el;
             }
         }
     }
 
     return false;
+}
+
+// Overlay Button press
+function rmbMenuClick(menuOption) {
+    console.log(menuOption);
+
+    switch (menuOption) {
+        case "rmb_5":
+            var urlCode = lastRmbElement.parentNode.childNodes[2].innerHTML;
+            if (urlCode.length === 0) 
+                createAlert("warning", "", "The selected file isn't public!");
+            else {
+                astilectron.sendMessage('{"type":"copyPreviewURL", "payload":"'+urlCode+'"}', function(message) {
+                    if (message) 
+                        createAlert("success", "", "URL copied!");
+                    else 
+                        createAlert("danger", "Error", "when copying URL!");
+                });
+            }
+            break;
+    }
 }

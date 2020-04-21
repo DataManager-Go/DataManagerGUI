@@ -1,4 +1,4 @@
-// Creates an alert with the given informations (types: error/warning/success/...)
+// Creates an alert with the given informations (types: danger/warning/success/...)
 function createAlert(type, strongText, normalText) {
     var alertNumber = "alertNumber_"+currentAlerts.length;
     var marginBottom = 1 + currentAlerts.length * 5;
@@ -102,5 +102,3 @@ function cancelUpload() {
     fileUploadBtn.value = null;
     folderUploadBtn.value = null;
 }
-
-// document.getElementById("uploadSettingsOverlay").style.display = "block";

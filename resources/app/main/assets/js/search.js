@@ -30,8 +30,6 @@ function setTagFilter(btn) {
     }
   }
 
-
-
    // Load files again
    loadFilesFromPage(1);
    createNavigationButtons(1);

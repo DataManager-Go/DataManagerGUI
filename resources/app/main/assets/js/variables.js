@@ -31,6 +31,7 @@ var groupList = [];
 var searchFilters = []; // e.g. search input
 var tagFilters = [];
 var rmbOverlayIsOpened = false;
+var lastRmbElement;
 
 // List of currently active alerts
 var currentAlerts = [];
