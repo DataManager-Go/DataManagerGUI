@@ -90,7 +90,6 @@ function listFiles(data) {
     document.getElementById("tableBody").innerHTML = "";
 
     var parsed = JSON.parse(data.payload);
-    console.log(parsed);
 
     // For every element: do cool html stuff
     for (var i = 0; i < parsed.length; i++) {
@@ -139,6 +138,11 @@ function listFiles(data) {
         tr.appendChild(size);
         tr.appendChild(date);
         tr.appendChild(isPublic);
+
+        // Add tags
+        if (parsed[i].attrib.tags !== undefined) {
+            tr.tags = parsed[i].attrib.tags;
+        }
 
         files.push(tr)
         if (i < shownFileCap) {

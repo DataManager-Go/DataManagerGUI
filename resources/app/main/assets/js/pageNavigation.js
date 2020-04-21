@@ -15,30 +15,42 @@ function loadFilesFromPage(page) {
     var wantedFiles = [];
     if (searchFilters.length !== 0 || tagFilters.length !== 0) {
         for (var i = 0; i < files.length; i++) {
-            // Search Filters // Search Filters TODO Tags should be an AND search + should actually search for tags
+
+            var fileAdded = false;
+
+            // Search for filters from the search bar
             for (var j = 0; j < searchFilters.length; j++) {
 
                 var name = files[i].childNodes[1].innerHTML;
                 if (name.toLowerCase().indexOf(searchFilters[j].toLowerCase()) !== -1) {
                     wantedFiles.push(files[i]);
+                    fileAdded = true;
                     break;
                 }
                 else if (files[i].childNodes[0].innerHTML === searchFilters[j]) {
                     wantedFiles.push(files[i]);
+                    fileAdded = true;
                     break;
                 }
             }
-            // Tag Filters TODO Rework!
-            for (var j = 0; j < tagFilters.length; j++) {
+            // Search for tags TODO -> Make search AND combined
+            if (!fileAdded) {
 
-                var name = files[i].childNodes[1].innerHTML;
-                if (name.toLowerCase().indexOf(tagFilters[j].toLowerCase()) !== -1) {
-                    wantedFiles.push(files[i]);
-                    break;
-                }
-                else if (files[i].childNodes[0].innerHTML === tagFilters[j]) {
-                    wantedFiles.push(files[i]);
-                    break;
+                for (var t = 0; t < tagFilters.length; t++) {
+                    if (files[i].tags !== undefined) {
+                        for (var f = 0; f < files[i].tags.length; f++) {
+                            if (files[i].tags[f] === tagFilters[t]) {
+                                wantedFiles.push(files[i]);
+                                fileAdded = true;
+                                break;
+                            } else {
+                                console.log(files[i].tags[f]);
+                            }
+                        }
+                    }
+                    // Exit the outer loop aswell
+                    if (fileAdded)
+                        break;
                 }
             }
         }

@@ -9,15 +9,12 @@ function downloadSelectedFiles() {
 
     // Find marked rows and add them to the download list
     
-    
-    
    // alert(files[0].childNodes[0].innerHTML+" - "+files[0].hilite);
 
     for (var i = 0; i < files.length; i++) {
         if (files[i].style.backgroundColor != "") {
             requestedFiles.push(parseInt(files[i].childNodes[0].innerHTML,10));
-            alert("adding "+files[i].childNodes[0].innerHTML);
-
+           
             files[i].style.backgroundColor= files[i].origColor;
             files[i].hilite = false;
         }

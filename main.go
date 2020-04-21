@@ -157,7 +157,7 @@ func StartMainWindow(a *astilectron.Astilectron) {
 	}
 
 	// Receive initial files data
-	json, err := actions.GetFiles("", 0, false, dmlib.FileAttributes{Namespace: actions.Config.Default.Namespace}, 0)
+	json, err := actions.GetFiles("", 0, false, dmlib.FileAttributes{Namespace: actions.Config.Default.Namespace}, 3)
 
 	if err != nil {
 		fmt.Println(err.Error())

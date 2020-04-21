@@ -1,6 +1,11 @@
 // Filter elements on serachbar change
 function onSearchbarChange() {    
-  searchFilters = searchbar.value.replace(",", "").split(" ");
+
+  if (searchbar.value.length > 0) {
+    searchFilters = searchbar.value.replace(",", "").split(" ");
+  } else {
+    searchFilters = [];
+  }
   
   // Load files again
   loadFilesFromPage(1);
@@ -13,7 +18,6 @@ function setTagFilter(tag) {
   var isActive = false;
   for (var i = 0; i < tagFilters.length; i++) {
     if (tagFilters[i] === tag) {
-      alert("removing");
       isActive = true;
       tagFilters.splice(i, 1);
       break;
@@ -22,7 +26,6 @@ function setTagFilter(tag) {
 
   if (!isActive) {
     tagFilters.push(tag);
-    alert("adding");
   }
 
    // Load files again
