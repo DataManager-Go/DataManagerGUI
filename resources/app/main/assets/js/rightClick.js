@@ -108,10 +108,13 @@ function rmbMenuClick(menuOption) {
     console.log(menuOption);
 
     switch (menuOption) {
+        // Copy public URL
         case "rmb_5":
+            // get url code if possible
             var urlCode = lastRmbElement.parentNode.childNodes[2].innerHTML;
             if (urlCode.length === 0) 
                 createAlert("warning", "", "The selected file isn't public!");
+            // send and react to answer
             else {
                 astilectron.sendMessage('{"type":"copyPreviewURL", "payload":"'+urlCode+'"}', function(message) {
                     if (message) 
@@ -120,6 +123,20 @@ function rmbMenuClick(menuOption) {
                         createAlert("danger", "Error", "when copying URL!");
                 });
             }
+            break;
+        // Download
+        case "rmb_6":
+            // inner json
+            var filesJson = {
+                files: [parseInt(lastRmbElement.parentNode.childNodes[0].innerHTML, 10)]
+            }
+            // outer json
+            var json = {
+                type: "download",
+                payload: "\""+JSON.stringify(filesJson)+"\""
+            }
+            // send
+            astilectron.sendMessage(JSON.stringify(json), function(message) {});
             break;
     }
 }
