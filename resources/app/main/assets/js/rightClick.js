@@ -124,8 +124,23 @@ function rmbMenuClick(menuOption) {
                 });
             }
             break;
+
+        // Preview
+        case "rmb_1": 
+        {
+            // Message struct
+            var message = {
+                type: "previewFile",
+                payload: ""+parseInt(lastRmbElement.parentNode.childNodes[0].innerHTML, 10)
+            }
+            // send
+            astilectron.sendMessage(JSON.stringify(message), function(msg) {});
+            break;
+        }
+           
         // Download
         case "rmb_6":
+        {
             // inner json
             var filesJson = {
                 files: [parseInt(lastRmbElement.parentNode.childNodes[0].innerHTML, 10)]
@@ -138,5 +153,6 @@ function rmbMenuClick(menuOption) {
             // send
             astilectron.sendMessage(JSON.stringify(json), function(message) {});
             break;
+        }
     }
 }

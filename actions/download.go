@@ -49,6 +49,40 @@ func DownloadFiles(fileIDs []uint, path string) {
 			DownloadSuccess()
 		}
 	}
-
 	CloseDownloadModal()
+}
+
+// PreviewFile will preview the given file
+func PreviewFile(fileID uint) bool {
+	req := Manager.NewFileRequestByID(fileID)
+	// Do request
+	resp, err := req.Do()
+	if err != nil {
+		fmt.Println(err)
+		DownloadError(err.Error())
+		return false
+	}
+
+	// Write request response to file
+	tmpFile := GetTempFile(resp.ServerFileName)
+
+	// Shredder at the end
+	defer ShredderFile(tmpFile, -1)
+
+	err = resp.WriteToFile(filepath.Clean(tmpFile), 0600, cancelDlChan)
+	if err != nil {
+		fmt.Println(err)
+		// Delete file local
+		utils.ShredderFile(filepath.Join(tmpFile, resp.ServerFileName), -1)
+
+		// Don't show errors if cancelled
+		if err != libdatamanager.ErrCancelled {
+			DownloadError(err.Error())
+		}
+		return false
+	} else {
+		ShowFile(tmpFile)
+	}
+
+	return true
 }

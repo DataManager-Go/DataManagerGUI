@@ -6,6 +6,7 @@ import (
 	"log"
 	"path/filepath"
 	"sort"
+	"strconv"
 
 	jsprotocol "github.com/DataManager-Go/DataManagerGUI/jsProtocol"
 	dmlib "github.com/DataManager-Go/libdatamanager"
@@ -125,7 +126,15 @@ func HandleMessages(m *astilectron.EventMessage) interface{} {
 			}
 			fmt.Println("Error on URL Copy", err.Error())
 			return false
-
+		}
+	case "previewFile":
+		{
+			id, err := strconv.ParseUint(ms.Payload, 10, 64)
+			if err != nil {
+				fmt.Println(err.Error())
+				DownloadError(err.Error())
+			}
+			PreviewFile(uint(id))
 		}
 	}
 
