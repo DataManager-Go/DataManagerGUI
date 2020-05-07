@@ -154,5 +154,22 @@ function rmbMenuClick(menuOption) {
             astilectron.sendMessage(JSON.stringify(json), function(message) {});
             break;
         }
+        // Delete
+        case "rmb_6": 
+        {
+            // Check if user really wants to delete
+            deleteReply = confirm("Do you really want to delete the selected file(s)?")
+
+            if (deleteReply) {
+                 // Message struct
+                var message = {
+                    type: "deleteFile",
+                    payload: ""+lastRmbElement.parentNode.childNodes[0].innerHTML
+                }
+                // send
+                astilectron.sendMessage(JSON.stringify(message), function(msg) {});
+                break;
+            }
+        }
     }
 }

@@ -25,6 +25,8 @@ const (
 	uploadProgress   = "uploadProgress"
 	uploadSuccess    = "uploadSuccess"
 	uploadError      = "uploadError"
+	deleteSuccess    = "deleteSuccess"
+	deleteError      = "deleteError"
 )
 
 // OpenDownloadMoal opens the download modal
@@ -75,6 +77,17 @@ func DownloadError(text string) {
 // DownloadSuccess file transfered successfull
 func DownloadSuccess() {
 	SendMessage(downloadSuccess, "", HandleResponses)
+}
+
+// DeleteError displays errors when deleting files
+func DeleteError(text string) {
+	// TODO view reason for error
+	SendMessage(deleteError, "", HandleResponses)
+}
+
+// DeleteSuccess file transfered successfull
+func DeleteSuccess() {
+	SendMessage(deleteSuccess, "", HandleResponses)
 }
 
 // RefreshList refreshs filelist

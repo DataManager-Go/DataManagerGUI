@@ -69,6 +69,7 @@ func PreviewFile(fileID uint) bool {
 	// Shredder at the end
 	defer ShredderFile(tmpFile, -1)
 
+	// Download
 	err = resp.WriteToFile(filepath.Clean(tmpFile), 0600, cancelDlChan)
 	if err != nil {
 		fmt.Println(err)
@@ -80,9 +81,9 @@ func PreviewFile(fileID uint) bool {
 			DownloadError(err.Error())
 		}
 		return false
-	} else {
-		ShowFile(tmpFile)
 	}
 
+	// Show file
+	ShowFile(tmpFile)
 	return true
 }

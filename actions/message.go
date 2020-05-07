@@ -4,13 +4,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
-	"path/filepath"
 	"sort"
 	"strconv"
 
 	jsprotocol "github.com/DataManager-Go/DataManagerGUI/jsProtocol"
 	dmlib "github.com/DataManager-Go/libdatamanager"
-	"github.com/JojiiOfficial/gaw"
 	"github.com/asticode/go-astilectron"
 	"github.com/atotto/clipboard"
 )
@@ -44,7 +42,7 @@ func HandleMessages(m *astilectron.EventMessage) interface{} {
 				return ""
 			}
 
-			DownloadFiles(data.Files, filepath.Join(gaw.GetHome(), "Downloads"))
+			DownloadFiles(data.Files, DownloadDir)
 			//os.Getenv("download") TODO
 			return ""
 		}
@@ -131,10 +129,19 @@ func HandleMessages(m *astilectron.EventMessage) interface{} {
 		{
 			id, err := strconv.ParseUint(ms.Payload, 10, 64)
 			if err != nil {
-				fmt.Println(err.Error())
 				DownloadError(err.Error())
 			}
 			PreviewFile(uint(id))
+		}
+	case "deleteFile": // TODO Multi file support
+		{
+			RemoveFile(ms.Payload)
+			if err != nil {
+				fmt.Println(err.Error())
+				DeleteError(err.Error())
+			} else {
+				DeleteSuccess()
+			}
 		}
 	}
 
