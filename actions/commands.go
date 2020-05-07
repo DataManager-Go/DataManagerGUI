@@ -30,14 +30,9 @@ func GetFiles(name string, id uint, allNamespaces bool, fileAttributes dmlib.Fil
 	return string(files), nil
 }
 
-// RemoveFile deletes the file with the given id on the server
-func RemoveFile(id uint) {
-
-	/*
-		// rm keys from keystore
-		if cData.HasKeystoreSupport() {
-			keystore, _ := cData.GetKeystore()
-			rmFilesFromkeystore(keystore, resp.IDs)
-		}
-	*/
+// DeleteFile deletes the file with the given id on the server
+func DeleteFile(id uint) error {
+	_, err := Manager.DeleteFile("", id, false, dmlib.FileAttributes{})
+	return err
+	// TODO remove from keystore
 }

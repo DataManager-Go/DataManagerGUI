@@ -50,6 +50,12 @@ document.addEventListener('astilectron-ready', function() {
         else if (obj.type === "uploadError") {
             createAlert("danger", "Error", "uploading your file!");    
         }
+        else if (obj.type === "deleteSuccess") {
+            createAlert("success", "Successfully", "deleted your file!");    
+        } 
+        else if (obj.type === "deleteError") {
+            createAlert("danger", "Error", "deleting your file!");    
+        }
 
 		return "";
     });

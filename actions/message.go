@@ -6,6 +6,7 @@ import (
 	"log"
 	"sort"
 	"strconv"
+	"strings"
 
 	jsprotocol "github.com/DataManager-Go/DataManagerGUI/jsProtocol"
 	dmlib "github.com/DataManager-Go/libdatamanager"
@@ -135,12 +136,23 @@ func HandleMessages(m *astilectron.EventMessage) interface{} {
 		}
 	case "deleteFile": // TODO Multi file support
 		{
-			RemoveFile(ms.Payload)
+			// parse id and namespace
+			info := strings.Split(ms.Payload, ";")
+			id, err := strconv.ParseUint(info[0], 10, 64)
 			if err != nil {
 				fmt.Println(err.Error())
 				DeleteError(err.Error())
 			} else {
-				DeleteSuccess()
+				// delete
+				err = DeleteFile(uint(id))
+				if err != nil {
+					fmt.Println(err.Error())
+					DeleteError(err.Error())
+				} else {
+					DeleteSuccess()
+					// Refresh fileslist
+					LoadFiles(dmlib.FileAttributes{Namespace: info[1]})
+				}
 			}
 		}
 	}

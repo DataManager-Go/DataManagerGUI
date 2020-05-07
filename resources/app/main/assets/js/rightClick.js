@@ -164,10 +164,11 @@ function rmbMenuClick(menuOption) {
                  // Message struct
                 var message = {
                     type: "deleteFile",
-                    payload: ""+lastRmbElement.parentNode.childNodes[0].innerHTML
+                    payload: ""+lastRmbElement.parentNode.childNodes[0].innerHTML+";"+currentNamespace
                 }
                 // send
-                astilectron.sendMessage(JSON.stringify(message), function(msg) {});
+                astilectron.sendMessage(JSON.stringify(message), function(msg) {
+                });
                 break;
             }
         }
