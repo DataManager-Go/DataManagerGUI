@@ -120,6 +120,18 @@ function rmbMenuClick(menuOption) {
             astilectron.sendMessage(JSON.stringify(message), function(msg) {});
             break;
         }
+        // Publish
+        case "rmb_3": 
+        {
+            // Message struct
+            var message = {
+                type: "publishFile",
+                payload: ""+parseInt(lastRmbElement.parentNode.childNodes[0].innerHTML, 10)
+            }
+            // send
+            astilectron.sendMessage(JSON.stringify(message), function(msg) {});
+            break;
+        }
         // Copy public URL
         case "rmb_4":
         {

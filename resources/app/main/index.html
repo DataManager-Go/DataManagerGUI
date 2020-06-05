@@ -183,6 +183,24 @@
         </div>
     </div>
 
+    <!-- Text input overlay -->
+    <div id="textinputOverlay" class="modal" style="display:block">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p style="color:white; margin-top: 0.25rem; margin-bottom: 0.2rem; font-size: larger;" id="textinput_overlayTitle">Rename Namespace</p>
+                <span class="close" onclick="CloseUploadSettingsOverlay()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="input-group mb-3">
+                    <input id="textinput_overlayInput" type="text" class="form-control" placeholder="Enter the desired name">
+                </div>
+                <button id="textinput_overlayButton" class="btn btn-dark text-left" type="button" style="background-color: rgb(18,24,31);" onclick="sendFileUploadRequest()">Rename</button>
+            </div>
+        </div>
+    </div>
+
+
+
     <!-- Right Click Popup (-> Table) -->
     <div class="dropdown-menu dropdown-menu-sm context-menu" id="context-menu-table">
         <a class="dropdown-item rmbItem" href="#" id ="rmb_1">Preview</a>           

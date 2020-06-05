@@ -105,3 +105,11 @@ function cancelUpload() {
     fileUploadBtn.value = null;
     folderUploadBtn.value = null;
 }
+
+// -------------------------------------------------------------------------------
+
+// Opens an Overlay with text input
+// type => 0: rename, 1: create; origin => 0: namespace, 1: group, 2: tag
+function OpenEnterNameOverlay(type, origin) {
+
+}
