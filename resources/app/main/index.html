@@ -184,17 +184,17 @@
     </div>
 
     <!-- Text input overlay -->
-    <div id="textinputOverlay" class="modal" style="display:block">
+    <div id="textinputOverlay" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <p style="color:white; margin-top: 0.25rem; margin-bottom: 0.2rem; font-size: larger;" id="textinput_overlayTitle">Rename Namespace</p>
-                <span class="close" onclick="CloseUploadSettingsOverlay()">&times;</span>
+                <p style="color:white; margin-top: 0.25rem; margin-bottom: 0.2rem; font-size: larger;" id="textinput_overlayTitle"></p>
+                <span class="close" onclick="CloseTextInputOverlay()">&times;</span>
             </div>
             <div class="modal-body">
                 <div class="input-group mb-3">
                     <input id="textinput_overlayInput" type="text" class="form-control" placeholder="Enter the desired name">
                 </div>
-                <button id="textinput_overlayButton" class="btn btn-dark text-left" type="button" style="background-color: rgb(18,24,31);" onclick="sendFileUploadRequest()">Rename</button>
+                <button id="textinput_overlayButton" class="btn btn-dark text-left" type="button" style="background-color: rgb(18,24,31);" onclick="InputOverlayAction()">Rename</button>
             </div>
         </div>
     </div>
@@ -213,12 +213,12 @@
 
     <!-- Right Click Popup (-> Sidebar) -->
     <div class="dropdown-menu dropdown-menu-sm context-menu" id="context-menu-sidebar" style="width: 5rem">
-        <a class="dropdown-item rmbItem" href="#" id ="rmb_7">Create new NS</a>     <!-- TODO -->
+        <a class="dropdown-item rmbItem" href="#" id ="rmb_7">Create new NS</a>     
     </div>
 
     <!-- Right Click Popup (-> Namespaces) -->
     <div class="dropdown-menu dropdown-menu-sm context-menu" id="context-menu-namespace" style="width: 5rem">
-        <a class="dropdown-item rmbItem" href="#" id ="rmb_8">Rename NS</a>         <!-- TODO -->
+        <a class="dropdown-item rmbItem" href="#" id ="rmb_8">Rename NS</a>         
         <a class="dropdown-item rmbItem" href="#" id ="rmb_9">Delete NS</a>         <!-- TODO -->
     </div>
 

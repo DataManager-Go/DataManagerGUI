@@ -18,32 +18,50 @@ $('body').on('contextmenu', function(e) {
         var top = e.pageY - 10;
         var left = e.pageX - 90;
 
-        if (namespaceItem)
-            $("#context-menu-namespace").css({
-                display: "block",
-                top: top,
-                left: left
-            }).addClass("show");
+        // Set the pressed object
+        lastRmbElement = e.srcElement || e.target;
+
+        // Namespace menu
+        if (namespaceItem) {
+
+            // Find the Namespace's name
+            var name = "";
+            try {
+                name = lastRmbElement.childNodes[1].innerHTML;
+            } catch {
+                name = lastRmbElement.parentNode.childNodes[1].innerHTML;
+            }
+
+            // Open the overlay if it is not the "Default" Namespace
+            if (name != "Default") {
+                $("#context-menu-namespace").css({
+                    display: "block",
+                    top: top,
+                    left: left
+                }).addClass("show");
+            }
+        }
+        // Group menu
         else if (groupItem) 
             $("#context-menu-group").css({
                 display: "block",
                 top: top,
                 left: left
             }).addClass("show");
+        // Table menu
         else if (tableItem) 
             $("#context-menu-table").css({
                 display: "block",
                 top: top,
                 left: left
             }).addClass("show");
+        // Sidebar menu
         else if (sidebarItem && !clickInsideElement(e, "allFiles")) 
             $("#context-menu-sidebar").css({
                 display: "block",
                 top: top,
                 left: left
             }).addClass("show");
-
-        lastRmbElement = e.srcElement || e.target;
 
     } else {
         // Something pressed that we didn't want: dont open
@@ -183,6 +201,29 @@ function rmbMenuClick(menuOption) {
                 });
                 break;
             }
+        }
+        // Create Namespace
+        case "rmb_7":
+        {
+            // Open Input Dialog for creating a namespace
+            OpenEnterNameOverlay(1, 0);
+            break;
+        }
+        // Rename Namespace
+        case "rmb_8":
+        {
+
+            // Find the Namespace's name
+            var name = "";
+            try {
+                name = lastRmbElement.childNodes[1].innerHTML;
+            } catch {
+                name = lastRmbElement.parentNode.childNodes[1].innerHTML;
+            }
+
+            // Open Input Dialog for renaming a namespace
+            OpenEnterNameOverlay(0, 0, name);
+            break;
         }
     }
 }

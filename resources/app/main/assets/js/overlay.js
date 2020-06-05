@@ -110,6 +110,73 @@ function cancelUpload() {
 
 // Opens an Overlay with text input
 // type => 0: rename, 1: create; origin => 0: namespace, 1: group, 2: tag
-function OpenEnterNameOverlay(type, origin) {
+// target => rename target
+function OpenEnterNameOverlay(type, origin, namespace, group, tag) {
 
+    currentInputAction = [type, origin, namespace, group, tag];
+
+    var title = "";
+    var action = "";
+
+    switch (type) {
+        case 0: title = "Rename"; action = "Rename"; break;
+        case 1: title = "Create"; action = "Create"; break;
+    }
+    switch (origin) {
+        case 0: title += " Namespace"; break;
+        case 1: title += " Group";  break;
+        case 2: title += " Tag"; break;
+    }
+    
+    if (group != undefined && group != null) 
+        title += " \""+group+"\"";
+    else if (tag != undefined && tag != null) 
+        title += " \""+tag+"\"";
+    else if (namespace != undefined && namespace != null) 
+        title += " \""+namespace+"\"";
+    
+
+    document.getElementById("textinput_overlayTitle").innerHTML = title;
+    document.getElementById("textinput_overlayButton").innerHTML = action;
+    document.getElementById("textinputOverlay").style.display = "block";
+}
+
+// Send the desired input action
+function InputOverlayAction() {
+
+    // Get the selected type
+    var targetStr = "";
+
+    switch ( currentInputAction[1]) {
+        case 0: targetStr = "Namespace"; break;
+        case 1: targetStr = "Group";  break;
+        case 2: targetStr = "Tag"; break;
+    }
+
+    // Get the action
+    var action = (currentInputAction[0] == 0) ? "Rename" : "Create";
+
+    // Create the inner JSON
+    var targetJson = {
+        target:    targetStr,
+        name:      textinput_overlayInput.value,
+        namespace: currentInputAction[2],
+        group:     currentInputAction[3],
+        tag:       currentInputAction[4]
+    }
+    
+    // Create the whole JSON
+    var json = {
+        type: action,
+        payload: JSON.stringify(targetJson)
+    }
+
+    // Send to GO and close the overlay
+    astilectron.sendMessage(JSON.stringify(json), function(message) {});
+    CloseTextInputOverlay();
+}
+
+// Close any input overlay
+function CloseTextInputOverlay() {
+    document.getElementById("textinputOverlay").style = "";
 }

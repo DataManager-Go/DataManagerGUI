@@ -33,6 +33,9 @@ var tagFilters = [];
 var rmbOverlayIsOpened = false;
 var lastRmbElement;
 
+// Input overlay
+var currentInputAction = []; // type, origin, namespace, group, tag     type => 0: rename, 1: create;   origin => 0: namespace, 1: group, 2: tag
+
 // List of currently active alerts
 var currentAlerts = [];
 
