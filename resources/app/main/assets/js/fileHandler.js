@@ -32,19 +32,41 @@ function prepareFileUploadRequest(fileUploadType) {
 
     // Select file(s)
     if (uploadType === "btn") {
+        fileNames = [];
         for (var i = 0; i < uploadBtn.files.length; i++) {  
             fileList.push(uploadBtn.files[i].path);
+            
+            // Easy 2 Read Names
+            var path = uploadBtn.files[i].path.split("/"); // linux
+            if (path[1] == undefined)
+                path = uploadBtn.files[i].path.split("\\"); // windows 
+    
+            var fileName = path[path.length-1];
+            fileNames.push(fileName);
         }
+
+        OpenPrepUploadOverlay(fileNames);
     }
     else if (uploadType === "folderBtn") {
-        var path = folderUploadBtn.files[0].path.split("/"); // linux
+
+        // Empty directory
+        var folderPath = "";
+        try {
+            folderPath = folderUploadBtn.files[0].path;
+        } catch {
+            createAlert("danger", "", "Selected folder was empty!");
+            return;
+        }
+
+        // Easy 2 Read Path
+        var path = folderPath.split("/"); // linux
         if (path[1] == undefined)
-            path = folderUploadBtn.files[0].path.split("\\"); // windows 
+            path = folderPath.split("\\"); // windows 
     
         var directoryName = path[path.length-2];
-    }
 
-    OpenUploadSettingsOverlay();
+        OpenPrepUploadOverlay(directoryName);
+    } 
 }
 
 // Send upload request to golang
@@ -54,10 +76,12 @@ function sendFileUploadRequest() {
     var fileGroups = [];
     var shouldEncrypt = false;
     var shouldPublic = false;
+    var shouldCompress = false;
 
     // Find settings according to user input
-    if (encryptInput.checked) shouldEncrypt = true;
-    if (publicInput.checked)  shouldPublic = true;
+    if (checkbox_encrypt.checked) shouldEncrypt = true;
+    if (checkbox_public.checked)  shouldPublic = true;
+    if (checkbox_compressDir.checked)  shouldCompress = true;
     fileTags = tagInput.value.replace(", ", ",").split(",");
     if (!fileTags[fileTags.length-1].match(/^[0-9a-zA-Z]+$/)) fileTags.pop();
     fileGroups = groupInput.value.replace(", ", ",").split(",");
@@ -71,6 +95,7 @@ function sendFileUploadRequest() {
         groups: fileGroups,
         encrypt: shouldEncrypt,
         public: shouldPublic,
+        compress: shouldCompress
     }
 
     // Find files
@@ -96,7 +121,7 @@ function sendFileUploadRequest() {
             payload: JSON.stringify(dirJSON)
         }
         
-        CloseUploadSettingsOverlay();
+        CloseUploadPrepOverlay();
         astilectron.sendMessage(JSON.stringify(messageJSON), function(message) {});
         return;
     }
@@ -112,6 +137,6 @@ function sendFileUploadRequest() {
     }
 
     // Close overlay and send message
-    CloseUploadSettingsOverlay();
+    CloseUploadPrepOverlay();
     astilectron.sendMessage(JSON.stringify(messageJSON), function(message) {});
 }

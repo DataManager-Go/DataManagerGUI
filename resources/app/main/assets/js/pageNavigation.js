@@ -178,7 +178,8 @@ function createNavigationButtons(currentPage) {
         i++
     }
 
-    if (trailDot !== null) {
+    if (trailDot !== null && trailDot !== undefined) {
+        console.log(trailDot);
         document.getElementById("buttonContainer").appendChild(trailDot);
         document.getElementById("buttonContainer").appendChild(trailBtn);
     }

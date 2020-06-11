@@ -7,19 +7,26 @@ var directoryName = "";
 var fileList = [];
 var uploadType = "";
 
-// Elements from the html
-var tagInput = document.getElementById("up_set_tagInput");
-var groupInput = document.getElementById("up_set_groupInput");
-var encryptInput = document.getElementById("up_set_encryptBox");
-var publicInput = document.getElementById("up_set_publicBox");
+// Top bar
 var searchbar = document.getElementById("seachbar");
-var table = document.getElementById('tableID');
 
+// Table
+var table = document.getElementById('tableID');
 var sortIdIcon = document.getElementById("sortIdIcon");
 var sortNameIcon = document.getElementById("sortNameIcon");
 var sortSizeIcon = document.getElementById("sortSizeIcon");
 var sortDateIcon = document.getElementById("sortDateIcon");
 var sortPublicIcon = document.getElementById("sortPublicIcon");
+
+// Upload prepare
+var tagInput = document.getElementById("upPrep_tagInput");
+var groupInput = document.getElementById("upPrep_groupInput");
+var uploadPrepOverlay = document.getElementById("uploadPrepOverlay");
+var up_prepTitle = document.getElementById("up_prepTitle");
+var checkbox_compressDir = document.getElementById("checkbox_compressDir");
+var checkbox_public = document.getElementById("checkbox_public");
+var checkbox_encrypt = document.getElementById("checkbox_encrypt");
+var maxPrepOverlayTitleSize = 30;
 
 // Current info
 var shownFileCap = 30;

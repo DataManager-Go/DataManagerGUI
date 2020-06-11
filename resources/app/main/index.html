@@ -121,47 +121,62 @@
         </div>
     </div>
 
-    <!-- Upload-settings overlay -->
-    <div id="uploadSettingsOverlay" class="modal">
+    <!-- Upload preparation overlay-->
+    <div id="uploadPrepOverlay" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <p style="color:white; margin-top: 0.25rem; margin-bottom: 0.2rem; font-size: larger;" id="up_set_overlayTitle">Upload settings</p>
-                <span class="close" onclick="CloseUploadSettingsOverlay()">&times;</span>
+                <p style="color:white; margin-top: 0.25rem; margin-bottom: 0.2rem; font-size: larger;" id="up_prepOverlayTitle"></p>
+                <span class="close" onclick="CloseUploadPrepOverlay()">&times;</span>
             </div>
-            <div class="modal-body">
-                <!-- tags -->
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                    <span class="input-group-text" id="basic-addon1" style="width: 4.75rem;">tags</span>
+            <div class="modal-body" style="text-align:center">
+                <div style="padding-bottom: 0.1rem;" style="text-align:center">
+                    <h5 style="color:black;" id="up_prepTitle" style="text-align: center;"></h6>
+                    <br>
+                    <h6>Sorting:</h6>
+                     <!-- tags -->
+                    <div class="input-group mb-3" style="width: 50%; margin:auto">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">tags&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        </div>
+                        <input id="upPrep_tagInput" type="text" class="form-control" placeholder="seperated by comma (tag1,tag2,tag3)">
                     </div>
-                    <input id="up_set_tagInput" type="text" class="form-control" placeholder="Enter tags seperated by comma (tag1,tag2,tag3)">
-                </div>
-                <!-- groups -->
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                    <span class="input-group-text" id="basic-addon1">groups</span>
+                    <!-- groups -->
+                    <div class="input-group mb-3" style="width: 50%; margin:auto">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">groups</span>
+                        </div>
+                        <input id="upPrep_groupInput" type="text" class="form-control" placeholder="seperated by comma (tag1,tag2,tag3)"/>
                     </div>
-                    <input id="up_set_groupInput" type="text" class="form-control" placeholder="Enter groups seperated by comma (tag1,tag2,tag3)"/>
-                </div>
-                <!-- encryption -->
-                <div class="form-check-inline" style="padding-left: 1.5rem;">
-                    <label class="form-check-label">
-                    <input id="up_set_encryptBox" type="checkbox" class="form-check-input" value="">Encrypt files
-                    </label>
-                </div>
-                <!-- public -->
-                <div class="form-check-inline" style="padding-left: 3rem;">
-                    <label class="form-check-label">
-                    <input id="up_set_publicBox" type="checkbox" class="form-check-input" style="font-size: 1px;" value="">Make public
-                    </label>
+
+                    <br>
+                    <h6>Options:</h6>
+
+                    <!-- Checkboxes -->
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="checkbox_encrypt">
+                        <label class="custom-control-label" for="checkbox_encrypt">Encrypt file<i>(</i>s<i>)</i></label>
+                    </div>
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="checkbox_public">
+                        <label class="custom-control-label" for="checkbox_public">Make public  </label>
+                    </div>
+                    <!-- Only use this one when uploading a directory -->
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="checkbox_compressDir">
+                        <label class="custom-control-label" for="checkbox_compressDir">Compress dir</label>
+                    </div>
                 </div>
                 <br>
-                <br>
-                <button class="btn btn-dark text-left" type="button" style="background-color: rgb(18,24,31);" onclick="sendFileUploadRequest()">Upload</button>
-                <!-- TODO further settings? Upload bar directly here or another popup? -->
+                <!-- Upload / Cancel buttons -->
+                <div style="display: flex; flex-direction: row; justify-content: center;">
+                    <button class="btn btn-dark text-left" type="button" style="background-color: rgb(18,24,31); width: 25%; display: flex; justify-content: center;" onclick="sendFileUploadRequest()">Start upload</button>
+                    <label>   </label>
+                    <button class="btn btn-dark text-left" type="button" style="background-color: rgb(18,24,31); width: 25%; display: flex; justify-content: center;" onclick="CloseUploadPrepOverlay()">Cancel upload</button> 
+                </div>
             </div>
         </div>
     </div>
+
 
     <!-- Upload overlay -->
     <div id="uploadOverlay" class="modal">

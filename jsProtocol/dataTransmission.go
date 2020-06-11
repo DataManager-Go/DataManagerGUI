@@ -42,6 +42,7 @@ type UploadInfoSettings struct {
 	Groups     []string `json:"groups"`
 	Encrypt    bool     `json:"encrypt"`
 	MakePublic bool     `json:"public"`
+	Compress   bool     `json:"compress"`
 }
 
 // CreateOrRenameInformation contains information on creating / renaming namespaces, groups and tags

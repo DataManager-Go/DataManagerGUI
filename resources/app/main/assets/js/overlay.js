@@ -66,19 +66,6 @@ function cancelDownload() {
 
 // -------------------------------------------------------------------------------
 
-// Upload Settings Overlay
-function OpenUploadSettingsOverlay() {
-   document.getElementById("uploadSettingsOverlay").style.display = "block";
-}
-
-function CloseUploadSettingsOverlay() {
-    document.getElementById("uploadSettingsOverlay").style.display = "none";
-    
-    // Reset input
-    fileUploadBtn.value = null;
-    folderUploadBtn.value = null;
-}
-
 // Upload Overlay
 function OpenUploadOverlay(fileName) {
 
@@ -104,6 +91,52 @@ function cancelUpload() {
     // Reset input
     fileUploadBtn.value = null;
     folderUploadBtn.value = null;
+}
+
+// Opens the window to adjust the upload request
+function OpenPrepUploadOverlay(fileName) {
+
+    var header = "Uploading \""
+
+    // Add every element to title as long as possible
+    var fileNameText = "";
+    if (Array.isArray(fileName)) {
+        fileName.forEach(function(file) {
+            fileNameText += file + ",";
+        });
+        
+        header += fileNameText;
+        checkbox_encrypt.parentNode.style.display = "none";
+        console.log(checkbox_encrypt.parentNode.style.display);
+    } else {
+        header += fileName;
+        checkbox_encrypt.parentNode.style.display = "block";
+    }
+
+    // Remove trailing ","
+    if (header.lastIndexOf(",") == header.length-1)
+        header = header.substring(0, header.length-1);
+
+    // Finishing touches
+    if (header.length > maxPrepOverlayTitleSize) 
+        header = header.substring(0, maxPrepOverlayTitleSize) + "...\"";
+    else 
+        header += "\"";
+
+    up_prepTitle.innerHTML = header;
+    
+    uploadPrepOverlay.style.display = "block";
+}
+
+// Cancels and closes the upload preperation
+function CloseUploadPrepOverlay() {
+    uploadPrepOverlay.style.display = "none";
+
+    // Reset input
+    up_prepTitle.innerHTML = "";
+    checkbox_compressDir.checked = false;
+    checkbox_public.checked = false;
+    checkbox_encrypt.checked = false;
 }
 
 // -------------------------------------------------------------------------------
