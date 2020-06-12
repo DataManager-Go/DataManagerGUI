@@ -1,13 +1,15 @@
 // RMB listener
 $('body').on('contextmenu', function(e) {
 
-    sidebarItem = clickInsideElement(e, "sidebar");
-    namespaceItem = clickInsideElement(e, "namespace");
-    allFilesItem = clickInsideElement(e, "allFiles");
-    groupItem = clickInsideElement(e, "group");
-    tableItem = clickInsideElement(e, "table_entry");
+    sidebarItem   =   clickInsideElement(e, "sidebar");
+    namespaceItem =   clickInsideElement(e, "namespace");
+    allFilesItem  =   clickInsideElement(e, "allFiles");
+    groupItem     =   clickInsideElement(e, "group");
+    tableItem     =   clickInsideElement(e, "table_entry");
+    tagList       =   clickInsideElement(e, "tagList");
+    tagItem       =   clickInsideElement(e, "tagBtn");
   
-    if (sidebarItem || namespaceItem || groupItem || tableItem || allFilesItem) {
+    if (sidebarItem || namespaceItem || groupItem || tableItem || allFilesItem || tagList || tagItem) {
         // Prevent default
         e.preventDefault();
 
@@ -70,6 +72,20 @@ $('body').on('contextmenu', function(e) {
                 top: top,
                 left: left
             }).addClass("show");
+        // Tag
+        else if (tagItem)
+        $("#context-menu-tag").css({
+            display: "block",
+            top: top,
+            left: left
+        }).addClass("show");
+        // TagList
+        else if (tagList)
+        $("#context-menu-tagList").css({
+            display: "block",
+            top: top,
+            left: left
+        }).addClass("show");
 
     } else {
         // Something pressed that we didn't want: dont open
@@ -86,7 +102,10 @@ $('body').on('contextmenu', function(e) {
     clickedInsideTableOverlay = clickInsideElementID(e, "context-menu-table");
     clickedInsideGroupOverlay = clickInsideElementID(e, "context-menu-group");
     clickedInsideAllFilesOverlay = clickInsideElementID(e, "context-menu-group-2");
-    if (rmbOverlayIsOpened && !clickedInsideNamespaceOverlay && !clickedInsideTableOverlay && !clickedInsideGroupOverlay && !clickedInsideSidebarOverlay && !clickedInsideAllFilesOverlay) {
+    clickedInsideTagOverlay = clickInsideElementID(e, "context-menu-tag");
+    clickedInsideTagListOverlay = clickInsideElementID(e, "context-menu-tagList");
+
+    if (rmbOverlayIsOpened && !clickedInsideNamespaceOverlay && !clickedInsideTableOverlay && !clickedInsideGroupOverlay && !clickedInsideSidebarOverlay && !clickedInsideAllFilesOverlay && !clickedInsideTagOverlay && !clickedInsideTagListOverlay) {
         closeRmbOverlay();
         if (clickInsideElement(e, "rmbItem"))
             rmbMenuClick(e.target.id);
@@ -102,6 +121,8 @@ function closeRmbOverlay() {
     $("#context-menu-namespace").removeClass("show").hide();
     $("#context-menu-group").removeClass("show").hide();
     $("#context-menu-group-2").removeClass("show").hide();
+    $("#context-menu-tagList").removeClass("show").hide();
+    $("#context-menu-tag").removeClass("show").hide();
 }
 
 // Checks if a given element contains the given id
@@ -337,6 +358,24 @@ function rmbMenuClick(menuOption) {
                 sendDeletionRequest("Group", nsName, groupName);
             }
             break;
+        }
+        // Create Tag
+        case "rmb_13":
+        {
+            OpenEnterNameOverlay(1, 2);
+        }
+        // Rename Tag
+        case "rmb_14":
+        {
+            OpenEnterNameOverlay(0, 2, "", "", lastRmbElement.innerHTML);
+        }
+        // Delete Tag
+        case "rmb_15":
+        {   
+            var name = lastRmbElement.innerHTML;
+            if(confirm("Do you really want to delete \""+name+"\"?")) {
+                sendDeletionRequest("Tag", "", "", name);
+            }
         }
     }
 }
