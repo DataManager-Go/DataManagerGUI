@@ -363,11 +363,13 @@ function rmbMenuClick(menuOption) {
         case "rmb_13":
         {
             OpenEnterNameOverlay(1, 2);
+            break;
         }
         // Rename Tag
         case "rmb_14":
         {
             OpenEnterNameOverlay(0, 2, "", "", lastRmbElement.innerHTML);
+            break;
         }
         // Delete Tag
         case "rmb_15":
@@ -376,6 +378,7 @@ function rmbMenuClick(menuOption) {
             if(confirm("Do you really want to delete \""+name+"\"?")) {
                 sendDeletionRequest("Tag", "", "", name);
             }
+            break;
         }
     }
 }
