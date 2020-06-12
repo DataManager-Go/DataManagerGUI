@@ -25,7 +25,7 @@ function OnListClick(e) {
 
         try {
             val = e.target.parentElement.childNodes[i].childNodes[1].innerHTML;
-        } catch (ex) {
+        } catch {
             val = e.target.parentElement.parentElement.childNodes[i].childNodes[1].innerHTML;
             end = e.target.parentElement.parentElement.childNodes.length;
         }

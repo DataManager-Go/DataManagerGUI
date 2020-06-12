@@ -116,7 +116,7 @@ func HandleMessages(m *astilectron.EventMessage) interface{} {
 		{
 			uploadCancelChan <- true
 		}
-	// -- Over button presses -- \\
+	/* RMB Events */
 	case "copyPreviewURL":
 		{
 			err = clipboard.WriteAll(ms.Payload)
@@ -162,6 +162,12 @@ func HandleMessages(m *astilectron.EventMessage) interface{} {
 			err = json.Unmarshal([]byte(ms.Payload), &deletionInfo)
 
 			fmt.Println(deletionInfo)
+		}
+	/* Keyboard Input */
+	case "reload":
+		{
+			fmt.Println("Reload requested.")
+			SendInitialData()
 		}
 	default:
 		{

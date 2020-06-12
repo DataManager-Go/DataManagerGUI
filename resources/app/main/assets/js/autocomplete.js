@@ -9,7 +9,7 @@ $( function() {
       return split( term ).pop();
     }
     
-    $( "#up_set_tagInput" )
+    $( "#upPrep_tagInput" )
       // don't navigate away from the field on tab when selecting an item
       .on( "keydown", function( event ) {  
         if ( event.keyCode === $.ui.keyCode.TAB &&
@@ -51,7 +51,7 @@ $( function() {
       return split( term ).pop();
     }
     
-    $( "#up_set_groupInput" )
+    $( "#upPrep_groupInput" )
       // don't navigate away from the field on tab when selecting an item
       .on( "keydown", function( event ) {  
         if ( event.keyCode === $.ui.keyCode.TAB &&

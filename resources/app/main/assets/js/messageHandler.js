@@ -162,6 +162,13 @@ function listFiles(data) {
 }
 
 function addNamespaceAndGroups(data) {
+
+    // Remove potential former entries
+    var sidebarElement = document.getElementById("SideBar")
+    while (sidebarElement.lastChild.classList !== undefined && sidebarElement.lastChild.classList[2] == "nsListEntry") {
+        sidebarElement.removeChild(sidebarElement.lastChild);
+    }
+
     var parsed = JSON.parse(data.payload);
 
     var namespaces = parsed.content;
@@ -178,7 +185,7 @@ function addNamespaceAndGroups(data) {
 
         // Add Namespaces
         var ns = document.createElement("LI");
-        ns.setAttribute("class", "nav-item dropdown");
+        ns.setAttribute("class", "nav-item dropdown nsListEntry");
         ns.setAttribute("style", "width: 100%;");
 
         var ns_a = document.createElement("a");
