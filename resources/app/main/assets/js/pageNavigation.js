@@ -93,7 +93,9 @@ function createNavigationButtons(currentPage) {
     if (filteredFilesSize !== 0) {
         fileAmount = filteredFilesSize;
     }
-    buttonsNeeded = Math.floor(fileAmount / shownFileCap);
+    buttonsNeeded = Math.ceil(fileAmount / shownFileCap);
+
+    console.log(fileAmount + " / " + shownFileCap + " = " + buttonsNeeded + " btns needed");
 
     // Delete potential former navigation buttons
     document.getElementById("buttonContainer").innerHTML = "";

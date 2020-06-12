@@ -213,6 +213,9 @@ function addNamespaceAndGroups(data) {
         div.setAttribute("role", "menu");
         ns.appendChild(div);
 
+        // User to lower case
+        parsed.user = parsed.user.toLowerCase();
+
         // Add Groups to Namespaces
         for (var j = 0; j < groups.length; j++) {
             var div_a = document.createElement("a");
@@ -232,6 +235,7 @@ function addNamespaceAndGroups(data) {
             
             if (groups[0] === "Default") {groups[0] = parsed.user+"_default";}
             else if (j === 0) {groups[0] = parsed.user+"_"+groups[0];}
+
 
             if (j === 0) {
                 div_a.setAttribute("id", `{"group":"ShowAllFiles", "namespace":"`+groups[0]+`"}`);
