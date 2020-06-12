@@ -2,6 +2,9 @@ package main
 
 import (
 	"fmt"
+	"os"
+	"path/filepath"
+	"runtime"
 	"strings"
 	"time"
 
@@ -10,18 +13,40 @@ import (
 	dmConfig "github.com/DataManager-Go/libdatamanager/config"
 	"github.com/asticode/go-astikit"
 	"github.com/asticode/go-astilectron"
+	"github.com/sqweek/dialog"
 )
 
 var (
 	app       *astilectron.Astilectron
 	userToken string
+	appName   = "DataManager"
 )
 
 func main() {
+
+	// Check for first start
+	path := "./example/vendor/"
+	if runtime.GOOS == "windows" {
+		home := os.Getenv("HOMEDRIVE") + os.Getenv("HOMEPATH")
+		if home == "" {
+			home = os.Getenv("USERPROFILE")
+		}
+
+		path = filepath.Join(home, "AppData", "Roaming", appName, "vendor")
+		fmt.Println(path)
+	}
+	if _, err := os.Stat(path); os.IsNotExist(err) {
+		// First start
+		ok := dialog.Message("%s %s %s", "For your first start", appName, "needs to download additional data. Download now?").Title("Additional data required").YesNo()
+		if !ok {
+			return
+		}
+	}
+
 	// Create astilectron
 	var err error
 	app, err = astilectron.New(nil, astilectron.Options{
-		AppName:            "Test",
+		AppName:            appName,
 		BaseDirectoryPath:  "example",
 		AppIconDarwinPath:  "./resources/icon.icns",
 		AppIconDefaultPath: "./resources/icon.png",
