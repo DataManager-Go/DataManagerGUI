@@ -155,6 +155,18 @@ func HandleMessages(m *astilectron.EventMessage) interface{} {
 				}
 			}
 		}
+	case "delete": // TODO
+		{
+			// Parse payload json
+			var deletionInfo jsprotocol.DeleteInformation
+			err = json.Unmarshal([]byte(ms.Payload), &deletionInfo)
+
+			fmt.Println(deletionInfo)
+		}
+	default:
+		{
+			fmt.Println("Unsupported request:", ms.Type, ms.Payload)
+		}
 	}
 
 	return nil

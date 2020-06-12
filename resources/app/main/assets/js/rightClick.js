@@ -3,10 +3,11 @@ $('body').on('contextmenu', function(e) {
 
     sidebarItem = clickInsideElement(e, "sidebar");
     namespaceItem = clickInsideElement(e, "namespace");
+    allFilesItem = clickInsideElement(e, "allFiles");
     groupItem = clickInsideElement(e, "group");
     tableItem = clickInsideElement(e, "table_entry");
   
-    if (sidebarItem || namespaceItem || groupItem || tableItem) {
+    if (sidebarItem || namespaceItem || groupItem || tableItem || allFilesItem) {
         // Prevent default
         e.preventDefault();
 
@@ -48,6 +49,13 @@ $('body').on('contextmenu', function(e) {
                 top: top,
                 left: left
             }).addClass("show");
+        // All files menu
+        else if (allFilesItem)
+            $("#context-menu-group-2").css({
+                display: "block",
+                top: top,
+                left: left
+            }).addClass("show");
         // Table menu
         else if (tableItem) 
             $("#context-menu-table").css({
@@ -77,7 +85,8 @@ $('body').on('contextmenu', function(e) {
     clickedInsideNamespaceOverlay = clickInsideElementID(e, "context-menu-namespace");
     clickedInsideTableOverlay = clickInsideElementID(e, "context-menu-table");
     clickedInsideGroupOverlay = clickInsideElementID(e, "context-menu-group");
-    if (rmbOverlayIsOpened && !clickedInsideNamespaceOverlay && !clickedInsideTableOverlay && !clickedInsideGroupOverlay && !clickedInsideSidebarOverlay) {
+    clickedInsideAllFilesOverlay = clickInsideElementID(e, "context-menu-group-2");
+    if (rmbOverlayIsOpened && !clickedInsideNamespaceOverlay && !clickedInsideTableOverlay && !clickedInsideGroupOverlay && !clickedInsideSidebarOverlay && !clickedInsideAllFilesOverlay) {
         closeRmbOverlay();
         if (clickInsideElement(e, "rmbItem"))
             rmbMenuClick(e.target.id);
@@ -92,6 +101,7 @@ function closeRmbOverlay() {
     $("#context-menu-table").removeClass("show").hide();
     $("#context-menu-namespace").removeClass("show").hide();
     $("#context-menu-group").removeClass("show").hide();
+    $("#context-menu-group-2").removeClass("show").hide();
 }
 
 // Checks if a given element contains the given id
@@ -171,36 +181,60 @@ function rmbMenuClick(menuOption) {
         // Download
         case "rmb_5":
         {
-            // inner json
-            var filesJson = {
-                files: [parseInt(lastRmbElement.parentNode.childNodes[0].innerHTML, 10)]
-            }
-            // outer json
-            var json = {
-                type: "download",
-                payload: "\""+JSON.stringify(filesJson)+"\""
-            }
-            // send
-            astilectron.sendMessage(JSON.stringify(json), function(message) {});
-            break;
-        }
-        // Delete
-        case "rmb_6": 
-        {
-            // Check if user really wants to delete
-            deleteReply = confirm("Do you really want to delete the selected file(s)?")
+            var requestedFiles = [];
 
-            if (deleteReply) {
-                 // Message struct
-                var message = {
-                    type: "deleteFile",
-                    payload: ""+lastRmbElement.parentNode.childNodes[0].innerHTML+";"+currentNamespace
+            // Find marked rows and add them to the file list
+            for (var i = 0; i < files.length; i++) {
+                if (files[i].style.backgroundColor != "") {
+                    requestedFiles.push(parseInt(files[i].childNodes[0].innerHTML,10));
+                   
+                    files[i].style.backgroundColor= files[i].origColor;
+                    files[i].hilite = false;
+                }
+            }
+
+            // No files selected?
+            if (requestedFiles.length == 0) {
+                createAlert("warning", "", "No files selected");
+            }
+            else {
+                // inner json
+                var filesJson = {
+                    files: requestedFiles
+                }
+                // outer json
+                var json = {
+                    type: "download",
+                    payload: "\""+JSON.stringify(filesJson)+"\""
                 }
                 // send
-                astilectron.sendMessage(JSON.stringify(message), function(msg) {
-                });
-                break;
+                astilectron.sendMessage(JSON.stringify(json), function(message) {});
             }
+            break;
+        }
+        // Delete Files
+        case "rmb_6": 
+        {
+            var requestedFiles = [];
+
+            // Find marked rows and add them to the file list
+            for (var i = 0; i < files.length; i++) {
+                if (files[i].style.backgroundColor != "") {
+                    requestedFiles.push(parseInt(files[i].childNodes[0].innerHTML,10));
+                   
+                    files[i].style.backgroundColor= files[i].origColor;
+                    files[i].hilite = false;
+                }
+            }
+
+            // Confirm dialoge
+            if (requestedFiles.length == 0) {
+                createAlert("warning", "", "No files selected");
+            }
+            else if(confirm("Do you really want to delete "+requestedFiles.length+" files?")) {
+                sendDeletionRequest("File", "", "", "", requestedFiles);
+            }
+            break;
         }
         // Create Namespace
         case "rmb_7":
@@ -225,5 +259,106 @@ function rmbMenuClick(menuOption) {
             OpenEnterNameOverlay(0, 0, name);
             break;
         }
+        // Delete Namespace
+        case "rmb_9" :
+        {
+            // Find the Namespace's name
+            var name = "";
+            try {
+                name = lastRmbElement.childNodes[1].innerHTML;
+            } catch {
+                name = lastRmbElement.parentNode.childNodes[1].innerHTML;
+            }
+
+            if(confirm("Do you really want to delete \""+name+"\"?")) {
+                sendDeletionRequest("Namespace", name);
+                break;
+            }
+        }
+        // Create Group
+        case "rmb_10" :
+        {
+            // Find the Namespace's name
+            var nsName = "";
+
+            json = lastRmbElement.parentNode.id;
+            if (json.length < 1) {
+                nsName = JSON.parse(lastRmbElement.parentNode.childNodes[0].id).namespace;
+            } else
+                nsName = JSON.parse(json).namespace;
+
+            
+            // Open Input Dialog for group's name
+            OpenEnterNameOverlay(1, 1, nsName);
+            break;
+        }
+        // Rename Group
+        case "rmb_11" :
+        {
+            // Find the Namespace's and Group's names
+            var nsName = "";
+            var groupName = "";
+
+            json = lastRmbElement.parentNode.id;
+            if (json.length < 1) {
+                jsonP = JSON.parse(lastRmbElement.parentNode.childNodes[1].id)
+                nsName = jsonP.namespace;
+                groupName = jsonP.group;
+            } else {
+                jsonP = JSON.parse(json)
+                nsName = jsonP.namespace;
+                groupName = jsonP.group;
+             }
+ 
+            // Open Input Dialog for group's name
+            OpenEnterNameOverlay(0, 1, nsName, groupName);
+            break;
+        }
+        // Delete Group
+        case "rmb_12" :
+        {
+            // Find the Namespace's and Group's names
+            var nsName = "";
+            var groupName = "";
+
+            json = lastRmbElement.parentNode.id;
+            if (json.length < 1) {
+                jsonP = JSON.parse(lastRmbElement.parentNode.childNodes[1].id)
+                nsName = jsonP.namespace;
+                groupName = jsonP.group;
+            } else {
+                jsonP = JSON.parse(json)
+                nsName = jsonP.namespace;
+                groupName = jsonP.group;
+            }
+
+            // Confirm dialoge
+            if(confirm("Do you really want to delete \""+groupName+"\"?")) {
+                sendDeletionRequest("Group", nsName, groupName);
+            }
+            break;
+        }
     }
+}
+
+// Sends the JSON containing informations on deleting something
+// target = Namespace, Group, Tag, File
+function sendDeletionRequest(target, namespace, group, tag, files) {
+    // Create the inner JSON
+    var delInfoJSON = {
+        target: target,
+        namespace: namespace,
+        group: group,
+        tag: tag,
+        files: files
+    }
+
+    // Create the whole JSON
+    var json = {
+        type: "delete",
+        payload: JSON.stringify(delInfoJSON)
+    }
+
+    // send
+    astilectron.sendMessage(JSON.stringify(json), function(msg) {});
 }

@@ -53,3 +53,12 @@ type CreateOrRenameInformation struct {
 	Group     string `json:"group"`
 	Tag       string `json:"tag"`
 }
+
+// DeleteInformation is the equivalent of CreateOrRenameInformation for deletion
+type DeleteInformation struct {
+	Target    string   `json:"target"`
+	Namespace string   `json:"namespace"`
+	Group     string   `json:"group"`
+	Tag       string   `json:"tag"`
+	Files     []string `json:"files"`
+}

@@ -161,11 +161,11 @@ function OpenEnterNameOverlay(type, origin, namespace, group, tag) {
         case 2: title += " Tag"; break;
     }
     
-    if (group != undefined && group != null) 
-        title += " \""+group+"\"";
-    else if (tag != undefined && tag != null) 
+    if (tag != undefined && tag != null && type != 1) 
         title += " \""+tag+"\"";
-    else if (namespace != undefined && namespace != null) 
+    else if (group != undefined && group != null && type != 1) 
+        title += " \""+group+"\"";
+    else if (namespace != undefined && namespace != null && type != 1) 
         title += " \""+namespace+"\"";
     
 
@@ -187,7 +187,7 @@ function InputOverlayAction() {
     }
 
     // Get the action
-    var action = (currentInputAction[0] == 0) ? "Rename" : "Create";
+    var action = (currentInputAction[0] == 0) ? "rename" : "create";
 
     // Create the inner JSON
     var targetJson = {
