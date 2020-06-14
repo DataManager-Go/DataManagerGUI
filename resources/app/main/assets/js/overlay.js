@@ -213,3 +213,30 @@ function InputOverlayAction() {
 function CloseTextInputOverlay() {
     document.getElementById("textinputOverlay").style = "";
 }
+
+// -------------------------------------------------------------------------------
+
+// Calls the corresponding callback function on button press
+async function confirmDialog(text, callbackYes, callbackNo) {
+    yes_no_overlay.style.display = "block";
+    yes_no_text.innerHTML = text;
+
+    $('#yes_no_accept').click(function() {
+        if (callbackYes !== undefined)
+            callbackYes();
+        yes_no_overlay.style.display = "";
+    });
+
+    $('#yes_no_decline').click(function() {
+        if (callbackNo !== undefined)
+            callbackNo();
+        yes_no_overlay.style.display = "";
+    });
+
+    $('#yes_no_X').click(function() {
+        if (callbackNo !== undefined)
+            callbackNo();
+        yes_no_overlay.style.display = "";
+    });
+
+}   

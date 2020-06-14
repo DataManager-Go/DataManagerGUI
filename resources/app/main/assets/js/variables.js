@@ -28,6 +28,10 @@ var checkbox_public = document.getElementById("checkbox_public");
 var checkbox_encrypt = document.getElementById("checkbox_encrypt");
 var maxPrepOverlayTitleSize = 30;
 
+// Yes-No Dialog
+var yes_no_overlay = document.getElementById("yes_no_overlay");
+var yes_no_text = document.getElementById("yes_no_text");
+
 // Current info
 var shownFileCap = 30;
 var namespaceCount = 0;

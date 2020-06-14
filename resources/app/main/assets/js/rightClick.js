@@ -241,6 +241,7 @@ function rmbMenuClick(menuOption) {
             // Find marked rows and add them to the file list
             for (var i = 0; i < files.length; i++) {
                 if (files[i].style.backgroundColor != "") {
+                    console.log(files[i]);
                     requestedFiles.push(parseInt(files[i].childNodes[0].innerHTML,10));
                    
                     files[i].style.backgroundColor= files[i].origColor;
@@ -251,9 +252,10 @@ function rmbMenuClick(menuOption) {
             // Confirm dialoge
             if (requestedFiles.length == 0) {
                 createAlert("warning", "", "No files selected");
-            }
-            else if(confirm("Do you really want to delete "+requestedFiles.length+" files?")) {
-                sendDeletionRequest("File", "", "", "", requestedFiles);
+            } else {
+                confirmDialog("Do you really want to delete "+requestedFiles.length+" file(s)?", function() {
+                    sendDeletionRequest("File", "", "", "", requestedFiles);
+                });
             }
             break;
         }
@@ -291,10 +293,10 @@ function rmbMenuClick(menuOption) {
                 name = lastRmbElement.parentNode.childNodes[1].innerHTML;
             }
 
-            if(confirm("Do you really want to delete \""+name+"\"?")) {
+            confirmDialog("Do you really want to delete \""+name+"\"?", function() {
                 sendDeletionRequest("Namespace", name);
-                break;
-            }
+            });
+            break;
         }
         // Create Group
         case "rmb_10" :
@@ -354,9 +356,9 @@ function rmbMenuClick(menuOption) {
             }
 
             // Confirm dialoge
-            if(confirm("Do you really want to delete \""+groupName+"\"?")) {
+            confirmDialog("Do you really want to delete \""+groupName+"\"?", function() {
                 sendDeletionRequest("Group", nsName, groupName);
-            }
+            });
             break;
         }
         // Create Tag
@@ -375,9 +377,10 @@ function rmbMenuClick(menuOption) {
         case "rmb_15":
         {   
             var name = lastRmbElement.innerHTML;
-            if(confirm("Do you really want to delete \""+name+"\"?")) {
+
+            confirmDialog("Do you really want to delete \""+name+"\"?", function() {
                 sendDeletionRequest("Tag", "", "", name);
-            }
+            });
             break;
         }
     }
