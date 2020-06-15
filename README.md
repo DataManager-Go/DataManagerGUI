@@ -18,11 +18,11 @@ Check out my [Install Wizard](https://github.com/Yukaru-san/InstallWizard) to cr
 
 # First Start
 On your first start, the program will need to download the electron binaries.
-![example5](https://very.highly.illegal-dark-web-server.xyz/preview/raw/qcqGuF5eVnANOquvgCaZVwzZ6)
+![example5](https://files.jojii.de/preview/raw/qcqGuF5eVnANOquvgCaZVwzZ6)
 <br>
 <sub><sup>The yes/no buttons depend on your system's language</sup></sub>
 <br>
 After accepting, the program might take a few seconds to start - depending on your internet connection.
 
 # Look & Feel
-![example5](https://very.highly.illegal-dark-web-server.xyz/preview/raw/n1gHIGdZwgyICWPJ9kEEbnmGp)
+![example5](https://files.jojii.de/preview/raw/n1gHIGdZwgyICWPJ9kEEbnmGp)
