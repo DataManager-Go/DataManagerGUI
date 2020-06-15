@@ -25,8 +25,8 @@ type DownloadStruct struct {
 
 // FileNamespaceStruct contains a file and a namespace (lol)
 type FileNamespaceStruct struct {
-	File      uint   `json:"file"`
 	Namespace string `json:"namespace"`
+	File      string `json:"file"`
 }
 
 // UploadFilesStruct contains info of files to upload

@@ -18,6 +18,13 @@ type message struct {
 	Payload string `json:"payload"`
 }
 
+type alertStruct struct {
+	Type   string `json:"type"`
+	Kind   string `json:"kind"`
+	Strong string `json:"strongText"`
+	Normal string `json:"normalText"`
+}
+
 // HandleMessages handles incoming messages from the JS
 func HandleMessages(m *astilectron.EventMessage) interface{} {
 	// Unmarshal into (json-)string
@@ -162,18 +169,24 @@ func HandleMessages(m *astilectron.EventMessage) interface{} {
 	case "publishFile":
 		{
 			var fileinfo jsprotocol.FileNamespaceStruct
+
+			fmt.Println(ms.Payload)
+
 			err = json.Unmarshal([]byte(ms.Payload), &fileinfo)
 			if err != nil {
 				fmt.Println(err)
 				return err
 			}
+			// TODO fileinfo.file: string -> uint
+			/*
+				_, err = Manager.PublishFile("", fileinfo.File, "", false, dmlib.FileAttributes{})
+				if err != nil {
+					fmt.Println(err)
+					return err
+				}
 
-			_, err = Manager.PublishFile("", fileinfo.File, "", false, dmlib.FileAttributes{})
-			if err != nil {
-				fmt.Println(err)
-				return err
-			}
-
+				fmt.Println(fileinfo)
+			*/
 			LoadFiles(dmlib.FileAttributes{Namespace: fileinfo.Namespace})
 		}
 	/* Keyboard Input */
@@ -210,6 +223,13 @@ func SendMessage(typ, payload string, responeHandler func(m *astilectron.EventMe
 // SendString sends a string towards the javascript
 func SendString(s string, responeHandler func(m *astilectron.EventMessage)) {
 	Window.SendMessage(s, responeHandler)
+}
+
+// SendAlert creates an alert inside of the GUI
+// types: danger/warning/success/...
+func SendAlert(typ, strongText, normalText string) {
+	b, _ := json.Marshal(&alertStruct{Type: "alert", Kind: typ, Strong: strongText, Normal: normalText})
+	Window.SendMessage(string(b))
 }
 
 // SendTags sends the gui all tags within the desired namespace
