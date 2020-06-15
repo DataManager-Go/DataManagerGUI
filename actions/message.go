@@ -158,6 +158,21 @@ func HandleMessages(m *astilectron.EventMessage) interface{} {
 			}
 
 		}
+	// If you want to believe it or not
+	// But this case will publish your file
+	case "publishFile":
+		{
+			fID, err := strconv.ParseUint(ms.Payload, 10, 64)
+			if err != nil {
+				return err
+			}
+
+			_, err = Manager.PublishFile("", uint(fID), "", false, dmlib.FileAttributes{})
+			if err != nil {
+				return err
+			}
+
+		}
 	/* Keyboard Input */
 	case "reload":
 		{
