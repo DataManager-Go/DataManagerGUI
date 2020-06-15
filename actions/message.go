@@ -253,7 +253,23 @@ func HandleMessages(m *astilectron.EventMessage) (interface{}, error) {
 					}
 					SendInitialData()
 				}
+			case "group", "tag":
+				{
+					attribute := dmlib.TagAttribute
+					val := renameInfo.Tag
+					if renameInfo.Target == "group" {
+						attribute = dmlib.GroupAttribute
+						val = renameInfo.Group
+					}
 
+					_, err := Manager.UpdateAttribute(attribute, renameInfo.Namespace, val, renameInfo.Name)
+					if err != nil {
+						return nil, err
+					}
+
+					LoadFiles(dmlib.FileAttributes{Namespace: renameInfo.Namespace})
+					SendInitialData()
+				}
 			}
 		}
 	/* Keyboard Input */
