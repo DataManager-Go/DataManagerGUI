@@ -168,8 +168,16 @@ func StartMainWindow(a *astilectron.Astilectron) {
 	actions.Window.OnMessage(func(m *astilectron.EventMessage) (v interface{}) {
 		ret, err := actions.HandleMessages(m)
 		if err != nil {
-			log.Println(err)
-			actions.SendAlert("danger", "doing stuff", err.Error())
+			errText := err.Error()
+
+			// If error is a request error, print its reason
+			if e, ok := err.(*dmlib.ResponseErr); ok {
+				errText = e.Response.Message
+			}
+
+			log.Println(errText)
+			actions.SendAlert("danger", "Doing stuff", errText)
+
 			return nil
 		}
 

@@ -387,7 +387,7 @@ function rmbMenuClick(menuOption) {
             var name = lastRmbElement.innerHTML;
 
             confirmDialog("Do you really want to delete \""+name+"\"?", function() {
-                sendDeletionRequest("tag", "", "", name);
+                sendDeletionRequest("tag", currentNamespace, "", name);
             });
             break;
         }
