@@ -6,7 +6,6 @@ import (
 	"log"
 	"sort"
 	"strconv"
-	"strings"
 
 	jsprotocol "github.com/DataManager-Go/DataManagerGUI/jsProtocol"
 	dmlib "github.com/DataManager-Go/libdatamanager"
@@ -134,34 +133,45 @@ func HandleMessages(m *astilectron.EventMessage) interface{} {
 			}
 			PreviewFile(uint(id))
 		}
-	case "deleteFile": // TODO Multi file support
-		{
-			// parse id and namespace
-			info := strings.Split(ms.Payload, ";")
-			id, err := strconv.ParseUint(info[0], 10, 64)
-			if err != nil {
-				fmt.Println(err.Error())
-				DeleteError(err.Error())
-			} else {
-				// delete
-				err = DeleteFile(uint(id))
-				if err != nil {
-					fmt.Println(err.Error())
-					DeleteError(err.Error())
-				} else {
-					DeleteSuccess()
-					// Refresh fileslist
-					LoadFiles(dmlib.FileAttributes{Namespace: info[1]})
-				}
-			}
-		}
-	case "delete": // TODO
+	case "delete":
 		{
 			// Parse payload json
 			var deletionInfo jsprotocol.DeleteInformation
 			err = json.Unmarshal([]byte(ms.Payload), &deletionInfo)
+			if err != nil {
+				return err
+			}
 
-			fmt.Println(deletionInfo)
+			// Delete files
+			if len(deletionInfo.Files) > 0 {
+				for _, file := range deletionInfo.Files {
+					err := DeleteFile(file)
+					if err != nil {
+						DeleteError(err.Error())
+						return err
+					}
+				}
+
+				LoadFiles(dmlib.FileAttributes{Namespace: deletionInfo.Namespace})
+
+				DeleteSuccess()
+			}
+
+		}
+	// If you want to believe it or not
+	// But this case will publish your file
+	case "publishFile":
+		{
+			fID, err := strconv.ParseUint(ms.Payload, 10, 64)
+			if err != nil {
+				return err
+			}
+
+			_, err = Manager.PublishFile("", uint(fID), "", false, dmlib.FileAttributes{})
+			if err != nil {
+				return err
+			}
+
 		}
 	/* Keyboard Input */
 	case "reload":

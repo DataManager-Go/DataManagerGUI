@@ -32,6 +32,7 @@ func GetFiles(name string, id uint, allNamespaces bool, fileAttributes dmlib.Fil
 
 // DeleteFile deletes the file with the given id on the server
 func DeleteFile(id uint) error {
+	fmt.Println("delete", id)
 	_, err := Manager.DeleteFile("", id, false, dmlib.FileAttributes{})
 	return err
 	// TODO remove from keystore
