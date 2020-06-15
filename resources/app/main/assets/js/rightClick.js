@@ -163,7 +163,7 @@ function rmbMenuClick(menuOption) {
             // Message struct
             var message = {
                 type: "previewFile",
-                payload: parseInt(lastRmbElement.parentNode.childNodes[0].innerHTML, 10)
+                payload: ""+parseInt(lastRmbElement.parentNode.childNodes[0].innerHTML, 10)
             }
             
             // send
@@ -262,7 +262,7 @@ function rmbMenuClick(menuOption) {
                 createAlert("warning", "", "No files selected");
             } else {
                 confirmDialog("Do you really want to delete "+requestedFiles.length+" file(s)?", function() {
-                    sendDeletionRequest("File", currentNamespace, "", "", requestedFiles);
+                    sendDeletionRequest("file", currentNamespace, "", "", requestedFiles);
                 });
             }
             break;
@@ -302,7 +302,7 @@ function rmbMenuClick(menuOption) {
             }
 
             confirmDialog("Do you really want to delete \""+name+"\"?", function() {
-                sendDeletionRequest("Namespace", name);
+                sendDeletionRequest("namespace", name);
             });
             break;
         }
@@ -365,7 +365,7 @@ function rmbMenuClick(menuOption) {
 
             // Confirm dialoge
             confirmDialog("Do you really want to delete \""+groupName+"\"?", function() {
-                sendDeletionRequest("Group", nsName, groupName);
+                sendDeletionRequest("group", nsName, groupName);
             });
             break;
         }
@@ -387,7 +387,7 @@ function rmbMenuClick(menuOption) {
             var name = lastRmbElement.innerHTML;
 
             confirmDialog("Do you really want to delete \""+name+"\"?", function() {
-                sendDeletionRequest("Tag", "", "", name);
+                sendDeletionRequest("tag", "", "", name);
             });
             break;
         }

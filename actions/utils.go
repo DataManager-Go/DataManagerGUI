@@ -6,6 +6,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"runtime"
+	"time"
 
 	"github.com/JojiiOfficial/gaw"
 	"github.com/JojiiOfficial/shred"
@@ -63,6 +64,7 @@ func ShowFile(filepath string) bool {
 		fmt.Println("Filepath: " + filepath)
 		cmd := exec.Command("cmd", "/C "+filepath)
 		output, _ := cmd.Output()
+		time.Sleep(time.Second * 2) // why dfuck does this even work
 
 		if len(output) > 0 {
 			return false
