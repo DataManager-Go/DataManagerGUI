@@ -254,7 +254,7 @@ function rmbMenuClick(menuOption) {
                 createAlert("warning", "", "No files selected");
             } else {
                 confirmDialog("Do you really want to delete "+requestedFiles.length+" file(s)?", function() {
-                    sendDeletionRequest("File", "", "", "", requestedFiles);
+                    sendDeletionRequest("File", currentNamespace, "", "", requestedFiles);
                 });
             }
             break;
