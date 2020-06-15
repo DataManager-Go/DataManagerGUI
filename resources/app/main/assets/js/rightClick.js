@@ -160,11 +160,18 @@ function rmbMenuClick(menuOption) {
         // Preview
         case "rmb_1": 
         {
+            // Payload
+            var payload = {
+                namespace: currentNamespace,
+                file: ""+parseInt(lastRmbElement.parentNode.childNodes[0].innerHTML, 10)
+            }
+
             // Message struct
             var message = {
                 type: "previewFile",
-                payload: ""+parseInt(lastRmbElement.parentNode.childNodes[0].innerHTML, 10)
+                payload: JSON.stringify(delInfoJSON)
             }
+            
             // send
             astilectron.sendMessage(JSON.stringify(message), function(msg) {});
             break;
