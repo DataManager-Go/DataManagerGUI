@@ -26,7 +26,7 @@ type alertStruct struct {
 }
 
 // HandleMessages handles incoming messages from the JS
-func HandleMessages(m *astilectron.EventMessage) interface{} {
+func HandleMessages(m *astilectron.EventMessage) (interface{}, error) {
 	// Unmarshal into (json-)string
 	var s string
 	err := m.Unmarshal(&s)
@@ -34,9 +34,8 @@ func HandleMessages(m *astilectron.EventMessage) interface{} {
 	// Unmarshal into struct
 	var ms message
 	err = json.Unmarshal([]byte(s), &ms)
-
 	if err != nil {
-		fmt.Println(err.Error())
+		return nil, err
 	}
 
 	switch ms.Type {
@@ -45,13 +44,11 @@ func HandleMessages(m *astilectron.EventMessage) interface{} {
 			var data jsprotocol.DownloadStruct
 			err = json.Unmarshal([]byte(ms.Payload)[1:len(ms.Payload)-1], &data)
 			if err != nil {
-				fmt.Println(err)
-				return ""
+				return nil, err
 			}
 
 			DownloadFiles(data.Files, DownloadDir)
-			//os.Getenv("download") TODO
-			return ""
+			// TODO os.Getenv("download")
 		}
 	case "cancelDownload":
 		{
@@ -75,12 +72,11 @@ func HandleMessages(m *astilectron.EventMessage) interface{} {
 			json, err = GetFiles("", 0, false, attributes, 0)
 
 			if err != nil {
-				fmt.Println(err.Error())
-			} else {
-				SendTags(info.Namespace)
-				SendMessage("files", json, HandleResponses)
+				return nil, err
 			}
-			return ""
+
+			SendTags(info.Namespace)
+			SendMessage("files", json, HandleResponses)
 		}
 	case "uploadFiles":
 		{
@@ -88,35 +84,33 @@ func HandleMessages(m *astilectron.EventMessage) interface{} {
 			var uploadInfo jsprotocol.UploadFilesStruct
 			err = json.Unmarshal([]byte(ms.Payload), &uploadInfo)
 			if err != nil {
-				fmt.Println(err.Error())
-				return err
+				return nil, err
 			}
-
-			fmt.Println(uploadInfo.Settings)
 
 			// Parse uploadInfo.Settings
 			var uploadSettings jsprotocol.UploadInfoSettings
 			err = json.Unmarshal([]byte(uploadInfo.Settings), &uploadSettings)
 			if err != nil {
-				fmt.Println(err.Error())
-				return err
+				return nil, err
 			}
+
 			UploadFiles(uploadInfo.Files, uploadSettings)
-			return ""
 		}
 	case "uploadDirectory":
 		{
 			// Parse payload json
 			var uploadInfo jsprotocol.UploadDirectoryStruct
 			err = json.Unmarshal([]byte(ms.Payload), &uploadInfo)
+			if err != nil {
+				return nil, err
+			}
 
 			// Parse uploadInfo.Settings
 			var uploadSettings jsprotocol.UploadInfoSettings
 			err = json.Unmarshal([]byte(uploadInfo.Settings), &uploadSettings)
 
-			fmt.Println(uploadInfo)
-			//UploadDirectory(uploadInfo.Path, uploadSettings)
-			return ""
+			// TODO
+			// UploadDirectory(uploadInfo.Path, uploadSettings)
 		}
 	case "cancelUpload":
 		{
@@ -126,18 +120,21 @@ func HandleMessages(m *astilectron.EventMessage) interface{} {
 	case "copyPreviewURL":
 		{
 			err = clipboard.WriteAll(ms.Payload)
-			if err == nil {
-				return true
+			if err != nil {
+				fmt.Println("Error on URL Copy", err.Error())
+				return false, err
 			}
-			fmt.Println("Error on URL Copy", err.Error())
-			return false
+
+			return true, nil
 		}
 	case "previewFile":
 		{
 			id, err := strconv.ParseUint(ms.Payload, 10, 64)
 			if err != nil {
-				DownloadError(err.Error())
+				return nil, err
+				// DownloadError(err.Error())
 			}
+
 			PreviewFile(uint(id))
 		}
 	case "delete":
@@ -146,7 +143,7 @@ func HandleMessages(m *astilectron.EventMessage) interface{} {
 			var deletionInfo jsprotocol.DeleteInformation
 			err = json.Unmarshal([]byte(ms.Payload), &deletionInfo)
 			if err != nil {
-				return err
+				return nil, err
 			}
 
 			switch deletionInfo.Target {
@@ -155,8 +152,8 @@ func HandleMessages(m *astilectron.EventMessage) interface{} {
 					for _, file := range deletionInfo.Files {
 						err := DeleteFile(file)
 						if err != nil {
-							DeleteError(err.Error())
-							return err
+							// DeleteError(err.Error())
+							return nil, err
 						}
 					}
 
@@ -167,7 +164,7 @@ func HandleMessages(m *astilectron.EventMessage) interface{} {
 				{
 					_, err := Manager.DeleteNamespace(deletionInfo.Namespace)
 					if err != nil {
-						return err
+						return nil, err
 					}
 
 					SendInitialData()
@@ -181,23 +178,19 @@ func HandleMessages(m *astilectron.EventMessage) interface{} {
 		{
 			var fileinfo jsprotocol.FileNamespaceStruct
 
-			fmt.Println(ms.Payload)
-
 			err = json.Unmarshal([]byte(ms.Payload), &fileinfo)
 			if err != nil {
-				fmt.Println(err)
-				return err
+				return nil, err
 			}
 
 			fileID, err := strconv.ParseUint(fileinfo.File, 10, 64)
 			if err != nil {
-				return err
+				return nil, err
 			}
 
 			_, err = Manager.PublishFile("", uint(fileID), "", false, dmlib.FileAttributes{})
 			if err != nil {
-				fmt.Println(err)
-				return err
+				return nil, err
 			}
 
 			LoadFiles(dmlib.FileAttributes{Namespace: fileinfo.Namespace})
@@ -208,7 +201,7 @@ func HandleMessages(m *astilectron.EventMessage) interface{} {
 			var creationInfo jsprotocol.CreateOrRenameInformation
 			err = json.Unmarshal([]byte(ms.Payload), &creationInfo)
 			if err != nil {
-				return err
+				return nil, err
 			}
 
 			switch creationInfo.Target {
@@ -216,10 +209,32 @@ func HandleMessages(m *astilectron.EventMessage) interface{} {
 				{
 					_, err := Manager.CreateNamespace(creationInfo.Name)
 					if err != nil {
-						return err
+						return nil, err
+					}
+
+					SendInitialData()
+				}
+			}
+		}
+	case "rename":
+		{
+			// Parse payload json
+			var renameInfo jsprotocol.CreateOrRenameInformation
+			err = json.Unmarshal([]byte(ms.Payload), &renameInfo)
+			if err != nil {
+				return nil, err
+			}
+
+			switch renameInfo.Target {
+			case "namespace":
+				{
+					_, err := Manager.UpdateNamespace(renameInfo.Namespace, renameInfo.Name)
+					if err != nil {
+						return nil, err
 					}
 					SendInitialData()
 				}
+
 			}
 		}
 	/* Keyboard Input */
@@ -234,7 +249,7 @@ func HandleMessages(m *astilectron.EventMessage) interface{} {
 		}
 	}
 
-	return nil
+	return nil, nil
 }
 
 // HandleResponses handles potential answers on messages

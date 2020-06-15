@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"path/filepath"
 	"runtime"
@@ -164,7 +165,16 @@ func StartMainWindow(a *astilectron.Astilectron) {
 	}
 
 	// Message handler
-	actions.Window.OnMessage(actions.HandleMessages)
+	actions.Window.OnMessage(func(m *astilectron.EventMessage) (v interface{}) {
+		ret, err := actions.HandleMessages(m)
+		if err != nil {
+			log.Println(err)
+			actions.SendAlert("danger", "doing stuff", err.Error())
+			return nil
+		}
+
+		return ret
+	})
 
 	// Receive namespaces and groups
 	err = actions.SendInitialData()

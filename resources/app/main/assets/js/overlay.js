@@ -181,9 +181,9 @@ function InputOverlayAction() {
     var targetStr = "";
 
     switch ( currentInputAction[1]) {
-        case 0: targetStr = "Namespace"; break;
-        case 1: targetStr = "Group";  break;
-        case 2: targetStr = "Tag"; break;
+        case 0: targetStr = "namespace"; break;
+        case 1: targetStr = "group";  break;
+        case 2: targetStr = "tag"; break;
     }
 
     // Get the action
