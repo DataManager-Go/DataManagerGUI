@@ -177,16 +177,18 @@ func HandleMessages(m *astilectron.EventMessage) interface{} {
 				fmt.Println(err)
 				return err
 			}
-			// TODO fileinfo.file: string -> uint
-			/*
-				_, err = Manager.PublishFile("", fileinfo.File, "", false, dmlib.FileAttributes{})
-				if err != nil {
-					fmt.Println(err)
-					return err
-				}
 
-				fmt.Println(fileinfo)
-			*/
+			fileID, err := strconv.ParseUint(fileinfo.File, 10, 64)
+			if err != nil {
+				return err
+			}
+
+			_, err = Manager.PublishFile("", uint(fileID), "", false, dmlib.FileAttributes{})
+			if err != nil {
+				fmt.Println(err)
+				return err
+			}
+
 			LoadFiles(dmlib.FileAttributes{Namespace: fileinfo.Namespace})
 		}
 	/* Keyboard Input */
