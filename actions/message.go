@@ -149,18 +149,29 @@ func HandleMessages(m *astilectron.EventMessage) interface{} {
 				return err
 			}
 
-			// Delete files
-			if len(deletionInfo.Files) > 0 {
-				for _, file := range deletionInfo.Files {
-					err := DeleteFile(file)
+			switch deletionInfo.Target {
+			case "file":
+				{
+					for _, file := range deletionInfo.Files {
+						err := DeleteFile(file)
+						if err != nil {
+							DeleteError(err.Error())
+							return err
+						}
+					}
+
+					LoadFiles(dmlib.FileAttributes{Namespace: deletionInfo.Namespace})
+					DeleteSuccess()
+				}
+			case "namespace":
+				{
+					_, err := Manager.DeleteNamespace(deletionInfo.Namespace)
 					if err != nil {
-						DeleteError(err.Error())
 						return err
 					}
-				}
 
-				LoadFiles(dmlib.FileAttributes{Namespace: deletionInfo.Namespace})
-				DeleteSuccess()
+					SendInitialData()
+				}
 			}
 
 		}
@@ -190,6 +201,26 @@ func HandleMessages(m *astilectron.EventMessage) interface{} {
 			}
 
 			LoadFiles(dmlib.FileAttributes{Namespace: fileinfo.Namespace})
+		}
+	case "create":
+		{
+			// Parse payload json
+			var creationInfo jsprotocol.CreateOrRenameInformation
+			err = json.Unmarshal([]byte(ms.Payload), &creationInfo)
+			if err != nil {
+				return err
+			}
+
+			switch creationInfo.Target {
+			case "Namespace":
+				{
+					_, err := Manager.CreateNamespace(creationInfo.Name)
+					if err != nil {
+						return err
+					}
+					SendInitialData()
+				}
+			}
 		}
 	/* Keyboard Input */
 	case "reload":
