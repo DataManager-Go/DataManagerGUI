@@ -169,7 +169,7 @@ function rmbMenuClick(menuOption) {
             // Message struct
             var message = {
                 type: "previewFile",
-                payload: JSON.stringify(delInfoJSON)
+                payload: JSON.stringify(payload)
             }
             
             // send
@@ -179,11 +179,18 @@ function rmbMenuClick(menuOption) {
         // Publish
         case "rmb_3": 
         {
+            // Payload
+            var payload = {
+                namespace: currentNamespace,
+                file: ""+parseInt(lastRmbElement.parentNode.childNodes[0].innerHTML, 10)
+            }
+
             // Message struct
             var message = {
                 type: "publishFile",
-                payload: ""+parseInt(lastRmbElement.parentNode.childNodes[0].innerHTML, 10)
+                payload: JSON.stringify(payload)
             }
+
             // send
             astilectron.sendMessage(JSON.stringify(message), function(msg) {});
             break;

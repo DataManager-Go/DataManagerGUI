@@ -153,7 +153,6 @@ func HandleMessages(m *astilectron.EventMessage) interface{} {
 				}
 
 				LoadFiles(dmlib.FileAttributes{Namespace: deletionInfo.Namespace})
-
 				DeleteSuccess()
 			}
 
@@ -162,16 +161,20 @@ func HandleMessages(m *astilectron.EventMessage) interface{} {
 	// But this case will publish your file
 	case "publishFile":
 		{
-			fID, err := strconv.ParseUint(ms.Payload, 10, 64)
+			var fileinfo jsprotocol.FileNamespaceStruct
+			err = json.Unmarshal([]byte(ms.Payload), &fileinfo)
 			if err != nil {
+				fmt.Println(err)
 				return err
 			}
 
-			_, err = Manager.PublishFile("", uint(fID), "", false, dmlib.FileAttributes{})
+			_, err = Manager.PublishFile("", fileinfo.File, "", false, dmlib.FileAttributes{})
 			if err != nil {
+				fmt.Println(err)
 				return err
 			}
 
+			LoadFiles(dmlib.FileAttributes{Namespace: fileinfo.Namespace})
 		}
 	/* Keyboard Input */
 	case "reload":
