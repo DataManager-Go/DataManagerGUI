@@ -24,9 +24,6 @@ function handleRmbEvent_RightClick(e) {
     tagList       =   clickInsideElement(e, "tagList");
     tagItem       =   clickInsideElement(e, "tagBtn");
   
-      // Set the pressed object
-      lastRmbElement2 = e.srcElement || e.target;
-
     if (sidebarItem || namespaceItem || groupItem || tableItem || allFilesItem || tagList || tagItem) {
         // Prevent default
         e.preventDefault();
@@ -263,11 +260,13 @@ function rmbMenuClick(menuOption) {
         case "rmb_6": 
         {
             var requestedFiles = [];
+            var firstElement;
 
             // Find marked rows and add them to the file list
             for (var i = 0; i < files.length; i++) {
                 if (files[i].style.backgroundColor != "") {
-                    console.log(files[i]);
+                    if (firstElement == undefined)
+                        firstElement = files[i].childNodes[1].innerHTML;
                     requestedFiles.push(parseInt(files[i].childNodes[0].innerHTML,10));
                    
                     files[i].style.backgroundColor= files[i].origColor;
@@ -277,11 +276,23 @@ function rmbMenuClick(menuOption) {
 
             // Confirm dialoge
             if (requestedFiles.length == 0) {
-                createAlert("warning", "", "No files selected");
-            } else {
-                confirmDialog("Do you really want to delete "+requestedFiles.length+" file(s)?", function() {
+
+                requestedFiles.push(parseInt(lastRmbElement.parentNode.childNodes[0].innerHTML, 10));
+
+                confirmDialog("Do you really want to delete "+lastRmbElement.parentNode.childNodes[1].innerHTML+"?", function() {
                     sendDeletionRequest("file", currentNamespace, "", "", requestedFiles);
                 });
+
+            } else {
+                if (requestedFiles.length == 1) {
+                    confirmDialog("Do you really want to delete "+firstElement+"?", function() {
+                        sendDeletionRequest("file", currentNamespace, "", "", requestedFiles);
+                    });
+                } else {
+                    confirmDialog("Do you really want to delete "+requestedFiles.length+" file(s)?", function() {
+                        sendDeletionRequest("file", currentNamespace, "", "", requestedFiles);
+                    });
+                }
             }
             break;
         }
