@@ -1,6 +1,21 @@
-// RMB listener
-$('body').on('contextmenu', function(e) {
+// Mouse listener (Main events)
+$('body').on('contextmenu', function(e) {   
+    handleRmbEvent_RightClick(e);
+    return false; //blocks default Webbrowser right click menu
+}).on("click", function(e) {
+   handleRmbEvent_LeftClick(e);
+});
 
+// Mouse listener (Non-element click)
+$('html').on('contextmenu', function(e) { 
+    handleRmbEvent_LeftClick(e); // rmb events need to do the lmb event here
+    return false; //blocks default Webbrowser right click menu
+}).on("click", function(e) {
+    handleRmbEvent_LeftClick(e);
+});
+
+// Function to handle right clicks
+function handleRmbEvent_RightClick(e) {
     sidebarItem   =   clickInsideElement(e, "sidebar");
     namespaceItem =   clickInsideElement(e, "namespace");
     allFilesItem  =   clickInsideElement(e, "allFiles");
@@ -9,11 +24,14 @@ $('body').on('contextmenu', function(e) {
     tagList       =   clickInsideElement(e, "tagList");
     tagItem       =   clickInsideElement(e, "tagBtn");
   
+      // Set the pressed object
+      lastRmbElement2 = e.srcElement || e.target;
+
     if (sidebarItem || namespaceItem || groupItem || tableItem || allFilesItem || tagList || tagItem) {
         // Prevent default
         e.preventDefault();
 
-        // Close potential over overlays
+        // Close potential other overlays
         closeRmbOverlay();
 
         // Open Menu
@@ -92,25 +110,25 @@ $('body').on('contextmenu', function(e) {
         clickedItem = null;
         closeRmbOverlay();
     }
-    
-    return false; //blocks default Webbrowser right click menu
-  
-}).on("click", function(e) {
-    // Close when pressing anywhere on the body except the elements
-    clickedInsideSidebarOverlay = clickInsideElementID(e, "context-menu-sidebar");
-    clickedInsideNamespaceOverlay = clickInsideElementID(e, "context-menu-namespace");
-    clickedInsideTableOverlay = clickInsideElementID(e, "context-menu-table");
-    clickedInsideGroupOverlay = clickInsideElementID(e, "context-menu-group");
-    clickedInsideAllFilesOverlay = clickInsideElementID(e, "context-menu-group-2");
-    clickedInsideTagOverlay = clickInsideElementID(e, "context-menu-tag");
-    clickedInsideTagListOverlay = clickInsideElementID(e, "context-menu-tagList");
+}
 
-    if (rmbOverlayIsOpened && !clickedInsideNamespaceOverlay && !clickedInsideTableOverlay && !clickedInsideGroupOverlay && !clickedInsideSidebarOverlay && !clickedInsideAllFilesOverlay && !clickedInsideTagOverlay && !clickedInsideTagListOverlay) {
-        closeRmbOverlay();
-        if (clickInsideElement(e, "rmbItem"))
-            rmbMenuClick(e.target.id);
-    }
-});
+// Function to handle left clicks
+function handleRmbEvent_LeftClick(e) {
+     // Close when pressing anywhere on the body except the elements
+     clickedInsideSidebarOverlay = clickInsideElementID(e, "context-menu-sidebar");
+     clickedInsideNamespaceOverlay = clickInsideElementID(e, "context-menu-namespace");
+     clickedInsideTableOverlay = clickInsideElementID(e, "context-menu-table");
+     clickedInsideGroupOverlay = clickInsideElementID(e, "context-menu-group");
+     clickedInsideAllFilesOverlay = clickInsideElementID(e, "context-menu-group-2");
+     clickedInsideTagOverlay = clickInsideElementID(e, "context-menu-tag");
+     clickedInsideTagListOverlay = clickInsideElementID(e, "context-menu-tagList");
+ 
+     if (rmbOverlayIsOpened && !clickedInsideNamespaceOverlay && !clickedInsideTableOverlay && !clickedInsideGroupOverlay && !clickedInsideSidebarOverlay && !clickedInsideAllFilesOverlay && !clickedInsideTagOverlay && !clickedInsideTagListOverlay) {
+         closeRmbOverlay();
+         if (clickInsideElement(e, "rmbItem"))
+             rmbMenuClick(e.target.id);
+     }
+}
 
 // Closes the overlay
 function closeRmbOverlay() {
@@ -138,7 +156,7 @@ function clickInsideElementID(e, idName) {
 // Checks if a given element contains the given class 
 function clickInsideElement(e, className) {
     var el = e.srcElement || e.target;
-    
+
     if (el.classList.contains(className)) {
         return el;
     } else {

@@ -33,7 +33,6 @@ func main() {
 		}
 
 		path = filepath.Join(home, "AppData", "Roaming", appName, "vendor")
-		fmt.Println(path)
 	}
 	if _, err := os.Stat(path); os.IsNotExist(err) {
 		// First start
