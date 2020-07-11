@@ -29,7 +29,7 @@ func DownloadFiles(fileIDs []uint, path string) {
 		proxy.callback = func(percent uint8) {
 			DownloadProgress(percent)
 		}
-		req.Proxy = proxy.proxyFunc()
+		req.WriterProxy = proxy.proxyFunc()
 
 		// Write request response to file
 		localFilename := fmt.Sprintf("%d_%s", resp.FileID, resp.ServerFileName)
