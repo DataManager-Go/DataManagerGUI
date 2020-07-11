@@ -1,6 +1,21 @@
-// RMB listener
-$('body').on('contextmenu', function(e) {
+// Mouse listener (Main events)
+$('body').on('contextmenu', function(e) {   
+    handleRmbEvent_RightClick(e);
+    return false; //blocks default Webbrowser right click menu
+}).on("click", function(e) {
+   handleRmbEvent_LeftClick(e);
+});
 
+// Mouse listener (Non-element click)
+$('html').on('contextmenu', function(e) { 
+    handleRmbEvent_LeftClick(e); // rmb events need to do the lmb event here
+    return false; //blocks default Webbrowser right click menu
+}).on("click", function(e) {
+    handleRmbEvent_LeftClick(e);
+});
+
+// Function to handle right clicks
+function handleRmbEvent_RightClick(e) {
     sidebarItem   =   clickInsideElement(e, "sidebar");
     namespaceItem =   clickInsideElement(e, "namespace");
     allFilesItem  =   clickInsideElement(e, "allFiles");
@@ -13,7 +28,7 @@ $('body').on('contextmenu', function(e) {
         // Prevent default
         e.preventDefault();
 
-        // Close potential over overlays
+        // Close potential other overlays
         closeRmbOverlay();
 
         // Open Menu
@@ -92,25 +107,25 @@ $('body').on('contextmenu', function(e) {
         clickedItem = null;
         closeRmbOverlay();
     }
-    
-    return false; //blocks default Webbrowser right click menu
-  
-}).on("click", function(e) {
-    // Close when pressing anywhere on the body except the elements
-    clickedInsideSidebarOverlay = clickInsideElementID(e, "context-menu-sidebar");
-    clickedInsideNamespaceOverlay = clickInsideElementID(e, "context-menu-namespace");
-    clickedInsideTableOverlay = clickInsideElementID(e, "context-menu-table");
-    clickedInsideGroupOverlay = clickInsideElementID(e, "context-menu-group");
-    clickedInsideAllFilesOverlay = clickInsideElementID(e, "context-menu-group-2");
-    clickedInsideTagOverlay = clickInsideElementID(e, "context-menu-tag");
-    clickedInsideTagListOverlay = clickInsideElementID(e, "context-menu-tagList");
+}
 
-    if (rmbOverlayIsOpened && !clickedInsideNamespaceOverlay && !clickedInsideTableOverlay && !clickedInsideGroupOverlay && !clickedInsideSidebarOverlay && !clickedInsideAllFilesOverlay && !clickedInsideTagOverlay && !clickedInsideTagListOverlay) {
-        closeRmbOverlay();
-        if (clickInsideElement(e, "rmbItem"))
-            rmbMenuClick(e.target.id);
-    }
-});
+// Function to handle left clicks
+function handleRmbEvent_LeftClick(e) {
+     // Close when pressing anywhere on the body except the elements
+     clickedInsideSidebarOverlay = clickInsideElementID(e, "context-menu-sidebar");
+     clickedInsideNamespaceOverlay = clickInsideElementID(e, "context-menu-namespace");
+     clickedInsideTableOverlay = clickInsideElementID(e, "context-menu-table");
+     clickedInsideGroupOverlay = clickInsideElementID(e, "context-menu-group");
+     clickedInsideAllFilesOverlay = clickInsideElementID(e, "context-menu-group-2");
+     clickedInsideTagOverlay = clickInsideElementID(e, "context-menu-tag");
+     clickedInsideTagListOverlay = clickInsideElementID(e, "context-menu-tagList");
+ 
+     if (rmbOverlayIsOpened && !clickedInsideNamespaceOverlay && !clickedInsideTableOverlay && !clickedInsideGroupOverlay && !clickedInsideSidebarOverlay && !clickedInsideAllFilesOverlay && !clickedInsideTagOverlay && !clickedInsideTagListOverlay) {
+         closeRmbOverlay();
+         if (clickInsideElement(e, "rmbItem"))
+             rmbMenuClick(e.target.id);
+     }
+}
 
 // Closes the overlay
 function closeRmbOverlay() {
@@ -138,7 +153,7 @@ function clickInsideElementID(e, idName) {
 // Checks if a given element contains the given class 
 function clickInsideElement(e, className) {
     var el = e.srcElement || e.target;
-    
+
     if (el.classList.contains(className)) {
         return el;
     } else {
@@ -165,6 +180,7 @@ function rmbMenuClick(menuOption) {
                 type: "previewFile",
                 payload: ""+parseInt(lastRmbElement.parentNode.childNodes[0].innerHTML, 10)
             }
+            
             // send
             astilectron.sendMessage(JSON.stringify(message), function(msg) {});
             break;
@@ -172,11 +188,18 @@ function rmbMenuClick(menuOption) {
         // Publish
         case "rmb_3": 
         {
+            // Payload
+            var payload = {
+                namespace: currentNamespace,
+                file: ""+parseInt(lastRmbElement.parentNode.childNodes[0].innerHTML, 10)
+            }
+
             // Message struct
             var message = {
                 type: "publishFile",
-                payload: ""+parseInt(lastRmbElement.parentNode.childNodes[0].innerHTML, 10)
+                payload: JSON.stringify(payload)
             }
+
             // send
             astilectron.sendMessage(JSON.stringify(message), function(msg) {});
             break;
@@ -237,10 +260,13 @@ function rmbMenuClick(menuOption) {
         case "rmb_6": 
         {
             var requestedFiles = [];
+            var firstElement;
 
             // Find marked rows and add them to the file list
             for (var i = 0; i < files.length; i++) {
                 if (files[i].style.backgroundColor != "") {
+                    if (firstElement == undefined)
+                        firstElement = files[i].childNodes[1].innerHTML;
                     requestedFiles.push(parseInt(files[i].childNodes[0].innerHTML,10));
                    
                     files[i].style.backgroundColor= files[i].origColor;
@@ -250,10 +276,23 @@ function rmbMenuClick(menuOption) {
 
             // Confirm dialoge
             if (requestedFiles.length == 0) {
-                createAlert("warning", "", "No files selected");
-            }
-            else if(confirm("Do you really want to delete "+requestedFiles.length+" files?")) {
-                sendDeletionRequest("File", "", "", "", requestedFiles);
+
+                requestedFiles.push(parseInt(lastRmbElement.parentNode.childNodes[0].innerHTML, 10));
+
+                confirmDialog("Do you really want to delete "+lastRmbElement.parentNode.childNodes[1].innerHTML+"?", function() {
+                    sendDeletionRequest("file", currentNamespace, "", "", requestedFiles);
+                });
+
+            } else {
+                if (requestedFiles.length == 1) {
+                    confirmDialog("Do you really want to delete "+firstElement+"?", function() {
+                        sendDeletionRequest("file", currentNamespace, "", "", requestedFiles);
+                    });
+                } else {
+                    confirmDialog("Do you really want to delete "+requestedFiles.length+" file(s)?", function() {
+                        sendDeletionRequest("file", currentNamespace, "", "", requestedFiles);
+                    });
+                }
             }
             break;
         }
@@ -291,10 +330,10 @@ function rmbMenuClick(menuOption) {
                 name = lastRmbElement.parentNode.childNodes[1].innerHTML;
             }
 
-            if(confirm("Do you really want to delete \""+name+"\"?")) {
-                sendDeletionRequest("Namespace", name);
-                break;
-            }
+            confirmDialog("Do you really want to delete \""+name+"\"?", function() {
+                sendDeletionRequest("namespace", name);
+            });
+            break;
         }
         // Create Group
         case "rmb_10" :
@@ -354,9 +393,9 @@ function rmbMenuClick(menuOption) {
             }
 
             // Confirm dialoge
-            if(confirm("Do you really want to delete \""+groupName+"\"?")) {
-                sendDeletionRequest("Group", nsName, groupName);
-            }
+            confirmDialog("Do you really want to delete \""+groupName+"\"?", function() {
+                sendDeletionRequest("group", nsName, groupName);
+            });
             break;
         }
         // Create Tag
@@ -375,9 +414,10 @@ function rmbMenuClick(menuOption) {
         case "rmb_15":
         {   
             var name = lastRmbElement.innerHTML;
-            if(confirm("Do you really want to delete \""+name+"\"?")) {
-                sendDeletionRequest("Tag", "", "", name);
-            }
+
+            confirmDialog("Do you really want to delete \""+name+"\"?", function() {
+                sendDeletionRequest("tag", "", "", name);
+            });
             break;
         }
     }

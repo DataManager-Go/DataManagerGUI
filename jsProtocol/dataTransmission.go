@@ -23,6 +23,12 @@ type DownloadStruct struct {
 	Files []uint `json:"files"`
 }
 
+// FileNamespaceStruct contains a file and a namespace (lol)
+type FileNamespaceStruct struct {
+	Namespace string `json:"namespace"`
+	File      string `json:"file"`
+}
+
 // UploadFilesStruct contains info of files to upload
 type UploadFilesStruct struct {
 	Files    []string `json:"files"`
@@ -56,9 +62,9 @@ type CreateOrRenameInformation struct {
 
 // DeleteInformation is the equivalent of CreateOrRenameInformation for deletion
 type DeleteInformation struct {
-	Target    string   `json:"target"`
-	Namespace string   `json:"namespace"`
-	Group     string   `json:"group"`
-	Tag       string   `json:"tag"`
-	Files     []string `json:"files"`
+	Target    string `json:"target"`
+	Namespace string `json:"namespace"`
+	Group     string `json:"group"`
+	Tag       string `json:"tag"`
+	Files     []uint `json:"files"`
 }

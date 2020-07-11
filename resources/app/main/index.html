@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Filemanager</title>
+    <title>DataManager</title>
     <link rel="stylesheet" href="assets/css/jquery-ui.css">
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
@@ -169,7 +169,7 @@
                 <br>
                 <!-- Upload / Cancel buttons -->
                 <div style="display: flex; flex-direction: row; justify-content: center;">
-                    <button class="btn btn-dark text-left" type="button" style="background-color: rgb(18,24,31); width: 25%; display: flex; justify-content: center;" onclick="sendFileUploadRequest()">Start upload</button>
+                    <button class="btn btn-dark text-left" type="button" style="background-color: rgb(18,24,31); width: 25%; display: flex; justify-content: center;" id="up_startBtn" onclick="sendFileUploadRequest()">Start upload</button>
                     <label>   </label>
                     <button class="btn btn-dark text-left" type="button" style="background-color: rgb(18,24,31); width: 25%; display: flex; justify-content: center;" onclick="CloseUploadPrepOverlay()">Cancel upload</button> 
                 </div>
@@ -214,6 +214,24 @@
         </div>
     </div>
 
+    <!-- Yes / No input box -->
+    <div id="yes_no_overlay" class="modal">
+        <div class="modal-content" style="width: 20%; min-width: 300px; max-width: 450px;">
+            <div class="modal-header">
+                <p style="color:white; margin-top: 0.25rem; margin-bottom: 0.2rem; font-size: larger;"  id="yes_no_overlayTitle">DataManager</p>
+                <span class="close" id="yes_no_X">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="input-group mb-3" id="yes_no_text">TestText</div>
+                <!-- Yes / No Buttons-->
+                <div style="display: flex; flex-direction: row; justify-content: center;">
+                    <button class="btn btn-dark text-left" id="yes_no_accept" type="button" style="background-color: rgb(18,24,31); width: 40%; display: flex; justify-content: center;">Yes</button>
+                    <label>   </label>
+                    <button class="btn btn-dark text-left" id="yes_no_decline" type="button" style="background-color: rgb(18,24,31); width: 40%; display: flex; justify-content: center;">No</button> 
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     <!-- Right Click Popup (-> Table) -->

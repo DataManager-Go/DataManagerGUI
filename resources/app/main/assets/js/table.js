@@ -322,7 +322,7 @@ function sortTableByIsPublic() {
   do {
       swapped = false;
       for (let i = 0; i < len-1; i++) {
-          if ((currentSortDirection === "desc" && files[i].childNodes[4].innerHTML < files[i + 1].childNodes[4].innerHTML) || (currentSortDirection === "inc" && files[i].childNodes[4].innerHTML > files[i + 1].childNodes[4].innerHTML)) {
+          if ((currentSortDirection === "desc" && files[i].childNodes[5].innerHTML < files[i + 1].childNodes[5].innerHTML) || (currentSortDirection === "inc" && files[i].childNodes[5].innerHTML > files[i + 1].childNodes[5].innerHTML)) {
               let tmp = files[i];
               files[i] = files[i + 1];
               files[i + 1] = tmp;

@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"path/filepath"
 	"runtime"
@@ -33,7 +34,6 @@ func main() {
 		}
 
 		path = filepath.Join(home, "AppData", "Roaming", appName, "vendor")
-		fmt.Println(path)
 	}
 	if _, err := os.Stat(path); os.IsNotExist(err) {
 		// First start
@@ -164,7 +164,24 @@ func StartMainWindow(a *astilectron.Astilectron) {
 	}
 
 	// Message handler
-	actions.Window.OnMessage(actions.HandleMessages)
+	actions.Window.OnMessage(func(m *astilectron.EventMessage) (v interface{}) {
+		ret, err := actions.HandleMessages(m)
+		if err != nil {
+			errText := err.Error()
+
+			// If error is a request error, print its reason
+			if e, ok := err.(*dmlib.ResponseErr); ok {
+				errText = e.Response.Message
+			}
+
+			log.Println(errText)
+			actions.SendAlert("danger", "Doing stuff", errText)
+
+			return nil
+		}
+
+		return ret
+	})
 
 	// Receive namespaces and groups
 	err = actions.SendInitialData()

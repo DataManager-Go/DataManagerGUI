@@ -28,12 +28,6 @@ document.addEventListener('astilectron-ready', function() {
         else if (obj.type === "openDownloadOverlay") {
             OpenDownloadOverlay(obj.payload);
         }
-        else if (obj.type === "downloadSuccess") {
-            createAlert("success", "Successfully", "downloaded your file!");    
-        } 
-        else if (obj.type === "downloadError") {
-            createAlert("danger", "Error", "downloading your file!");    
-        }
         // Upload
         else if (obj.type === "uploadProgress") {
             document.getElementById("up_progressBar").style.width = obj.payload+"%"; 
@@ -44,17 +38,9 @@ document.addEventListener('astilectron-ready', function() {
         else if (obj.type === "openUploadOverlay") {
             OpenUploadOverlay(obj.payload);
         }
-        else if (obj.type === "uploadSuccess") {
-            createAlert("success", "Successfully", "uploaded your file!");    
-        } 
-        else if (obj.type === "uploadError") {
-            createAlert("danger", "Error", "uploading your file!");    
-        }
-        else if (obj.type === "deleteSuccess") {
-            createAlert("success", "Successfully", "deleted your file!");    
-        } 
-        else if (obj.type === "deleteError") {
-            createAlert("danger", "Error", "deleting your file!");    
+        // Alert
+        else if (obj.type === "alert") {
+            createAlert(obj.kind, obj.strongText, obj.normalText);    
         }
 
 		return "";

@@ -126,6 +126,7 @@ function OpenPrepUploadOverlay(fileName) {
     up_prepTitle.innerHTML = header;
     
     uploadPrepOverlay.style.display = "block";
+    up_startBtn.focus();
 }
 
 // Cancels and closes the upload preperation
@@ -167,11 +168,13 @@ function OpenEnterNameOverlay(type, origin, namespace, group, tag) {
         title += " \""+group+"\"";
     else if (namespace != undefined && namespace != null && type != 1) 
         title += " \""+namespace+"\"";
-    
 
-    document.getElementById("textinput_overlayTitle").innerHTML = title;
-    document.getElementById("textinput_overlayButton").innerHTML = action;
-    document.getElementById("textinputOverlay").style.display = "block";
+    textinput_overlayTitle.innerHTML = title;
+    textinput_overlayButton.innerHTML = action;
+    textinputOverlay.style.display = "block";
+
+    textinput_overlayInput.value = "";
+    textinput_overlayInput.focus();
 }
 
 // Send the desired input action
@@ -181,9 +184,9 @@ function InputOverlayAction() {
     var targetStr = "";
 
     switch ( currentInputAction[1]) {
-        case 0: targetStr = "Namespace"; break;
-        case 1: targetStr = "Group";  break;
-        case 2: targetStr = "Tag"; break;
+        case 0: targetStr = "namespace"; break;
+        case 1: targetStr = "group";  break;
+        case 2: targetStr = "tag"; break;
     }
 
     // Get the action
@@ -213,3 +216,32 @@ function InputOverlayAction() {
 function CloseTextInputOverlay() {
     document.getElementById("textinputOverlay").style = "";
 }
+
+// -------------------------------------------------------------------------------
+
+// Calls the corresponding callback function on button press
+async function confirmDialog(text, callbackYes, callbackNo) {
+    yes_no_overlay.style.display = "block";
+    yes_no_text.innerHTML = text;
+
+    $('#yes_no_accept').focus();
+
+    $('#yes_no_accept').click(function() {
+        if (callbackYes !== undefined)
+            callbackYes();
+        yes_no_overlay.style.display = "";
+    });
+
+    $('#yes_no_decline').click(function() {
+        if (callbackNo !== undefined)
+            callbackNo();
+        yes_no_overlay.style.display = "";
+    });
+
+    $('#yes_no_X').click(function() {
+        if (callbackNo !== undefined)
+            callbackNo();
+        yes_no_overlay.style.display = "";
+    });
+
+}   

@@ -26,7 +26,17 @@ var up_prepTitle = document.getElementById("up_prepTitle");
 var checkbox_compressDir = document.getElementById("checkbox_compressDir");
 var checkbox_public = document.getElementById("checkbox_public");
 var checkbox_encrypt = document.getElementById("checkbox_encrypt");
+var up_startBtn = document.getElementById("up_startBtn");
 var maxPrepOverlayTitleSize = 30;
+
+// Enter Name Overlay
+var textinput_overlayTitle = document.getElementById("textinput_overlayTitle");
+var textinput_overlayButton = document.getElementById("textinput_overlayButton");
+var textinputOverlay = document.getElementById("textinputOverlay");
+
+// Yes-No Dialog
+var yes_no_overlay = document.getElementById("yes_no_overlay");
+var yes_no_text = document.getElementById("yes_no_text");
 
 // Current info
 var shownFileCap = 30;
