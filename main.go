@@ -175,7 +175,7 @@ func StartMainWindow(a *astilectron.Astilectron) {
 			}
 
 			log.Println(errText)
-			actions.SendAlert("danger", "Doing stuff", errText)
+			actions.SendAlert("danger", "Error", errText)
 
 			return nil
 		}
