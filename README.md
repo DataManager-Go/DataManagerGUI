@@ -28,10 +28,10 @@ After accepting, the program might take a few seconds to start - depending on yo
 ![example5](https://files.jojii.de/preview/raw/n1gHIGdZwgyICWPJ9kEEbnmGp)
 
 - On the left side you can create, adjust and browse through your namespaces and groups
-- You can upload and directories
-- You can search through your files inside the selected namespace / group
-- The table shows all found entries respecting your search filters
-- For easy usage there are plenty of menus that you can open when pressing RMB
+- You can upload multiple files and directories
+- You can browse your files inside the selected namespace / group
+- The table shows all found entries respecting your search and sorting filters
+- For easy accessibility there are plenty of menus that you can open using RMB
 
 ***Working with the GUI and CLI at the same time?***<br>
 You can reload the files at any time by pressing F5!
