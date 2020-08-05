@@ -1,6 +1,7 @@
 package actions
 
 import (
+	"fmt"
 	"os"
 	"path/filepath"
 
@@ -31,17 +32,22 @@ func UploadFiles(files []string, info jsprotocol.UploadInfoSettings) {
 	LoadFiles(libdm.FileAttributes{Namespace: info.Namespace})
 }
 
-func uploadFile(file string, info jsprotocol.UploadInfoSettings, replaceID uint) error {
-	_, filename := filepath.Split(file)
-	OpenUploadMoal(filename)
-
-	// Open file
-	f, err := os.Open(file)
+func upload(item string, replaceID uint, settings jsprotocol.UploadInfoSettings) error {
+	s, err := os.Stat(item)
 	if err != nil {
 		return err
 	}
 
-	attributes := info.GetAttributes()
+	var filename string
+	if s.IsDir() {
+		filename = filepath.Base(item)
+	} else {
+		_, filename = filepath.Split(item)
+	}
+
+	OpenUploadMoal(filename)
+
+	attributes := settings.GetAttributes()
 
 	// Bulid correct request
 	uploadRequest := Manager.NewUploadRequest(filename, attributes)
@@ -50,8 +56,13 @@ func uploadFile(file string, info jsprotocol.UploadInfoSettings, replaceID uint)
 		uploadRequest.ReplaceFileByID(replaceID)
 	}
 
+	// add compression
+	if settings.Compress {
+		uploadRequest.Compress()
+	}
+
 	// Make public if desired
-	if info.MakePublic {
+	if settings.MakePublic {
 		// TODO set public name
 		uploadRequest.MakePublic("")
 	}
@@ -61,16 +72,33 @@ func uploadFile(file string, info jsprotocol.UploadInfoSettings, replaceID uint)
 	proxy.callback = func(percent uint8) {
 		UploadProgress(percent)
 	}
+
 	uploadRequest.SetFileSizeCallback(func(s int64) {
+		fmt.Println("set max size", s)
 		proxy.total = s
 		uploadRequest.ProxyWriter = proxy.proxyFunc()
 	})
 
-	// Upload file
 	done := make(chan string, 1)
-	resp, err := uploadRequest.UploadFile(f, done, uploadCancelChan)
-	if err != nil {
-		return err
+	var resp *libdm.UploadResponse
+
+	// Upload file
+	if s.IsDir() {
+		resp, err = uploadRequest.UploadArchivedFolder(item, done, uploadCancelChan)
+		if err != nil {
+			return err
+		}
+	} else {
+		f, err := os.Open(item)
+		defer f.Close()
+		if err != nil {
+			return err
+		}
+
+		resp, err = uploadRequest.UploadFile(f, done, uploadCancelChan)
+		if err != nil {
+			return err
+		}
 	}
 
 	// Await upload
@@ -88,4 +116,13 @@ func uploadFile(file string, info jsprotocol.UploadInfoSettings, replaceID uint)
 	}
 
 	return nil
+
+}
+
+func uploadFile(file string, info jsprotocol.UploadInfoSettings, replaceID uint) error {
+	return upload(file, replaceID, info)
+}
+
+func UploadDirectory(path string, settings jsprotocol.UploadInfoSettings) {
+	upload(path, 0, settings)
 }
