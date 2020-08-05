@@ -122,16 +122,18 @@ function makeTableHighlightable() {
 /* ------ Table sorting ------ */ 
 
 // Sorts the entire current table by the id's
-function sortTableByID() {
+function sortTableByID(changeDirection) {
     // Sorting options
     currentlySorted="id";
-    if (currentSortDirection === "" || currentSortDirection === "inc") {
-      currentSortDirection="desc";
-      sortIdIcon.classList.add("fa-rotate-180");
-    }
-    else {   
-      currentSortDirection="inc";  
-      sortIdIcon.classList.remove("fa-rotate-180");
+    if (changeDirection) {
+      if (currentSortDirection === "" || currentSortDirection === "inc") {
+        currentSortDirection="desc";
+        sortIdIcon.classList.add("fa-rotate-180");
+      }
+      else {   
+        currentSortDirection="inc";  
+        sortIdIcon.classList.remove("fa-rotate-180");
+      }
     }
 
     sortIdIcon.style.visibility = "visible";
@@ -162,16 +164,18 @@ function sortTableByID() {
 }
 
 // Sorts the entire current table by the id's
-function sortTableByName() {
+function sortTableByName(changeDirection) {
   // Sorting options
-  currentlySorted="id";
-  if (currentSortDirection === "" || currentSortDirection === "inc") {
-    currentSortDirection="desc";
-    sortNameIcon.classList.add("fa-rotate-180");
-  }
-  else {   
-    currentSortDirection="inc";  
-    sortNameIcon.classList.remove("fa-rotate-180");
+  currentlySorted="name";
+  if (changeDirection) {
+    if (currentSortDirection === "" || currentSortDirection === "inc") {
+      currentSortDirection="desc";
+      sortNameIcon.classList.add("fa-rotate-180");
+    }
+    else {   
+      currentSortDirection="inc";  
+      sortNameIcon.classList.remove("fa-rotate-180");
+    }
   }
 
   sortIdIcon.style.visibility = "hidden";
@@ -202,17 +206,20 @@ function sortTableByName() {
 }
 
 // Sorts the entire current table by the id's
-function sortTableBySize() {
+function sortTableBySize(changeDirection) {
   // Sorting options
-  currentlySorted="id";
-  if (currentSortDirection === "" || currentSortDirection === "inc") {
-    currentSortDirection="desc";
-    sortSizeIcon.classList.add("fa-rotate-180");
+  currentlySorted="size";
+  if (changeDirection) {
+    if (currentSortDirection === "" || currentSortDirection === "inc") {
+      currentSortDirection="desc";
+      sortSizeIcon.classList.add("fa-rotate-180");
+    }
+   else {   
+      currentSortDirection="inc";  
+      sortSizeIcon.classList.remove("fa-rotate-180");
+   }
   }
-  else {   
-    currentSortDirection="inc";  
-    sortSizeIcon.classList.remove("fa-rotate-180");
-  }
+
   sortIdIcon.style.visibility = "hidden";
   sortNameIcon.style.visibility = "hidden";
   sortSizeIcon.style.visibility = "visible";
@@ -262,16 +269,18 @@ function sortTableBySize() {
 
 
 // Sorts the entire current table by the id's
-function sortTableByCreationDate() {
+function sortTableByCreationDate(changeDirection) {
   // Sorting options
-  currentlySorted="id";
-  if (currentSortDirection === "" || currentSortDirection === "inc") {
-    currentSortDirection="desc";
-    sortDateIcon.classList.add("fa-rotate-180");
-  }
-  else {   
-    currentSortDirection="inc";  
-    sortDateIcon.classList.remove("fa-rotate-180");
+  currentlySorted="date";
+  if (changeDirection) {
+    if (currentSortDirection === "" || currentSortDirection === "inc") {
+      currentSortDirection="desc";
+      sortDateIcon.classList.add("fa-rotate-180");
+    }
+    else {   
+      currentSortDirection="inc";  
+      sortDateIcon.classList.remove("fa-rotate-180");
+    }
   }
   sortIdIcon.style.visibility = "hidden";
   sortNameIcon.style.visibility = "hidden";
@@ -300,16 +309,18 @@ function sortTableByCreationDate() {
 }
 
 // Sorts the entire current table by the id's
-function sortTableByIsPublic() {
+function sortTableByIsPublic(changeDirection) {
   // Sorting options
-  currentlySorted="id";
-  if (currentSortDirection === "" || currentSortDirection === "inc") {
-    currentSortDirection="desc";
-    sortPublicIcon.classList.add("fa-rotate-180");
-  }
-  else {   
-    currentSortDirection="inc";  
-    sortPublicIcon.classList.remove("fa-rotate-180");
+  currentlySorted="isPublic";
+  if (changeDirection) {
+   if (currentSortDirection === "" || currentSortDirection === "inc") {
+     currentSortDirection="desc";
+      sortPublicIcon.classList.add("fa-rotate-180");
+    } 
+    else {   
+     currentSortDirection="inc";  
+      sortPublicIcon.classList.remove("fa-rotate-180");
+    }
   }
   sortIdIcon.style.visibility = "hidden";
   sortNameIcon.style.visibility = "hidden";

@@ -155,13 +155,32 @@ function listFiles(data) {
         }
 
         files.push(tr)
-        if (i < shownFileCap) {
-            // Append files to body
-            document.getElementById("tableBody").appendChild(tr);
-        }
-        makeTableHighlightable();
-    }   
-    createNavigationButtons(1);
+    }
+    
+    // Load files again
+    switch(currentlySorted) {
+        case "id":
+            sortTableByID(false);
+            break;
+        case "name":
+            sortTableByName(false);
+            break;
+        case "size":
+            sortTableBySize(false); 
+            break;
+        case "date":
+            sortTableByCreationDate(false);
+            break;
+        case "isPublic":
+            sortTableByIsPublic(false);
+            break;
+
+        default:
+            loadFilesFromPage(1);
+            createNavigationButtons(1);
+            makeTableHighlightable();
+            break;
+    }
 }
 
 function addNamespaceAndGroups(data) {
