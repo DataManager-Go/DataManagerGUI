@@ -87,7 +87,7 @@ function handleRmbEvent_RightClick(e) {
             }).addClass("show");
 
             // Adjust entry if clicked file is already public
-            if (tableItem.childNodes[2].innerHTML.length > 0)  {
+            if (tableItem.childNodes[5].innerHTML == "true")  {
                 fileIsAlreadyPublic = true;
                 $("#rmb_3").html("Unpublish");
             } else {
