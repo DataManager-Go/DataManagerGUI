@@ -89,7 +89,7 @@ function handleRmbEvent_RightClick(e) {
             // Adjust entry if clicked file is already public
             if (tableItem.childNodes[2].innerHTML.length > 0)  {
                 fileIsAlreadyPublic = true;
-                $("#rmb_3").html("Set Private");
+                $("#rmb_3").html("Unpublish");
             }
 
         }
@@ -235,7 +235,7 @@ function rmbMenuClick(menuOption) {
 
             // Message struct
             var message = {
-                type: "privatizeFile",
+                type: "unpublishFile",
                 payload: JSON.stringify(payload)
             }
 
