@@ -25,6 +25,7 @@ function handleRmbEvent_RightClick(e) {
     tagItem       =   clickInsideElement(e, "tagBtn");
   
     if (sidebarItem || namespaceItem || groupItem || tableItem || allFilesItem || tagList || tagItem) {
+        
         // Prevent default
         e.preventDefault();
 
@@ -55,23 +56,27 @@ function handleRmbEvent_RightClick(e) {
                 $("#context-menu-namespace").css({
                     display: "block",
                     top: top,
-                    left: left
+                    left: left,
+                    position: "fixed"
                 }).addClass("show");
             }
         }
         // Group menu
-        else if (groupItem) 
+        else if (groupItem) {
             $("#context-menu-group").css({
                 display: "block",
                 top: top,
-                left: left
+                left: left,
+                position: "fixed"
             }).addClass("show");
+        }
         // All files menu
         else if (allFilesItem)
             $("#context-menu-group-2").css({
                 display: "block",
                 top: top,
-                left: left
+                left: left,
+                position: "fixed"
             }).addClass("show");
         // Table menu
         else if (tableItem) 
@@ -81,12 +86,14 @@ function handleRmbEvent_RightClick(e) {
                 left: left
             }).addClass("show");
         // Sidebar menu
-        else if (sidebarItem && !clickInsideElement(e, "allFiles")) 
-            $("#context-menu-sidebar").css({
+        else if (sidebarItem && !clickInsideElement(e, "allFiles"))  {
+           $("#context-menu-sidebar").css({
                 display: "block",
                 top: top,
-                left: left
+                left: left,
+                position: "fixed"
             }).addClass("show");
+        }
         // Tag
         else if (tagItem)
         $("#context-menu-tag").css({
