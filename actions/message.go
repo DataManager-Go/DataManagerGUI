@@ -110,7 +110,7 @@ func HandleMessages(m *astilectron.EventMessage) (interface{}, error) {
 			err = json.Unmarshal([]byte(uploadInfo.Settings), &uploadSettings)
 
 			// TODO
-			// UploadDirectory(uploadInfo.Path, uploadSettings)
+			UploadDirectory(uploadInfo.Path, uploadSettings)
 		}
 	case "cancelUpload":
 		{
