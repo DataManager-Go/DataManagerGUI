@@ -137,8 +137,29 @@ func HandleMessages(m *astilectron.EventMessage) (interface{}, error) {
 
 			PreviewFile(uint(id))
 		}
-	// If you want to believe it or not
-	// But this case will publish your file
+	case "unpublishFile":
+		{
+			var fileinfo jsprotocol.FileNamespaceStruct
+
+			err = json.Unmarshal([]byte(ms.Payload), &fileinfo)
+			if err != nil {
+				return nil, err
+			}
+
+			fileID, err := strconv.ParseUint(fileinfo.File, 10, 64)
+			if err != nil {
+				return nil, err
+			}
+
+			_, err = Manager.UpdateFile("", uint(fileID), "", false, dmlib.FileChanges{
+				SetPrivate: true,
+			})
+			if err != nil {
+				return nil, err
+			}
+
+			LoadFiles(dmlib.FileAttributes{Namespace: fileinfo.Namespace})
+		}
 	case "publishFile":
 		{
 			var fileinfo jsprotocol.FileNamespaceStruct
@@ -224,7 +245,7 @@ func HandleMessages(m *astilectron.EventMessage) (interface{}, error) {
 			}
 
 			switch creationInfo.Target {
-			case "Namespace":
+			case "namespace":
 				{
 					_, err := Manager.CreateNamespace(creationInfo.Name)
 					if err != nil {
@@ -232,6 +253,14 @@ func HandleMessages(m *astilectron.EventMessage) (interface{}, error) {
 					}
 
 					SendInitialData()
+				}
+			case "group":
+				{
+					// TODO
+				}
+			case "tag":
+				{
+					// TODO
 				}
 			}
 		}
