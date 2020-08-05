@@ -29,7 +29,6 @@ After accepting, the program might take a few seconds to start - depending on yo
 
 - On the left side you can create, adjust and browse through your namespaces and groups
 - You can upload and directories
-  - the latter can be uploaded as a new group or compressed to a zip file
 - You can search through your files inside the selected namespace / group
 - The table shows all found entries respecting your search filters
 - For easy usage there are plenty of menus that you can open when pressing RMB

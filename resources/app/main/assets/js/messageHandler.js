@@ -98,18 +98,34 @@ function listFiles(data) {
         var date = document.createElement("td");
         var isPublic = document.createElement("td");
 
+        // ID
         id.innerHTML = parsed[i].id;
 
+        // Name
         if (parsed[i].name.length > 30) {
             name.innerHTML = parsed[i].name.substring(0,30) + "...";
         } else {
             name.innerHTML = parsed[i].name;
         }
 
+        // Public Name
         publicName.innerHTML = parsed[i].pubname;
-        date.innerHTML = parsed[i].creation.substring(0, 10);
-        isPublic.innerHTML = parsed[i].isPub;
+        if (!parsed[i].isPub) 
+            publicName.style.color = "#9e9e9e";
 
+        // Date
+        date.innerHTML = parsed[i].creation.substring(0, 10);
+
+        // Is Public
+        isPublic.innerHTML = parsed[i].isPub;
+        if (parsed[i].isPub) 
+            isPublic.style.color = "green";
+        else
+            isPublic.style.color = "red";
+
+        
+
+        // Size
         var byteSize = parsed[i].size;
 
         if (byteSize == 1) {
@@ -125,6 +141,7 @@ function listFiles(data) {
             size.innerHTML = (byteSize/1000000000).toFixed(2) + " GB"
         }
 
+        // Append
         tr.appendChild(id);
         tr.appendChild(name);
         tr.appendChild(publicName);
