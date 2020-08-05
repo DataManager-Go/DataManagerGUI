@@ -79,12 +79,21 @@ function handleRmbEvent_RightClick(e) {
                 position: "fixed"
             }).addClass("show");
         // Table menu
-        else if (tableItem) 
+        else if (tableItem) {
             $("#context-menu-table").css({
                 display: "block",
                 top: top,
                 left: left
             }).addClass("show");
+
+            // Adjust entry if clicked file is already public
+            if (tableItem.childNodes[2].innerHTML.length > 0)  {
+                fileIsAlreadyPublic = true;
+                $("#rmb_3").html("Set Private");
+                console.log($("#rmb_3").html());
+            }
+
+        }
         // Sidebar menu
         else if (sidebarItem && !clickInsideElement(e, "allFiles"))  {
            $("#context-menu-sidebar").css({
@@ -136,8 +145,10 @@ function handleRmbEvent_LeftClick(e) {
 
 // Closes the overlay
 function closeRmbOverlay() {
+    // Reset overlay state
     rmbOverlayIsOpened = false;
     
+    // Close every overlay
     $("#context-menu-sidebar").removeClass("show").hide();
     $("#context-menu-table").removeClass("show").hide();
     $("#context-menu-namespace").removeClass("show").hide();
@@ -145,6 +156,10 @@ function closeRmbOverlay() {
     $("#context-menu-group-2").removeClass("show").hide();
     $("#context-menu-tagList").removeClass("show").hide();
     $("#context-menu-tag").removeClass("show").hide();
+
+    // Reset Entry adjustments
+    fileIsAlreadyPublic = true;
+    $("#rmb_3").html("Publish");
 }
 
 // Checks if a given element contains the given id
@@ -192,9 +207,31 @@ function rmbMenuClick(menuOption) {
             astilectron.sendMessage(JSON.stringify(message), function(msg) {});
             break;
         }
-        // Publish
+
+        // Set Public / Private
         case "rmb_3": 
         {
+            // If setting to public
+            if ($("#rmb_3").html() == "Publish") {
+                // Payload
+                var payload = {
+                    namespace: currentNamespace,
+                    file: ""+parseInt(lastRmbElement.parentNode.childNodes[0].innerHTML, 10)
+                }
+
+                // Message struct
+                var message = {
+                    type: "publishFile",
+                    payload: JSON.stringify(payload)
+                }
+
+                // send
+                astilectron.sendMessage(JSON.stringify(message), function(msg) {});
+                break;
+            }
+
+            // Else setting to private
+             
             // Payload
             var payload = {
                 namespace: currentNamespace,
@@ -203,14 +240,15 @@ function rmbMenuClick(menuOption) {
 
             // Message struct
             var message = {
-                type: "publishFile",
+                type: "privatizeFile",
                 payload: JSON.stringify(payload)
             }
 
             // send
             astilectron.sendMessage(JSON.stringify(message), function(msg) {});
-            break;
+            break;            
         }
+
         // Copy public URL
         case "rmb_4":
         {

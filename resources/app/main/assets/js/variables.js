@@ -59,3 +59,6 @@ var currentAlerts = [];
 // Table sorting
 var currentlySorted = "";
 var currentSortDirection ="";
+
+// RMB Menu
+var fileIsAlreadyPublic = false;
