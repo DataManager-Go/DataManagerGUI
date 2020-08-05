@@ -47,7 +47,7 @@ func uploadFile(file string, info jsprotocol.UploadInfoSettings, replaceID uint)
 	uploadRequest := Manager.NewUploadRequest(filename, attributes)
 	// Replace file if desired
 	if replaceID > 0 {
-		uploadRequest.ReplaceFile(replaceID)
+		uploadRequest.ReplaceFileByID(replaceID)
 	}
 
 	// Make public if desired
