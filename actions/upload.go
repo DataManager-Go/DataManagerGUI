@@ -123,6 +123,6 @@ func uploadFile(file string, info jsprotocol.UploadInfoSettings, replaceID uint)
 	return upload(file, replaceID, info)
 }
 
-func UploadDirectory(path string, settings jsprotocol.UploadInfoSettings) {
+func uploadDirectory(path string, settings jsprotocol.UploadInfoSettings) {
 	upload(path, 0, settings)
 }

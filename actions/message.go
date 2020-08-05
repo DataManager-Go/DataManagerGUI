@@ -119,7 +119,7 @@ func HandleMessages(m *astilectron.EventMessage) (interface{}, error) {
 	/* RMB Events */
 	case "copyPreviewURL":
 		{
-			err = clipboard.WriteAll(ms.Payload)
+			err = clipboard.WriteAll(Config.GetPreviewURL(ms.Payload))
 			if err != nil {
 				fmt.Println("Error on URL Copy", err.Error())
 				return false, err
