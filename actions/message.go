@@ -157,8 +157,6 @@ func HandleMessages(m *astilectron.EventMessage) (interface{}, error) {
 			if err != nil {
 				return nil, err
 			}
-
-			LoadFiles(dmlib.FileAttributes{Namespace: fileinfo.Namespace})
 		}
 	case "publishFile":
 		{
@@ -178,8 +176,6 @@ func HandleMessages(m *astilectron.EventMessage) (interface{}, error) {
 			if err != nil {
 				return nil, err
 			}
-
-			LoadFiles(dmlib.FileAttributes{Namespace: fileinfo.Namespace})
 		}
 	case "delete":
 		{

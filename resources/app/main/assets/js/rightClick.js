@@ -211,6 +211,11 @@ function rmbMenuClick(menuOption) {
         {
             // If setting to public
             if (!fileIsAlreadyPublic) {
+                // Edit entry
+                lastRmbElement.parentNode.childNodes[5].innerHTML = "true";
+                lastRmbElement.parentNode.childNodes[5].style.color = "green"
+                lastRmbElement.parentNode.childNodes[2].style.color = "";
+
                 // Payload
                 var payload = {
                     namespace: currentNamespace,
@@ -230,7 +235,12 @@ function rmbMenuClick(menuOption) {
             }
 
             // Else setting to private
-             
+
+            // Edit entry
+            lastRmbElement.parentNode.childNodes[5].innerHTML = "false";
+            lastRmbElement.parentNode.childNodes[5].style.color = "red";
+            lastRmbElement.parentNode.childNodes[2].style.color = "#737373";
+
             // Payload
             var payload = {
                 namespace: currentNamespace,
@@ -249,6 +259,7 @@ function rmbMenuClick(menuOption) {
             // Reset Entry adjustments
             fileIsAlreadyPublic = false;
             $("#rmb_3").html("Publish");
+
             break;            
         }
 
