@@ -32,3 +32,6 @@ After accepting, the program might take a few seconds to start - depending on yo
 - You can search through your files inside the selected namespace / group
 - The table shows all found entries respecting your search filters
 - For easy usage there are plenty of menus that you can open when pressing RMB
+
+***Working with the GUI and CLI at the same time?***<br>
+You can reload the files at any time by pressing F5!
