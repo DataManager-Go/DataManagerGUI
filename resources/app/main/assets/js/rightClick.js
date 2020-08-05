@@ -90,6 +90,9 @@ function handleRmbEvent_RightClick(e) {
             if (tableItem.childNodes[2].innerHTML.length > 0)  {
                 fileIsAlreadyPublic = true;
                 $("#rmb_3").html("Unpublish");
+            } else {
+                fileIsAlreadyPublic = false;
+                $("#rmb_3").html("Publish");
             }
 
         }
@@ -222,6 +225,7 @@ function rmbMenuClick(menuOption) {
 
                 // send
                 astilectron.sendMessage(JSON.stringify(message), function(msg) {});
+                
                 break;
             }
 
