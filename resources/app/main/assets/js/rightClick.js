@@ -90,7 +90,6 @@ function handleRmbEvent_RightClick(e) {
             if (tableItem.childNodes[2].innerHTML.length > 0)  {
                 fileIsAlreadyPublic = true;
                 $("#rmb_3").html("Set Private");
-                console.log($("#rmb_3").html());
             }
 
         }
@@ -156,10 +155,6 @@ function closeRmbOverlay() {
     $("#context-menu-group-2").removeClass("show").hide();
     $("#context-menu-tagList").removeClass("show").hide();
     $("#context-menu-tag").removeClass("show").hide();
-
-    // Reset Entry adjustments
-    fileIsAlreadyPublic = true;
-    $("#rmb_3").html("Publish");
 }
 
 // Checks if a given element contains the given id
@@ -212,7 +207,7 @@ function rmbMenuClick(menuOption) {
         case "rmb_3": 
         {
             // If setting to public
-            if ($("#rmb_3").html() == "Publish") {
+            if (!fileIsAlreadyPublic) {
                 // Payload
                 var payload = {
                     namespace: currentNamespace,
@@ -246,6 +241,10 @@ function rmbMenuClick(menuOption) {
 
             // send
             astilectron.sendMessage(JSON.stringify(message), function(msg) {});
+
+            // Reset Entry adjustments
+            fileIsAlreadyPublic = false;
+            $("#rmb_3").html("Publish");
             break;            
         }
 
