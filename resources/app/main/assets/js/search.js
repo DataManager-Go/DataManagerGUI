@@ -8,9 +8,7 @@ function onSearchbarChange() {
   }
   
   // Load files again
-  loadFilesFromPage(1);
-  createNavigationButtons(1);
-  makeTableHighlightable();
+  loadPage(1);
 }
 
 // Filter elements on filter press
@@ -31,7 +29,5 @@ function setTagFilter(btn) {
   }
 
    // Load files again
-   loadFilesFromPage(1);
-   createNavigationButtons(1);
-   makeTableHighlightable();
+   loadPage(1);
 }

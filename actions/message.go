@@ -110,7 +110,7 @@ func HandleMessages(m *astilectron.EventMessage) (interface{}, error) {
 			err = json.Unmarshal([]byte(uploadInfo.Settings), &uploadSettings)
 
 			// TODO
-			UploadDirectory(uploadInfo.Path, uploadSettings)
+			// UploadDirectory(uploadInfo.Path, uploadSettings)
 		}
 	case "cancelUpload":
 		{
@@ -176,6 +176,7 @@ func HandleMessages(m *astilectron.EventMessage) (interface{}, error) {
 			if err != nil {
 				return nil, err
 			}
+
 		}
 	case "delete":
 		{
@@ -301,7 +302,7 @@ func HandleMessages(m *astilectron.EventMessage) (interface{}, error) {
 	case "reload":
 		{
 			fmt.Println("Reload requested.")
-			SendInitialData()
+			LoadFiles(dmlib.FileAttributes{Namespace: "Default"})
 		}
 	default:
 		{

@@ -158,9 +158,7 @@ function sortTableByID(changeDirection) {
     } while (swapped);
 
     // Load files again
-    loadFilesFromPage(1);
-    createNavigationButtons(1);
-    makeTableHighlightable();
+    loadPage(1);
 }
 
 // Sorts the entire current table by the id's
@@ -200,9 +198,7 @@ function sortTableByName(changeDirection) {
   } while (swapped);
 
   // Load files again
-  loadFilesFromPage(1);
-  createNavigationButtons(1);
-  makeTableHighlightable();
+  loadPage(1);
 }
 
 // Sorts the entire current table by the id's
@@ -262,9 +258,7 @@ function sortTableBySize(changeDirection) {
   } while (swapped);
 
   // Load files again
-  loadFilesFromPage(1);
-  createNavigationButtons(1);
-  makeTableHighlightable();
+  loadPage(1);
 }
 
 
@@ -303,9 +297,7 @@ function sortTableByCreationDate(changeDirection) {
   } while (swapped);
 
   // Load files again
-  loadFilesFromPage(1);
-  createNavigationButtons(1);
-  makeTableHighlightable();
+  loadPage(1);
 }
 
 // Sorts the entire current table by the id's
@@ -343,7 +335,12 @@ function sortTableByIsPublic(changeDirection) {
   } while (swapped);
 
   // Load files again
-  loadFilesFromPage(1);
-  createNavigationButtons(1);
+  loadPage(1);
+}
+
+// Specifically loads the given page from scratch
+function loadPage(id) {
+  loadFilesFromPage(id);
+  createNavigationButtons(id);
   makeTableHighlightable();
 }

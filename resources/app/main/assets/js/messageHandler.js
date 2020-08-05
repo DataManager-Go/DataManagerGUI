@@ -176,9 +176,7 @@ function listFiles(data) {
             break;
 
         default:
-            loadFilesFromPage(1);
-            createNavigationButtons(1);
-            makeTableHighlightable();
+            loadPage(1);
             break;
     }
 }
