@@ -239,7 +239,7 @@ function rmbMenuClick(menuOption) {
             // Edit entry
             lastRmbElement.parentNode.childNodes[5].innerHTML = "false";
             lastRmbElement.parentNode.childNodes[5].style.color = "red";
-            lastRmbElement.parentNode.childNodes[2].style.color = "#737373";
+            lastRmbElement.parentNode.childNodes[2].style.color = "#9e9e9e";
 
             // Payload
             var payload = {

@@ -111,7 +111,7 @@ function listFiles(data) {
         // Public Name
         publicName.innerHTML = parsed[i].pubname;
         if (!parsed[i].isPub) 
-            publicName.style.color = "#737373";
+            publicName.style.color = "#9e9e9e";
 
         // Date
         date.innerHTML = parsed[i].creation.substring(0, 10);
