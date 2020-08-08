@@ -45,8 +45,10 @@ func DownloadFiles(fileIDs []uint, path string) {
 			if err != libdatamanager.ErrCancelled {
 				DownloadError(err.Error())
 			}
+		} else if len(fileIDs) > 1 {
+			DownloadSuccess(3, true)
 		} else {
-			DownloadSuccess()
+			DownloadSuccess(3, false)
 		}
 	}
 	CloseDownloadModal()

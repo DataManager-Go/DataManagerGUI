@@ -111,6 +111,7 @@ func HandleMessages(m *astilectron.EventMessage) (interface{}, error) {
 
 			// TODO
 			// UploadDirectory(uploadInfo.Path, uploadSettings)
+			// UploadSuccess(4) -> plural = true on multiple directories (dunno if possible anyway lol)
 		}
 	case "cancelUpload":
 		{
@@ -198,14 +199,25 @@ func HandleMessages(m *astilectron.EventMessage) (interface{}, error) {
 						}
 					}
 
+					if len(deletionInfo.Files) > 1 {
+						DeleteSuccess(3, true)
+					} else {
+						DeleteSuccess(3, false)
+					}
+
 					LoadFiles(dmlib.FileAttributes{Namespace: deletionInfo.Namespace})
-					DeleteSuccess()
 				}
 			case "namespace":
 				{
 					_, err := Manager.DeleteNamespace(deletionInfo.Namespace)
 					if err != nil {
 						return nil, err
+					}
+
+					if len(deletionInfo.Files) > 1 {
+						DeleteSuccess(0, true)
+					} else {
+						DeleteSuccess(0, false)
 					}
 
 					SendInitialData()
@@ -223,6 +235,20 @@ func HandleMessages(m *astilectron.EventMessage) (interface{}, error) {
 					_, err := Manager.DeleteAttribute(attr, deletionInfo.Namespace, val)
 					if err != nil {
 						return nil, err
+					}
+
+					if len(deletionInfo.Files) > 1 {
+						if deletionInfo.Target == "tag" {
+							DeleteSuccess(2, true)
+						} else {
+							DeleteSuccess(1, true)
+						}
+					} else {
+						if deletionInfo.Target == "tag" {
+							DeleteSuccess(2, false)
+						} else {
+							DeleteSuccess(1, false)
+						}
 					}
 
 					// TODO pick correct one
@@ -293,8 +319,25 @@ func HandleMessages(m *astilectron.EventMessage) (interface{}, error) {
 						return nil, err
 					}
 
-					LoadFiles(dmlib.FileAttributes{Namespace: renameInfo.Namespace})
 					SendInitialData()
+					LoadFiles(dmlib.FileAttributes{Namespace: renameInfo.Namespace})
+				}
+			case "file":
+				{
+					// Parse string into uint
+					fileID, err := strconv.ParseUint(renameInfo.FileID, 10, 64)
+					if err != nil {
+						return nil, err
+					}
+
+					// Update file
+					_, err = Manager.UpdateFile("", uint(fileID), renameInfo.Namespace, false, dmlib.FileChanges{NewName: renameInfo.Name})
+					if err != nil {
+						return nil, err
+					}
+
+					// Refresh
+					LoadFiles(dmlib.FileAttributes{Namespace: renameInfo.Namespace})
 				}
 			}
 		}

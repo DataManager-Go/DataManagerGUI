@@ -143,11 +143,11 @@ function CloseUploadPrepOverlay() {
 // -------------------------------------------------------------------------------
 
 // Opens an Overlay with text input
-// type => 0: rename, 1: create; origin => 0: namespace, 1: group, 2: tag
+// type => 0: rename, 1: create; origin => 0: namespace, 1: group, 2: tag, 3: file
 // target => rename target
-function OpenEnterNameOverlay(type, origin, namespace, group, tag) {
+function OpenEnterNameOverlay(type, origin, namespace, group, tag, fileID, fileName) {
 
-    currentInputAction = [type, origin, namespace, group, tag];
+    currentInputAction = [type, origin, namespace, group, tag, fileID];
 
     var title = "";
     var action = "";
@@ -160,9 +160,13 @@ function OpenEnterNameOverlay(type, origin, namespace, group, tag) {
         case 0: title += " Namespace"; break;
         case 1: title += " Group";  break;
         case 2: title += " Tag"; break;
+        case 3: title += " File"; break;
     }
     
-    if (tag != undefined && tag != null && type != 1) 
+    
+    if (fileName != undefined && fileName != null)
+        title += " \""+fileName+"\"";
+    else if (tag != undefined && tag != null && type != 1) 
         title += " \""+tag+"\"";
     else if (group != undefined && group != null && type != 1) 
         title += " \""+group+"\"";
@@ -187,6 +191,7 @@ function InputOverlayAction() {
         case 0: targetStr = "namespace"; break;
         case 1: targetStr = "group";  break;
         case 2: targetStr = "tag"; break;
+        case 3: targetStr = "file"; break;
     }
 
     // Get the action
@@ -198,7 +203,8 @@ function InputOverlayAction() {
         name:      textinput_overlayInput.value,
         namespace: currentInputAction[2],
         group:     currentInputAction[3],
-        tag:       currentInputAction[4]
+        tag:       currentInputAction[4],
+        file:      currentInputAction[5]
     }
     
     // Create the whole JSON

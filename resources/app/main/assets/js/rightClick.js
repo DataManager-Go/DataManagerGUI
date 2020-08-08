@@ -189,7 +189,6 @@ function clickInsideElement(e, className) {
 
 // Overlay Button press
 function rmbMenuClick(menuOption) {
-    console.log(menuOption);
 
     switch (menuOption) {
         // Preview
@@ -205,7 +204,17 @@ function rmbMenuClick(menuOption) {
             astilectron.sendMessage(JSON.stringify(message), function(msg) {});
             break;
         }
+        // Rename File
+        case "rmb_2":
+        {
+            // Find the File's name and ID
+            var fileName = lastRmbElement.parentNode.childNodes[1].innerHTML;
+            var fileID   = lastRmbElement.parentNode.childNodes[0].innerHTML;
 
+            // Open Input Dialog for renaming a file
+            OpenEnterNameOverlay(0, 3, currentNamespace, "", "", fileID, fileName);
+            break;
+        }
         // Set Public / Private
         case "rmb_3": 
         {

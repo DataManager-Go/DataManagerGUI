@@ -58,6 +58,7 @@ type CreateOrRenameInformation struct {
 	Namespace string `json:"namespace"`
 	Group     string `json:"group"`
 	Tag       string `json:"tag"`
+	FileID    string `json:"file"`
 }
 
 // DeleteInformation is the equivalent of CreateOrRenameInformation for deletion

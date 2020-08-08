@@ -28,7 +28,14 @@ func UploadFiles(files []string, info jsprotocol.UploadInfoSettings) {
 		}
 	}
 
-	// Refresh fileslist
+	// Message
+	if len(files) > 1 {
+		UploadSuccess(3, true)
+	} else {
+		UploadSuccess(3, false)
+	}
+
+	// Refresh
 	LoadFiles(libdm.FileAttributes{Namespace: info.Namespace})
 }
 

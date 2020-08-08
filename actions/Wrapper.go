@@ -63,7 +63,6 @@ func DownloadProgress(percent uint8) {
 // file transfer
 func UploadError(text string) {
 	// TODO view reason for error
-	fmt.Println(text)
 	SendMessage(uploadError, "", HandleResponses)
 }
 
@@ -74,20 +73,46 @@ func DownloadError(text string) {
 	SendMessage(downloadError, "", HandleResponses)
 }
 
-// DownloadSuccess file transfered successfull
-func DownloadSuccess() {
-	SendMessage(downloadSuccess, "", HandleResponses)
+// DownloadSuccess file transfered successfully
+// type: 0 = NS, 1 = Group, 2 = Tag, 3 = File, 4 = Dir
+func DownloadSuccess(requestType int, plural bool) {
+	t := getRequestType(requestType)
+
+	if plural {
+		t += "s"
+	}
+
+	SendAlert("success", "Successfully", fmt.Sprintf("downloaded your %s", t))
+}
+
+// UploadSuccess file transfered successfully
+// type: 0 = NS, 1 = Group, 2 = Tag, 3 = File
+func UploadSuccess(requestType int, plural bool) {
+	t := getRequestType(requestType)
+
+	if plural {
+		t += "s"
+	}
+
+	SendAlert("success", "Successfully", fmt.Sprintf("uploaded your %s", t))
+}
+
+// DeleteSuccess file deleted successfully
+// type: 0 = NS, 1 = Group, 2 = Tag, 3 = File
+func DeleteSuccess(requestType int, plural bool) {
+	t := getRequestType(requestType)
+
+	if plural {
+		t += "s"
+	}
+
+	SendAlert("success", "Successfully", fmt.Sprintf("deleted your %s", t))
 }
 
 // DeleteError displays errors when deleting files
-func DeleteError(text string) {
-	// TODO view reason for error
-	SendMessage(deleteError, "", HandleResponses)
-}
-
-// DeleteSuccess file transfered successfull
-func DeleteSuccess() {
-	SendMessage(deleteSuccess, "", HandleResponses)
+// type: 0 = NS, 1 = Group, 2 = Tag, 3 = File, 4 = Dir
+func DeleteError(requestType int) {
+	SendAlert("danger", "Error", fmt.Sprintf("Error deleting your %s", getRequestType(requestType)))
 }
 
 // RefreshList refreshs filelist
@@ -104,4 +129,22 @@ func LoadFiles(attributes dmlib.FileAttributes) {
 	}
 
 	SendMessage("files", json, HandleResponses)
+}
+
+// Returns the corresponding Request for the index
+func getRequestType(requestType int) string {
+	switch requestType {
+	case 0:
+		return "Namespace"
+	case 1:
+		return "Group"
+	case 2:
+		return "Tag"
+	case 3:
+		return "File"
+	case 4:
+		return "Directory"
+	default:
+		return ""
+	}
 }
