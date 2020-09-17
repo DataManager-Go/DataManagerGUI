@@ -3,6 +3,8 @@ var uploadBtn = document.getElementById('fileUploadBtn');
 var folderUploadBtn = document.getElementById("folderUploadBtn");
 
 // Upload settings
+var drag_and_drop_overlay = document.getElementById('drag_and_drop_overlay');
+var drag_and_drop_input = document.getElementById('drag_and_drop_input');
 var directoryName = "";
 var fileList = [];
 var uploadType = "";
