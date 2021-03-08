@@ -2,6 +2,9 @@
 This is the client for the [DataManagerServer](https://github.com/JojiiOfficial/DataManagerServer). It's features are the same as the CLI one's, so
 if you are more interested in working with the command line rather than using your desktop, go ahead and check it out
 [here](https://github.com/DataManager-Go/DataManagerCLI).
+<br><br>
+<b>Note:</b> This project is currently being rewritten. This will enable more features, simpler expansion and improved user experience.
+
 
 # Installation
 If you want to compile the GUI yourself:
